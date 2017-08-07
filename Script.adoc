@@ -1,0 +1,121 @@
+
+Demo Script
+
+Actors:
+
+Doctor
+
+Patient 1
+
+Patient 2
+
+Narrator/Background Speaker
+
+Narrative:
+
+1.  [Patient 1] - I’ve just got this kool new gadget that tracks all my
+vital statistics and sends them to my doctor.
+2.  [Patient 1] - Let me see if it even works.
+
+1.  They bring their phone next to the NFC chip.
+2.  The phone captures the temperature reading.
+3.  The temperature shows on the device.
+
+1.  [Patient 1] - Let me see if really works. Would the doctor even know
+that i am sick? What would my doctor do if I was really sick? Let’s see
+what happens when i accidentally (wink wink ...) drop this temperature
+sensor in hot water.
+
+1.  They drop the NFC chip in hot water.
+2.  They bring their phone next to the NFC chip.
+3.  The phone captures the temperature reading and it is really high.
+4.  The temperature shows on the device.
+
+1.  [Patient 1] - Oohh …. I have really high fever. I almost feel like I
+have fever.
+
+1.  Feel their head
+2.  [Patient 1] - my head does feel a little warm. Am I really getting
+sick?
+
+1.  The scene shifts to the doctor who is sitting in their office
+sipping coffee.
+
+1.  Their desktop application displays an alert.
+2.  [Doctor] - Oh my God. “Patient 1” is really sick - the temperature
+reading is really high. I hope he is all right. They should rest and
+immediately take some tylenol.
+
+1.  [Doctor] - Let me send him a message and tell him that.
+
+1.  The doctor navigates to “patient 1” by clicking on the alert in the
+web application.
+2.  The doctor sends a message to “patient 1”.
+
+1.  “Doctor” types the message to the patient - “Your temperature is
+really high. You should rest and immediately take some tylenol.”
+
+1.  The scene shifts to “patient 1” who receives an alert in the
+application letting them know “they have a new message from their
+doctor”.
+2.  [Patient 1] - “Doctor” sent me a new message. I wonder why he is
+sending me a message at this hour.
+3.  [Patient 1] - OMG! “Doctor” thinks that i have high fever. I’ll let
+him know that i accidentally dropped the sensor in hot water. I doing
+fine but thanks for checking in.
+
+1.  They are a little embarrassed that this new technology really allows
+the doctor to keep track of their health.
+
+1.  Scene shifts to the doctor who has just read the message from
+“patient 1”.
+2.  [Doctor] - That was a false alarm. It would be really useful to
+track pulse rate, blood pressure and oxygen level in addition to
+temperature.
+3.  [Doctor] - I wonder how long it will take IT to add these to the
+application. I really hope they can do it in < 6 months.
+4.  [Narrator] - IT gets a request that they need to support additional
+user health data.
+5.  [Narrator] - IT uses Couchbase Data platform that allows them to
+make schema changes on the fly.
+6.  [IT Guy] - I can add these additional health tracking data in no
+time. I can really impress the whole team with how fast i can do this.
+Would it be too cocky if i said that i already knew they were going to
+ask for this? Hmm … let me be humble …
+7.  [IT Guy] - Added new fields to the JSON document. (Big high fives
+with someone?)
+8.  [IT Guy] - Walks to doctor and let’s them know that their request
+for more health data is done. If you choose the Couchbase data platform,
+you can impress even the hard to please doctor. Punchline - TBD
+
+1.  Patient 1 updates their app and sees the new health tracking data.
+
+1.  [Patient 1] - Wow! They are tracking a lot more information about me
+now. I feel like i am in good hands.
+
+1.  Doctor checks the “health record” application and everything after
+the addition of the new fields is tracking that data.
+
+1.  [Doctor] - this is really great! Punchline about the IT department -
+TBD
+2.  [Doctor] - Let me send the results of the blood test to patient 2.
+
+1.  Scene shifts to “patient 2” who receives a message on their phone
+that their blood test report is now available.
+2.  Patient 2 is boarding a flight and puts their phone in airplane
+mode.
+3.  [Patient 2] - I wonder if i can still access my blood test report.
+Holy crap. This works even when i am flying across the atlantic with no
+internet connectivity. “ABC Medical Group” is one of the most tech savvy
+out there. ^link:#cmnt5[[e]]^
+
+1.  Patient 2 sends a message to the doctor saying thank you for sending
+the results.
+
+1.  [Patient 2] - Flight has landed. Let me get out of airplane mode
+2.  Scene shifts to the doctor. He receives an alert and clicks on it.
+3.  [Doctor] - Patient 2 got the results and is mighty relieved
+everything is alright.
+
+link:#cmnt_ref5[[e]]Push relevant info with results (e.g. This is how to
+understand CBC results.)
