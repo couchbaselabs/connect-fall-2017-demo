@@ -1,14 +1,43 @@
 = Couchbase Connect SF 2017 Demo Stage Script
 :imagesdir: images
 :icons: font
+:p_a: pass:q[[maroon]#icon:user[]^icon:comment[]^#]
+:p_b: pass:q[[green]#^icon:comment[flip="horizontal"]^icon:user[]#]
+:sd: icon:bolt[role="lime"]
+:td: pass:q[[red]#To do -#]
 
-[WARNING]
-===============================
-Needs to be reworked into a full stage script.
+{sd} Presenter A on stage, finishes pre-demo talk.
 
-Current version is not suited toward a story-style dialog between Ravi and co-presenter
-See branch "stage" for alternative.
-===============================
+{td} Script out transition/demo introduction
+
+{sd} Presenter B enters
+
+{p_a} B, good to see you.  I was worried.  I heard you weren't feeling well and might not be able to be here.
+
+{p_b} I was.  I'm feeling better now, but my doctor still wants to monitor me.
+
+{sd} Phone beeps
+
+{p_b} Sorry, hold on a moment.
+
+{sd} B checks phone
+
+{p_b} Oh, it's a message from my doctor!  He wants me to check my temperature again.
+
+{sd} B pulls out sensor patch
+
+{p_b} Take a look at this patch they gave me.  I can take my temperature with my phone.  Doesn't even need batteries!
+
+{sd} B shows patch to A
+
+{p_b} Better take my temperature for the doctor.
+
+{sd} B uses phone to take temperature
+
+{sd} New alert shows updates
+
+{p_b} Oh hey! He says everything is looking good.  I can start tapering off my medicine.  They'll send me reminders so I don't forget what dose to use.
+
 
 Actors:
 
