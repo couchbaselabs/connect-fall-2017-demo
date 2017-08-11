@@ -1,4 +1,5 @@
-Patient Engagement
+= Patient Engagement
+:imagesdir: images
 
 Healthcare is transforming from a paper based, fee for service system to
 a digital value based care delivery system.  This transformation
@@ -9,7 +10,7 @@ take action based on their Healthcare needs.
 
 The diagram below shows conceptually how information might flow.
 
-image:images/ConceptualFlow.png[image]
+image:ConceptualFlow.png[image]
 
 This concept is supported by the ideas from this Forbes article:
 

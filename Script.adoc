@@ -1,5 +1,14 @@
+= Couchbase Connect SF 2017 Demo Stage Script
+:imagesdir: images
+:icons: font
 
-Demo Script
+[WARNING]
+===============================
+Needs to be reworked into a full stage script.
+
+Current version is not suited toward a story-style dialog between Ravi and co-presenter
+See branch "stage" for alternative.
+===============================
 
 Actors:
 
