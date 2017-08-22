@@ -1,0 +1,42 @@
+= Couchbase Connect SF 2017 Demo Stage Script Kitchen Sink
+:imagesdir: images
+
+== Goals
+* Show underlying complexity that appears simple
+* Demonstrate understanding of problem domain (goes to credibility)
+* Engaging to audience
+
+== Major themes from healthcare
+* Spending ≠ care
+** Move to value-based care
+* The "Triple Aim" — improved care experience, improved population health, and reduced costs
+** http://catalyst.nejm.org/population-health-ghost-aim/[NEJM reference]
+* Drive toward evidence-based practice
+* Right information to right people at right time
+** "Same" data in multiple formats, depending on specialty (e.g. code for bone fracture vs. x-ray image)
+* Data quality issues - missing, inconsistently defined/documented/applied
+
+* Data integrations
+** e.g. Air quality https://data.opendatasoft.com/explore/dataset/us-air-quality-measurements%40public/map/?disjunctive.measurements_parameter&sort=-measurements_parameter&location=10,37.37507,-122.02103&basemap=mapbox.light[OpenDataSoft AQ]
+
+.Stakeholders
+* Patient
+* Patient's personal support network (family, ...)
+* Point of care facilities (hospitals, clinics, ...)
+** Hospital administrators, governing entities (trustees, ...), CEO, Chief Medical O.
+** Finance
+* Insurers
+* Care givers (doctor, nurse, clinical staff, paramedics, technicians, therapist (physio, ...), social workers, ...)
+* Suppliers
+* Pharmacists
+* Regulatory agencies, compliance staff
+image:Stakeholders.jpg[image]
+
+
+.Common Terms
+* EHR - Electronic Health Record
+* ED - Emergency Department
+* LOS - Length of Stay
+
+
+
