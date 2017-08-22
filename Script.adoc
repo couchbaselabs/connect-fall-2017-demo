@@ -1,42 +1,181 @@
 = Couchbase Connect SF 2017 Demo Stage Script
 :imagesdir: images
 :icons: font
-:p_a: pass:q[[maroon]#icon:user[]^icon:comment[]^#]
-:p_b: pass:q[[green]#^icon:comment[flip="horizontal"]^icon:user[]#]
-:sd: icon:bolt[role="lime"]
+//:p_a: pass:q[[maroon]#icon:user[]^icon:comment[]^#]
+//:p_b: pass:q[[green]#^icon:comment[flip="horizontal"]^icon:user[]#]
+//:sd: icon:bolt[role="lime"]
+//:td: pass:q[[red]#To do -#]
+:p_a: pass:q[[maroon]#P-A#]
+:p_b: pass:q[[green]#P-B#]
+:sd: pass:q[[lime]#SD#]
 :td: pass:q[[red]#To do -#]
+
+
+== Outline
+
+=== Story arc
+
+Primary arc starts with discussion about how one presenter was recently ill.  Symptoms were uncertain, 
+so they considered going to ER.  Through use of mobile app, they took temperature, opened case with provider's
+on call system.  Nausea was issue, so on call care wanted to monitor fluid intake and weight loss 
+(bluetooth scale, unstructured extra data). (Patient had flu shot from outside provider, AN knows). AN sent back information on signs to look out for, symptoms questionnaire,
+options for contact.  Brief call where AN has patient information up and is able to suggest home care, reassure patient, 
+set tracking schedule, set alerts, check for available appointment.
+
+Patient follows up at appointment.  Doctor can see what treatments patient followed (other relevant data?).  
+Doctor prescribes meds, has patient continue to monitor.  Mobile app has dose plan/reminders, keeps records automatically
+fed back to provider (offline to online use).
+Based on monitoring, patient sees progress, doctor is able to recommend when to taper off medication.
+
+Switch to behind the scenes look.  See AN's dashboard with multi-patient view (cases opened/currently monitored)
+
+.Note
+Shows providing value-based care (focuses on outcome, improved patient experience because patient receives appropriate 
+level of care without unnecessary ER visit, patient feels engaged while actually lowering overhead for care giver)
+Show complexity of all information that comes together to provide care.
+
+.Couchbase technology Highlights
+* Mobile
+** Data synced to device so e.g. can use in store to by recommended over-the-counter supplies
+** Increased capability to integrate more sources
+* Unstructured data
+** Outside flu shot report integrated
+*** N1QL query to discover this?
+** Off-the-shelf vital sign equipment available (bluetooth scale, or heart rate monitor)
+** FTS (hospital is seeing surge in reports of food poisoning, AN can choose to check this on the fly.)
+
+.Drawbacks
+* Doesn't address changing schema on the fly
+* Story line too complex to follow?
+
+Opportunities to highlight unstructured data: 
+
+* Patient's primary care recently joined larger group, coding practices were different
+* Data from vitals device added to mobile (Patient bought BT scale, app was able to integrate)
+* BT scale data added easily
+
+Opportunities to highlight FTS:
+
+* Unclear whether food poisoning incident or flu (?). FTS against reports across provider network to check ?
+
+Opportunities to highlight data integration
+
+* Flu map
+* Air quality map
+
+=== Screens shown
+
+==== P1
+* Mobile app temperature
+* AN open case dashboard
+* AN patient detail view
+* Couchbase operational dashboard
+
+==== P2
+
+* Doctor's view of patient record
+
+==== P3
+
+* Hospital administrator dashboard (graphs of unnecessary admissions or other analytics)
 
 {sd} Presenter A on stage, finishes pre-demo talk.
 
-{td} Script out transition/demo introduction
-
 {sd} Presenter B enters
 
-{p_a} B, good to see you.  I was worried.  I heard you weren't feeling well and might not be able to be here.
+{p_a} B, good to see you.  I was worried.  I heard you weren't feeling well and might not be able to be here.  You know I count on you.
 
-{p_b} I was.  I'm feeling better now, but my doctor still wants to monitor me.
+{p_b} I was.  I'm feeling better now, but my doctor still wants to monitor me.  But I have to tell you, I had an amazing experience.
 
-{sd} Phone beeps
+{p_a} What do you mean?
 
-{p_b} Sorry, hold on a moment.
+{p_b} I was really worried.  I had a fever, I had to run to the bathroom...
 
-{sd} B checks phone
+{p_a} TMI TMI!
 
-{p_b} Oh, it's a message from my doctor!  He wants me to check my temperature again.
+{p_b} Yeah, you get the picture.  I thought I'd have go to the ER.
 
-{sd} B pulls out sensor patch
+{p_a} Oooh, I hate that.  Sitting in a waiting room when you feel awful.  And half the time they just send you home.
 
-{p_b} Take a look at this patch they gave me.  I can take my temperature with my phone.  Doesn't even need batteries!
+{p_b} I know, I know.  Hold on though, you're going to love this.  I knew my doctor recently joined a network that uses Couchbase.
 
-{sd} B shows patch to A
+My wife has their mobile app.  Take a look at this patch she got to go with it.
 
-{p_b} Better take my temperature for the doctor.
+{sd} Make show of handing over patch.
 
-{sd} B uses phone to take temperature
+{p_a} It's just a little disc.  I don't see a battery.  What does it do?
 
-{sd} New alert shows updates
+{p_b} Yeah, you can read your temperature with it.  Super convenient.  Let me show you.
+
+{sd} Takes patch back, reads temperature.
+
+{p_b} See, check this out, temperature's back to normal.
+
+With the app we were able to mark down symptoms, track my temperature, a whole bunch of things.  Then I set up to have an advice nurse call.
+
+She was able to look at my vitals and the other info.  She knew I had a flew shot from the pharmacy already.  But her next question really surprised me.
+
+She asked if I had eaten at a restaurant nearby.  Turns out the hospital had several cases of food poisoning that day.
+
+{p_a} That's amazing.  So what happened.
+
+{p_b} The nurse was able to send me a whole set of instructions on what I could do to control the symptoms, things to look out for to make sure 
+I was ok.  She (?) said she'd keep monitoring me.  I was still sick, but I tell you, that was the best experience I've had.
+
+It's like my care just flowed.  I was able to stay comfortable at home.  The next day I got a call from my doctor's office.  They had me in for a follow up that day.
+My doctor wasn't in, but the one I saw had all my information, knew all about what advice I had followed, and everything.
+
+{sd} Phone beeps, new alert shows
 
 {p_b} Oh hey! He says everything is looking good.  I can start tapering off my medicine.  They'll send me reminders so I don't forget what dose to use.
+
+{p_a} That's a lot of complex information moving around.  You said this is a group using Couchbase?
+
+{sd} ~4 minutes to reach this point
+
+{p_b} Let me show you what we built to (past shows have said "revolutionize"...) connected health.
+
+.Note
+Consideration:
+Past demos end up as a walk through of UI, data, and code.
+
+Mobile devices hard to demo.
+
+The data in health care is complex.  
+
+* Issues arise from difference in sources
+** Examples
+*** A practice wants to integrate with a hospital.  Two different EHR systems
+*** New regulatory information
+*** Updated clinical insights
+*** Complete patient record comes from multiple service providers (labs, different specialists, often mix of provider networks, ...)
+* Differences in definitions, quality
+** Examples
+*** Length of stay may be defined differently (ref: Health Catalyst)
+*** Records (e.g. ER visit) often missing data
+* Differences in consumption
+** Example
+*** X-ray image needed by physician, only needed as procedure code by billing
+
+{td} Found some sources of sample EHR data to populate db.  Need to import.
+
+{td} Diagram of interconnections: Sensor to phone to SG to CBS, CBS pulling data from other sources, different clients pulling data from CBS
+
+{p_b} Let's start with the AN Dashboard.  This is where staff would monitor open cases.
+
+{sd} Show dashboard
+
+{td} N1QL query to create dashboard.  How can we demonstrate power of N1QL?  By showing different sources of same type of data (temperature readings could be automatic or hand-entered, or flu shot record could be unusual format or ...)
+
+{td} Could show data integration (flu map from Everyday Health or other source confirming no local outbreak?)
+
+{td} Keshav's "job loop" concept
+
+Maybe there's a staff turnover time, with a briefing?
+
+{sd} Drill down to individual patient view.  Show temperature graph, other vitals.  Show setting alerts?
+
+{sd} Show FTS searching incident notes for something (restaurant name?)
 
 
 Actors:

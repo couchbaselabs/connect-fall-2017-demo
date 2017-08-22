@@ -264,12 +264,17 @@ Attendees : Ravi, Kevin, Hod, Sachin
 
 * Will set a follow up when Kevin is in the office on Friday
 
-References:
+Additional References:
 
 - http://www.proteus.com/[Proteus - Ingestible sensor and apps]
 - http://fortune.com/2017/04/20/digital-health-revolution/[Fortune Digital Health Revolution (4.20.2017)]
 - https://www.bswhealth.com[Baylor Scott & White - Example web and mobile apps] (Referenced in Fortune article)
 - https://www.everydayhealth.com/flu/map/[Everyday Health Flu Map]
+
+- https://www.healthcatalyst.com/5-reasons-healthcare-data-is-difficult-to-measure[Health Catalyst (multiple articles)]  (This one has a good example of the need for flexible schema and possibly FTS.)
+- https://www.healthcatalyst.com/wp-content/uploads/2013/12/SuccessStory-TCH-Radiology-2013-12-02-a.pdf[More from Health Catalyst]
+- http://catalyst.nejm.org/patient-engagement-vs-patient-experience/[NEJM (multiple articles)]
+
 
 link:#cmnt_ref1[[a]]Eventing
 
