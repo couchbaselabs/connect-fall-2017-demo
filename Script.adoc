@@ -81,59 +81,16 @@ Opportunities to highlight data integration
 
 {sd} Presenter A on stage, finishes pre-demo talk.
 
-{sd} Presenter B enters
+{sd} Presenter B enters (possibly with others)
 
-{p_a} B, good to see you.  I was worried.  I heard you weren't feeling well and might not be able to be here.  You know I count on you.
 
-{p_b} I was.  I'm feeling better now, but my doctor still wants to monitor me.  But I have to tell you, I had an amazing experience.
-
-{p_a} What do you mean?
-
-{p_b} I was really worried.  I had a fever, I had to run to the bathroom...
-
-{p_a} TMI TMI!
-
-{p_b} Yeah, you get the picture.  I thought I'd have go to the ER.
-
-{p_a} Oooh, I hate that.  Sitting in a waiting room when you feel awful.  And half the time they just send you home.
-
-{p_b} I know, I know.  Hold on though, you're going to love this.  I knew my doctor recently joined a network that uses Couchbase.
-
-My wife has their mobile app.  Take a look at this patch she got to go with it.
-
-{sd} Make show of handing over patch.
-
-{p_a} It's just a little disc.  I don't see a battery.  What does it do?
-
-{p_b} Yeah, you can read your temperature with it.  Super convenient.  Let me show you.
-
-{sd} Takes patch back, reads temperature.
-
-{p_b} See, check this out, temperature's back to normal.
-
-With the app we were able to mark down symptoms, track my temperature, a whole bunch of things.  Then I set up to have an advice nurse call.
-
-She was able to look at my vitals and the other info.  She knew I had a flew shot from the pharmacy already.  But her next question really surprised me.
-
-She asked if I had eaten at a restaurant nearby.  Turns out the hospital had several cases of food poisoning that day.
-
-{p_a} That's amazing.  So what happened.
-
-{p_b} The nurse was able to send me a whole set of instructions on what I could do to control the symptoms, things to look out for to make sure 
-I was ok.  She (?) said she'd keep monitoring me.  I was still sick, but I tell you, that was the best experience I've had.
-
-It's like my care just flowed.  I was able to stay comfortable at home.  The next day I got a call from my doctor's office.  They had me in for a follow up that day.
-My doctor wasn't in, but the one I saw had all my information, knew all about what advice I had followed, and everything.
-
-{sd} Phone beeps, new alert shows
-
-{p_b} Oh hey! He says everything is looking good.  I can start tapering off my medicine.  They'll send me reminders so I don't forget what dose to use.
-
-{p_a} That's a lot of complex information moving around.  You said this is a group using Couchbase?
-
-{sd} ~4 minutes to reach this point
-
-{p_b} Let me show you what we built to (past shows have said "revolutionize"...) connected health.
+image:Mobile App.png[image]
+image:Patient Dashboard.png[image]
+image:Patient Detail.png[image]
+image:FTS.png[image]
+image:Incident Map.png[image]
+image:Patient Messaging.png[image]
+image:Mobile Alert.png[image]
 
 .Note
 Consideration:
