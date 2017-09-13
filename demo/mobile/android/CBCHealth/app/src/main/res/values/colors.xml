@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- http://paletton.com/#uid=53V0u0khRXn50+DcgZfmGUmrlOy -->
+    <color name="colorPrimary">@color/pastel_mauve</color>
+    <color name="colorPrimaryDark">#5c6dee</color>
+    <color name="colorAccent">#73caf4</color>
+    <color name="splashBackground">#E0E0E0</color>
+    <color name="temperatureArcStart">@color/bright_amber</color>
+    <color name="temperatureArcEnd">@color/deep_red</color>
+    <color name="temperatureArcBackground">@color/bright_faded_amber</color>
+    <color name="temperatureArcLabel">@color/defaultTextDark</color>
+
+    <color name="defaultTextDark">#222222</color>
+    <color name="defaultTextLight">#cccccc</color>
+    <color name="pastel_mauve">#7f8df6</color>
+    <color name="pastel_aqua">#50c0ce</color>
+    <color name="pastel_amber">#fab640</color>
+    <color name="pastel_red">#da4a80</color>
+    <color name="pastel_pink">#ec7585</color>
+    <color name="pastel_purple">#c277dd</color>
+    <color name="pastel_green">#96c547</color>
+
+    <color name="deep_red">#ff670729</color>
+    <color name="dim_red">#ff7a0c2d</color>
+    <color name="red">#ff96092d</color>
+    <color name="bright_red">#ffa10a37</color>
+
+    <color name="bright_amber">#ffa50a</color>
+    <color name="amber">#e08e00</color>
+    <color name="dim_amber">#b87400</color>
+    <color name="deep_amber">#8f5a00</color>
+
+    <color name="bright_faded_amber">#64ffa50a</color>
+    <color name="faded_amber">#64e08e00</color>
+    <color name="dim_faded_amber">#64b87400</color>
+    <color name="deep_faded_amber">#648f5a00</color>
+
+    <color name="deep_aqua">#394948</color>
+    <color name="dim_aqua">#5a7874</color>
+    <color name="aqua">#499092</color>
+    <color name="bright_aqua">#43abae</color>
+
+    <color name="deep_white">#a3a3a3</color>
+    <color name="dim_white">#bbbbbb</color>
+    <color name="white">#cccccc</color>
+    <color name="bright_white">#dddddd</color>
+</resources>

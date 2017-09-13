@@ -1,0 +1,55 @@
+apply plugin: "com.android.application"
+
+def packageRoot = "com.couchbase.mobile"
+def parametersPackage = packageRoot + ".app.launch.Parameters"
+
+def BUILD_TOOLS_VERSION = "26.0.1"
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "${BUILD_TOOLS_VERSION}"
+    defaultConfig {
+        def parameters = ".DEFAULT"
+        applicationId packageRoot + ".health"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField(parametersPackage, "PARAMETERS", parametersPackage + parameters)
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+    packagingOptions {
+        exclude "META-INF/ASL2.0"
+        exclude "META-INF/LICENSE"
+        exclude "META-INF/NOTICE"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+def SUPPORT_LIBRARY_VERSION = "26.0.1"
+def COUCHBASE_LITE_VERSION = "2.0.0-DB015"
+
+dependencies {
+    compile fileTree(include: ["*.jar"], dir: "libs")
+    androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2", {
+        exclude group: "com.android.support", module: "support-annotations"
+    })
+    compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
+    compile "com.android.support:support-v4:${SUPPORT_LIBRARY_VERSION}"
+    compile "com.android.support:design:${SUPPORT_LIBRARY_VERSION}"
+    compile "com.android.support.constraint:constraint-layout:1.0.2"
+    compile "com.couchbase.lite:couchbase-lite-android:${COUCHBASE_LITE_VERSION}"
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0'
+    compile "com.github.PhilJay:MPAndroidChart:v3.0.2"
+    testCompile "junit:junit:4.12"
+}
