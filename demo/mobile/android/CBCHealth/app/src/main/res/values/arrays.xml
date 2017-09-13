@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="deep_red">
+        <item>#ff670729</item>
+        <item>#ffa10a37</item>
+    </string-array>
+
+    <string-array name="orange_red">
+        <item>#ffa50a</item>
+        <item>#ff670729</item>
+    </string-array>
+
+    <string-array name="green_red">
+        <item>#52a500</item>
+        <item>#ff670729</item>
+    </string-array>
+
+    <string-array name="amber">
+        <item>#ffa50a</item>
+        <item>#8f5a00</item>
+    </string-array>
+
+    <string-array name="faded_amber">
+        <item>#64ffa50a</item>
+        <item>#648f5a00</item>
+    </string-array>
+
+    <string-array name="aqua">
+        <item>#43abae</item>
+        <item>#394948</item>
+    </string-array>
+</resources>

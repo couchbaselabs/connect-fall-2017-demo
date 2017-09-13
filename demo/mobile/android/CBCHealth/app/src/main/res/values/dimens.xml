@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="vitals_buttons_spacing">16dp</dimen>
+    <dimen name="vitals_buttons_size">64dp</dimen>
+</resources>

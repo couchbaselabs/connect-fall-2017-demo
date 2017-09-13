@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <declare-styleable name="ArcGaugeView">
+        <attr name="agv_animated" format="boolean" />
+        <attr name="agv_shadowed" format="boolean" />
+        <attr name="agv_rounded" format="boolean" />
+
+        <attr name="agv_text" format="string" />
+        <attr name="agv_text_size" format="dimension" />
+        <attr name="agv_text_color" format="color" />
+        <attr name="agv_typeface" format="string" />
+
+        <attr name="agv_shadow_depth" format="dimension" />
+        <attr name="agv_shadow_angle" format="integer" />
+        <attr name="agv_shadow_radius" format="dimension" />
+        <attr name="agv_shadow_color" format="color" />
+
+        <attr name="agv_animation_duration" format="integer" />
+        <attr name="agv_interpolator" format="reference" />
+
+        <attr name="agv_arc_width" format="fraction|dimension" />
+        <attr name="agv_arc_radius" format="fraction|dimension" />
+        <attr name="agv_start_angle" format="float" />
+        <attr name="agv_sweep" format="float" />
+
+        <attr name="agv_color" format="color|reference" />
+        <attr name="agv_bg_color" format="color" />
+
+        <attr name="agv_preview_colors" format="reference" />
+        <attr name="agv_preview_bg" format="color" />
+    </declare-styleable>
+</resources>
