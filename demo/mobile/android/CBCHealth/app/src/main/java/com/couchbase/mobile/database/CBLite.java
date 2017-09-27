@@ -34,6 +34,8 @@ public class CBLite {
     }
 
     public void stopReplication() {
+        if (null == replicator) return;
+
         replicator.stop();
     }
 }

@@ -5,6 +5,8 @@ import android.content.Intent;
 
 import com.couchbase.mobile.fhir.FHIRResource;
 
+import java.util.Map;
+
 public interface Collector {
     int COLLECTOR_TYPE_TEMPERATURE = 1;
     int COLLECTOR_TYPE_WEIGHT = 2;
@@ -19,6 +21,6 @@ public interface Collector {
     void requestSample(OnSampleReadyListener listener);
 
     interface OnSampleReadyListener {
-        void sample(FHIRResource sample);
+        void sample(Map<?, ?> sample);
     }
 }
