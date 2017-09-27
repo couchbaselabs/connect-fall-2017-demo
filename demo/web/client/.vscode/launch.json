@@ -1,0 +1,37 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch server via NPM",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": [
+          "run",
+          "debug"
+        ],
+        "port": 9229
+      },
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Launch client in Chrome",
+        "sourceMaps": true,
+        "url": "http://localhost:8080",
+        "webRoot": "${workspaceRoot}"
+      },
+      {
+        "type": "node",
+        "request": "attach",
+        "name": "Attach to Process",
+        "processId": "${command:PickProcess}",
+        "port": 9229
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch Server",
+        "program": "${workspaceRoot}/build/dev-server.js"
+      }
+    ]
+  }
