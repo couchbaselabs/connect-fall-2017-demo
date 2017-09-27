@@ -1,0 +1,30 @@
+{
+  "resourceType": "Observation",
+  "id": "Observation/{{uuid}}",
+  "status": "entered-in-error",
+  "code": {
+    "text": "Temperature"
+  },
+  "subject": {
+    "reference": "Patient//{{uuid}}",
+    "display": "Roel"
+  },
+  "issued": "2017-09-17T19:07:12.802Z",
+  "performer": [
+    {
+      "reference": "Practitioner//{{uuid}}"
+    }
+  ],
+  "valueQuantity": {
+    "value": 103.9,
+    "unit": "degrees F"
+  },
+  "referenceRange": [
+    {
+      "high": {
+        "value": 99.1,
+        "unit": "degrees F"
+      }
+    }
+  ]
+}

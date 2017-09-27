@@ -1,0 +1,10 @@
+{
+  "resourceType" : "Address",
+  "text" : "<string>",
+  "line" : ["<string>"],
+  "city" : "<string>",
+  "district" : "<string>",
+  "state" : "<string>",
+  "postalCode" : "<string>",
+  "country" : "<string>"
+}

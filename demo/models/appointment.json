@@ -1,0 +1,21 @@
+{
+  "resourceType": "Appointment",
+  "id": "Appointment/{{uuid}}",
+  "status": "proposed",
+  "appointmentType": {
+    "coding": [
+      {
+        "system": "http://example.org/appointment-type",
+        "code": "follow",
+        "display": "Followup"
+      }
+    ]
+  },
+  "indication": [
+    {
+      "reference": "Condition/Mongoitis",
+      "display": "Something here",
+      "notes?": "Interesting for FTS"
+    }
+  ]
+}
