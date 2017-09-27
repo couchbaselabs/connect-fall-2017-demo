@@ -1,0 +1,5 @@
+Currently these only exist to serve as references.
+
+The models are based on stripped down versions of FHIR Release 3 (STU) version 3.0.1. See https://www.hl7.org/fhir/index.html.
+
+temperature.json and weight.json are both examples of Observations.

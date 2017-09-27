@@ -1,0 +1,12 @@
+{
+  "resourceType": "Condition",
+  "id": "Condition//{{uuid}}",
+  "clinicalStatus": "active",
+  "code": {
+    "text": "Burnt Ear"
+  },
+  "subject": {
+    "reference": "Patient/{{uuid}}"
+  },
+  "onsetDateTime": "2012-05-24"
+}
