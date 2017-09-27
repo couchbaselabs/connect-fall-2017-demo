@@ -17,6 +17,7 @@ import com.couchbase.mobile.fhir.FHIRResource;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class TemperatureActivity extends AppCompatActivity {
@@ -83,23 +84,24 @@ public class TemperatureActivity extends AppCompatActivity {
 
         final Collector.OnSampleReadyListener listener = new Collector.OnSampleReadyListener() {
             @Override
-            public void sample(FHIRResource sample) {
+            public void sample(final Map<?, ?> sample) {
                 if (null == sample) return;
 
-                Map<String, Object> properties = null;
+                temperatureView.setTemperature((Double)sample.get("value"));
 
-                try {
-                    properties = Runtime.getObjectMapper().readValue(sample.toJson(), Map.class);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    Log.e(TAG, ex.getMessage());
-                }
+                Map<String, Object> properties = new HashMap<>();
 
-                temperatureView.setTemperature((String)properties.get("temp"));
-
-                //TODO: Add login, timestamp in right places
-                properties.put("user", "Perry K.");
-                properties.put("recordedAt", new Date());
+                // Format reading as FHIR Observation
+                properties.put("resourceType", "Observation");
+                properties.put("issued", sample.get("issued"));
+                properties.put("valueQuantity", new HashMap<String, Object>() {{
+                    put("value", sample.get("value"));
+                    put("unit", sample.get("unit"));
+                }});
+                // Todo pull reference id from login info?
+                properties.put("subject", new HashMap<String, Object>() {{
+                    put("reference", "patient::perrykrug");
+                }});
 
                 Document record = new Document(properties);
 

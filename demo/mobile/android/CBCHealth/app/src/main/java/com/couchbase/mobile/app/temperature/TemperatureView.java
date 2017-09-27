@@ -34,12 +34,10 @@ public class TemperatureView {
         return root;
     }
 
-    public void setTemperature(String temperature) {
-        float t = Float.parseFloat(temperature);
+    public void setTemperature(double temperature) {
+        agv.setText(String.format ("%.1f", temperature));
+        agv.setSweep((float)temperature*355.0F/108.0F);
 
-        agv.setText(temperature);
-        agv.setSweep(t*355.0F/108.0F);
-
-        chart.addEntry(t);
+        chart.addEntry((float)temperature);
     }
 }

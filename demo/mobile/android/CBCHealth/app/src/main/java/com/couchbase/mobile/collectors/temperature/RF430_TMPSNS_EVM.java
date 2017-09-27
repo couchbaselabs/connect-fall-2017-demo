@@ -16,6 +16,10 @@ import com.couchbase.mobile.hardware.nfc.iso15693.Iso15693;
 import com.couchbase.mobile.hardware.nfc.iso15693.NfcVHardwareManager;
 import com.couchbase.mobile.utils.Conversion;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 // Texas Instruments Temperature Patch Reference Device RF430-TMPSNS-EVM
 
 public class RF430_TMPSNS_EVM implements Collector, Runnable {
@@ -172,13 +176,19 @@ public class RF430_TMPSNS_EVM implements Collector, Runnable {
         long refValue = Long.parseLong(dataFromTag.substring(6,8).concat(dataFromTag.substring(4,6)),16);
         long thermValue  = Long.parseLong(dataFromTag.substring(10,12).concat(dataFromTag.substring(8,10)),16);
 
-        long tempConv = (long) ((((((thermValue * 0.9) / 16384.0) / 2.0) / 0.0000024) * 8738.13) / refValue);
+        double temperature = (((((thermValue * 0.9) / 16384.0) / 2.0) / 0.0000024) * 8738.13) / refValue;
 
-        tempConv = (long) ((B_Value / (Math.log10(tempConv / (R0_Value * Math.exp((-B_Value) /T0_Value))) / Math.log10(2.718))) - K0_Temp);
+        temperature = (B_Value / (Math.log10(temperature / (R0_Value * Math.exp((-B_Value) /T0_Value))) / Math.log10(2.718))) - K0_Temp;
 
-        tempConv = (tempConv * 9 / 5 + 32);
+        temperature = (temperature * 9 / 5 + 32);
 
-        sampleReadyListener.sample(new FHIRObservation().fromJson("{ \"temp\": \"" + tempConv + "\" }"));
+        Map<String, Object> sample = new HashMap<>();
+
+        sample.put("value", temperature);
+        sample.put("unit", "degrees F");
+        sample.put("issued", new Date());
+
+        sampleReadyListener.sample(sample);
     }
 
     private void startBackgroundThread() {
