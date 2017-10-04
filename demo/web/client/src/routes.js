@@ -7,7 +7,8 @@ import DashboardView from './components/views/Dashboard.vue'
 import PatientDetailView from './components/views/PatientDetail'
 import TasksView from './components/views/Tasks.vue'
 import SettingView from './components/views/Setting.vue'
-import CaseSearch from './components/views/CaseSearch.vue'
+import AnalyticsView from './components/views/Analytics.vue'
+import CaseSearchView from './components/views/CaseSearch.vue'
 import IncidentsView from './components/views/Incidents.vue'
 import ServerView from './components/views/Server.vue'
 import ReposView from './components/views/Repos.vue'
@@ -44,8 +45,13 @@ const routes = [
         name: 'Settings',
         meta: {description: 'User settings page'}
       }, {
+        path: 'analytics',
+        component: AnalyticsView,
+        name: 'Analytics',
+        meta: {description: 'Analytics'}
+      }, {
         path: 'casesearch',
-        component: CaseSearch,
+        component: CaseSearchView,
         name: 'Case Search',
         meta: {description: 'Case Search'}
       }, {

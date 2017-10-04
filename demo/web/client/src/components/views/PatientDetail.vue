@@ -1,7 +1,6 @@
 <template>
   <!-- Main content -->
   <section class="content">
-
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header with-border">
@@ -17,7 +16,6 @@
         </div>
       </div>
     </div>
-    <!-- /.row -->
   </section>
   <!-- /.content -->
 </template>
