@@ -10,16 +10,18 @@ var couchbase = require('couchbase');
 var cluster = new couchbase.Cluster('couchbase://localhost/');
 cluster.authenticate("admin", "password");
 
+Math.radians = function (degrees) {
+  return degrees * Math.PI / 180
+}
+
+Math.degrees = function (radians) {
+  return radians * 180 / Math.PI
+}
+
 var app = express();
 
 app.locals.couchbase = couchbase;
 app.locals.bucket = cluster.openBucket('health');
-
-const couched = {
-  bucket: app.locals.bucket,
-  N1qlQuery: couchbase.N1qlQuery,
-  SearchQuery: couchbase.SearchQuery
-}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,8 +43,8 @@ app.use(function(req, res, next) {
 
 var feed = require('./routes/feed');
 app.use('/feed', sse, feed);
-var casesearch = require('./routes/casesearch')(couched);
-app.use('/casesearch', casesearch);
+const search = require('./routes/search');
+app.use('/search', search);
 const patient = require('./routes/patient');
 app.use('/patient', patient);
 const records = require('./routes/records');
