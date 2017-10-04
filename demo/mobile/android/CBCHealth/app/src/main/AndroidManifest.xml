@@ -44,11 +44,11 @@
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/filter_nfc" />
         </activity>
+
         <provider
-            android:authorities="autoload"
             android:name=".app.launch.Runtime"
-            android:exported="false">
-        </provider>
+            android:authorities="autoload"
+            android:exported="false"></provider>
     </application>
 
 </manifest>

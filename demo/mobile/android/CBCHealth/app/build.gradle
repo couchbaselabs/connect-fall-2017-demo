@@ -38,6 +38,7 @@ android {
 
 def SUPPORT_LIBRARY_VERSION = "26.0.1"
 def COUCHBASE_LITE_VERSION = "2.0.0-DB015"
+def URBAN_AIRSHIP_VERSION = "8.8.+"
 
 dependencies {
     compile fileTree(include: ["*.jar"], dir: "libs")
@@ -47,9 +48,12 @@ dependencies {
     compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
     compile "com.android.support:support-v4:${SUPPORT_LIBRARY_VERSION}"
     compile "com.android.support:design:${SUPPORT_LIBRARY_VERSION}"
-    compile "com.android.support.constraint:constraint-layout:1.0.2"
+    // Couchbase Mobile SDK
     compile "com.couchbase.lite:couchbase-lite-android:${COUCHBASE_LITE_VERSION}"
+    // Urban Airship SDK
+    compile "com.urbanairship.android:urbanairship-sdk:${URBAN_AIRSHIP_VERSION}"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0'
-    compile "com.github.PhilJay:MPAndroidChart:v3.0.2"
-    testCompile "junit:junit:4.12"
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    testCompile 'junit:junit:4.12'
 }

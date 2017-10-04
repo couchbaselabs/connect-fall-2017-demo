@@ -3,8 +3,6 @@ package com.couchbase.mobile.collectors;
 import android.content.Context;
 import android.content.Intent;
 
-import com.couchbase.mobile.fhir.FHIRResource;
-
 import java.util.Map;
 
 public interface Collector {
