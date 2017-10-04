@@ -28,9 +28,11 @@ export default {
     markers (markers) {
       if (markers.length > 2) {
         const bounds = new google.maps.LatLngBounds() // eslint-disable-line no-undef
+
         for (let m of markers) {
-          bounds.extend(m.latLng)
+          bounds.extend(m.position)
         }
+
         this.$refs.map.$mapObject.fitBounds(bounds)
       }
     }
@@ -44,36 +46,39 @@ export default {
     }
   },
   mounted: function () {
-    for (let patient of this.$store.state.cohort) {
-      api.request('get', `/patient/${patient}/location`, null)
-      .then(response => {
-        this.toggleLoading()
+    api.request('post', `/patient/cohort/locations`, this.$store.state.cohort)
+    .then(response => {
+      this.toggleLoading()
 
-        var data = response.data
+      let data = response.data
 
-        if (data.error) {
-          var errorName = data.error.name
-          if (errorName) {
-            this.response = errorName === 'InvalidCohortError'
-            ? 'Invalid cohort. Please try again.'
-            : errorName
-          } else {
-            this.response = data.error
-          }
+      if (data.error) {
+        let errorName = data.error.name
 
-          return
+        if (errorName) {
+          this.response = errorName === 'InvalidCohortError'
+          ? 'Invalid cohort. Please try again.'
+          : errorName
+        } else {
+          this.response = data.error
         }
 
-        this.markers.push({ position: { lat: data.lat, lng: data.lng } })
-      })
-      .catch(error => {
-        this.$store.commit('TOGGLE_LOADING')
-        console.log(error)
+        return
+      }
 
-        this.response = 'Server appears to be offline'
-        this.toggleLoading()
-      })
-    }
+      for (let arr of data) {
+        let matched = arr[0]
+        this.markers.push({ position: { lat: Math.degrees(matched.pat.lat), lng: Math.degrees(matched.pat.lng) } })
+        this.markers.push({ position: { lat: Math.degrees(matched.fac.lat), lng: Math.degrees(matched.fac.lng) } })
+      }
+    })
+    .catch(error => {
+      this.$store.commit('TOGGLE_LOADING')
+      console.log(error)
+
+      this.response = 'Server appears to be offline'
+      this.toggleLoading()
+    })
   }
 }
 </script>

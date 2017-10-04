@@ -2,8 +2,7 @@
   <!-- Main content -->
   <section class="content">
     <!-- Search field -->
-    <div class="row center-block">
-      <div class="col-sm-6 col-xs-12">
+    <div class="row">
       <form class="ui form" @submit.prevent="search">
         <div class="input-group">
           <input class="form-control" placeholder="Case Search" type="text" v-model="criteria">
@@ -16,47 +15,9 @@
           </span>
         </div>
       </form>
-      </div>
     </div>
-    <div class="row center-block">
-      <div class="col-sm-6 col-xs-12">
-      <div class="box box-warning">
-        <div class="box-header with-border">
-          <h3 class="box-title">Refine Results</h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-          <form role="form">
-            <!-- checkbox -->
-            <div class="form-group">
-              <label>Age</label>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox">
-                  Checkbox 1
-                </label>
-              </div>
+    <!-- /.row -->
 
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox">
-                  Checkbox 2
-                </label>
-              </div>
-
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" disabled="">
-                  Checkbox disabled
-                </label>
-              </div>
-            </div>
-          </form>
-        </div>
-      <!-- /.box-body -->
-      </div>
-      </div>
-    </div>
     <!-- Results row -->
     <div class="row center-block">
       <h2>Cases</h2>
@@ -71,6 +32,7 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div id="example1_length" class="dataTables_length">
+
                   </div>
                 </div>
               </div>
@@ -86,8 +48,8 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="entry in entries" :key="entry.id" class="even" role="row">
-                        <td v-html='entry.fragments["reason.text"][0]'></td>
+                      <tr v-for="entry in hits" :key="entry.id" class="even" role="row">
+                        <td>{{ entry.id }}</td>
                         <td>{{ entry.fields['subject.reference'] }}</td>
                         <td>{{ entry.fields['reason.text'] }}</td>
                       </tr>
@@ -119,15 +81,13 @@
 import api from '../../api'
 
 export default {
-  name: 'CaseSearch',
+  name: 'Analytics',
   data () {
     return {
       criteria: '',
       searching: '',
-      encounters: new Map(),
-      entries: [],
-      response: '',
-      message: ' hi there'
+      hits: [],
+      response: ''
     }
   },
   methods: {
@@ -136,11 +96,10 @@ export default {
       this.resetResponse()
       this.$store.commit('TOGGLE_LOADING')
 
-      this.encounters.clear()
-      console.dir(this)
-
-      api.request('post', '/search/encounters', { criteria: this.criteria })
+      api.request('post', '/casesearch', { criteria: this.criteria })
       .then(response => {
+        this.toggleLoading()
+
         var data = response.data
 
         if (data.error) {
@@ -156,39 +115,23 @@ export default {
           return
         }
 
-        for (const hit of data.hits) {
-          this.encounters.set(hit, hit.fields['subject.reference'])
+        if (data.hits) {
+          this.hits = data.hits
+        } else {
+          this.hits = {}
         }
-
-        let ids = Array.from(this.encounters.values())
-        this.$store.commit('SET_COHORT', ids)
-
-        return api.request('post', '/patient/cohort', ids)
-      })
-      .then(response => {
-        let idToData = new Map()
-
-        for (const item of response.data) {
-          idToData.set(item.patient.id, item.patient)
-        }
-
-        for (const key of this.encounters.keys()) {
-          this.encounters.set(key, idToData.get(this.encounters.get(key)))
-        }
-
-        this.entries = Array.from(this.encounters.keys())
       })
       .catch(error => {
+        this.$store.commit('TOGGLE_LOADING')
         console.log(error)
 
         this.response = 'Server appears to be offline'
-      })
-      .finally(() => {
-        this.$store.commit('TOGGLE_LOADING')
         this.toggleLoading()
       })
     },
     map () {
+      let ids = this.hits.map(hit => hit.fields['subject.reference'])
+      this.$store.commit('SET_COHORT', ids)
       this.$router.push({ path: 'incidents' })
     },
     toggleLoading () {
@@ -196,15 +139,6 @@ export default {
     },
     resetResponse () {
       this.response = ''
-    },
-    formatFragments: function (fragments) {
-      let html = ''
-
-      for (let fragment in fragments) {
-        html += fragment
-      }
-
-      return html
     }
   }
 }
