@@ -8,8 +8,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 
 import com.couchbase.mobile.collectors.Collector;
-import com.couchbase.mobile.fhir.FHIRObservation;
-import com.couchbase.mobile.fhir.FHIRResource;
 import com.couchbase.mobile.hardware.HardwareManager;
 import com.couchbase.mobile.hardware.HardwareManagerFactory;
 import com.couchbase.mobile.hardware.nfc.iso15693.Iso15693;
