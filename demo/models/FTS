@@ -1,0 +1,83 @@
+{
+  "type": "fulltext-index",
+  "name": "encounters",
+  "uuid": "7b6de60e48467381",
+  "sourceType": "couchbase",
+  "sourceName": "health",
+  "sourceUUID": "e99986513d473728cb8f4695d17e3223",
+  "planParams": {
+    "maxPartitionsPerPIndex": 171
+  },
+  "params": {
+    "doc_config": {
+      "mode": "type_field",
+      "type_field": "resourceType"
+    },
+    "mapping": {
+      "default_analyzer": "standard",
+      "default_datetime_parser": "dateTimeOptional",
+      "default_field": "_all",
+      "default_mapping": {
+        "dynamic": true,
+        "enabled": false
+      },
+      "default_type": "_default",
+      "index_dynamic": false,
+      "store_dynamic": false,
+      "types": {
+        "Encounter": {
+          "default_analyzer": "en",
+          "dynamic": false,
+          "enabled": true,
+          "properties": {
+            "reason": {
+              "dynamic": false,
+              "enabled": true,
+              "properties": {
+                "text": {
+                  "dynamic": false,
+                  "enabled": true,
+                  "fields": [
+                    {
+                      "include_in_all": true,
+                      "include_term_vectors": true,
+                      "index": true,
+                      "name": "text",
+                      "store": true,
+                      "type": "text"
+                    }
+                  ]
+                }
+              }
+            },
+            "subject": {
+              "dynamic": false,
+              "enabled": true,
+              "properties": {
+                "reference": {
+                  "dynamic": false,
+                  "enabled": true,
+                  "fields": [
+                    {
+                      "analyzer": "",
+                      "include_in_all": false,
+                      "include_term_vectors": false,
+                      "index": false,
+                      "name": "reference",
+                      "store": true,
+                      "type": "text"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "store": {
+      "kvStoreName": "mossStore"
+    }
+  },
+  "sourceParams": {}
+}
