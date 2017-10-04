@@ -1,0 +1,12 @@
+{
+  "resourceType" : "Location",
+  "id" : [{ Identifier }],
+  "name" : "<string>", // Name of the location as used by humans
+  "description" : "<string>", // Additional details about the location that could be displayed as further information to identify the location beyond its name
+  "type" : { CodeableConcept }, // Type of function performed
+  "address" : { Address }, // Physical location
+  "position" : {
+    "longitude" : <decimal>,
+    "latitude" : <decimal>
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "resourceType": "Observation",
+  "id": "Observation/{{uuid}}",
+  "subject": {
+    "reference": "Patient/{{uuid}}"
+  },
+  "effectiveDateTime": "2016-03-28",
+  "valueQuantity": {
+    "value": 185,
+    "unit": "lbs"
+  }
+}
