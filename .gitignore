@@ -111,3 +111,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.propertiesroperties
+/.DS_Store
+/demo/.DS_Store
+/demo/web/.DS_Store
+/demo/web/client/.DS_Store
+/demo/web/server/.DS_Store
