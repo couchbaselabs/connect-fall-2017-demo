@@ -47,7 +47,7 @@
               </ul>
             </li>
             <!-- /.messages-menu -->
-  
+
             <!-- Notifications Menu -->
             <li class="dropdown notifications-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
@@ -73,7 +73,7 @@
                 </li>
               </ul>
             </li>
-  
+
             <!-- Tasks Menu -->
             <li class="dropdown tasks-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
@@ -110,7 +110,7 @@
                 </li>
               </ul>
             </li>
-  
+
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
@@ -126,28 +126,28 @@
     </header>
     <!-- Left side column. contains the logo and sidebar -->
     <sidebar :display-name="demo.displayName" :picture-url="demo.avatar" />
-  
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
-      <section class="content-header">
+  <section class="content-header" style="margin-left:16px;">
         <h1>
-          {{$route.name.toUpperCase() }}
+          {{$route.name }}
           <small>{{ $route.meta.description }}</small>
         </h1>
-        <ol class="breadcrumb">
+      <!--       <ol class="breadcrumb">
           <li>
             <a href="javascript:;">
               <i class="fa fa-home"></i>Home</a>
           </li>
           <li class="active">{{$route.name.toUpperCase()}}</li>
-        </ol>
+        </ol>   -->
       </section>
-  
+
       <router-view></router-view>
     </div>
     <!-- /.content-wrapper -->
-  
+
     <!-- Main Footer -->
     <footer class="main-footer">
       <strong>Copyright &copy; {{year}}
