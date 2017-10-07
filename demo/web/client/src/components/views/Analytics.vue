@@ -1,17 +1,19 @@
 <template>
   <!-- Main content -->
-  <section class="content">
+  <section class="content" style="margin-left: 16px;">
     <!-- Search field -->
     <div class="row">
       <form class="ui form" @submit.prevent="search">
-        <div class="input-group">
-          <input class="form-control" placeholder="Case Search" type="text" v-model="criteria">
+        <div class="input-group" style="width:65%;margin-left:16px;">
+          <input class="form-control" placeholder="" type="text" v-model="criteria">
           <span class="input-group-btn input-group-addon">
-            <button type="submit">
-              <span class="input-group-addon">
-                <i class="fa fa-search"></i>
+          <span class="input-group-btn">
+            <button type="submit" style="border-width:0;background-color:#fff;outline:none;">
+              <span class="input-group-addon" style="border-width:0;">
+                <i class="fa fa-lg fa-search"></i>
               </span>
             </button>
+            </span>
           </span>
         </div>
       </form>
@@ -19,12 +21,11 @@
     <!-- /.row -->
 
     <!-- Results row -->
-    <div class="row center-block">
-      <h2>Cases</h2>
-      <div class="col-md-12">
+    <div class="row center-block" style="margin-top:32px;">
+      <div class="col-md-12" style="padding-left:0;">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Case Search Results</h3>
+            <h3 class="box-title">Search Results</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
@@ -72,7 +73,7 @@
     </div>
 
     <div class="row">
-      <button v-on:click="map">Map Results</button>
+      <button v-on:click="map" class="btn btn-primary" style="margin-left:16px;">Map Results</button>
     </div>
   </section>
 </template>
