@@ -1,3 +1,6 @@
+// Use bluebird promises everywhere
+global.Promise = require('bluebird')
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');

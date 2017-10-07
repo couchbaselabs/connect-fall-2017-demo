@@ -1,5 +1,4 @@
 var N1qlQuery = require('../utils/n1ql');
-var Promise = require('bluebird');
 
 exports.patient = function(req, res, next) {
   let n1ql = `WHERE resourceType = 'Patient' AND id = '${req.params.id}';`;
