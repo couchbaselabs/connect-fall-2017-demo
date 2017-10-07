@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import config from '../../config'
 import Chart from 'chart.js'
 
 export default {
@@ -45,7 +46,7 @@ export default {
   },
   methods: {
     connectFeed (id) {
-      let es = new EventSource('http://localhost:3000/feed/' + id)
+      let es = new EventSource(`${config.serverURI}/feed/${id}`)
 
       es.addEventListener('update', event => {
         let data = JSON.parse(event.data)
@@ -83,7 +84,8 @@ export default {
     this.connectFeed('patient::perrykrug')
 
     this.$nextTick(() => {
-      var ctx = document.getElementById('temperature').getContext('2d')
+      let ctx = document.getElementById('temperature').getContext('2d')
+
       var config = {
         type: 'line',
         data: {

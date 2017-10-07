@@ -29,7 +29,7 @@
           <form role="form">
             <!-- checkbox -->
             <div class="form-group">
-              <label>Age</label>
+              <label>Diagnosis</label>
               <div class="checkbox">
                 <label>
                   <input type="checkbox">
@@ -80,23 +80,26 @@
                   <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
                     <thead>
                       <tr role="row">
-                        <th aria-label="Encounter Identifier (Unique)" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">Encounter ID</th>
-                        <th aria-label="Patient Identifier (Unique)" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Patient ID</th>
-                        <th aria-label="Notes" style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Notes</th>
+                        <th aria-label="Text" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">Records Text</th>
+                        <th aria-label="Diagnosis" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">Diagnosis</th>
+                        <th aria-label="Patient" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Patient</th>
+                        <th aria-label="Notes" style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Rank</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="entry in entries" :key="entry.id" class="even" role="row">
-                        <td v-html='entry.fragments["reason.text"][0]'></td>
-                        <td>{{ entry.fields['subject.reference'] }}</td>
-                        <td>{{ entry.fields['reason.text'] }}</td>
+                        <td v-html='entry.fragments["note.text"][0]'></td>
+                        <td>{{ entry.fields['code.text'] }}</td>
+                        <td>{{ patientName(records.get(entry)) }}</td>
+                        <td>{{ entry.score }}</td>
                       </tr>
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th colspan="1" rowspan="1">Encounter ID</th>
-                        <th colspan="1" rowspan="1">Patient ID</th>
-                        <th colspan="1" rowspan="1">Notes</th>
+                        <th colspan="1" rowspan="1">Records Text</th>
+                        <th colspan="1" rowspan="1">Diagnosis</th>
+                        <th colspan="1" rowspan="1">Patient</th>
+                        <th colspan="1" rowspan="1">Rank</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -124,10 +127,9 @@ export default {
     return {
       criteria: '',
       searching: '',
-      encounters: new Map(),
+      records: new Map(),
       entries: [],
-      response: '',
-      message: ' hi there'
+      response: ''
     }
   },
   methods: {
@@ -136,10 +138,9 @@ export default {
       this.resetResponse()
       this.$store.commit('TOGGLE_LOADING')
 
-      this.encounters.clear()
-      console.dir(this)
+      this.records.clear()
 
-      api.request('post', '/search/encounters', { criteria: this.criteria })
+      api.request('post', '/search/diagnosis', { criteria: this.criteria })
       .then(response => {
         var data = response.data
 
@@ -157,10 +158,13 @@ export default {
         }
 
         for (const hit of data.hits) {
-          this.encounters.set(hit, hit.fields['subject.reference'])
+          let idIndex = hit.fields['subject.reference'].lastIndexOf(':') + 1
+          let id = hit.fields['subject.reference'].substring(idIndex)
+          console.dir(hit)
+          this.records.set(hit, id)
         }
 
-        let ids = Array.from(this.encounters.values())
+        let ids = Array.from(this.records.values())
         this.$store.commit('SET_COHORT', ids)
 
         return api.request('post', '/patient/cohort', ids)
@@ -172,11 +176,11 @@ export default {
           idToData.set(item.patient.id, item.patient)
         }
 
-        for (const key of this.encounters.keys()) {
-          this.encounters.set(key, idToData.get(this.encounters.get(key)))
+        for (const key of this.records.keys()) {
+          this.records.set(key, idToData.get(this.records.get(key)))
         }
 
-        this.entries = Array.from(this.encounters.keys())
+        this.entries = Array.from(this.records.keys())
       })
       .catch(error => {
         console.log(error)
@@ -197,14 +201,8 @@ export default {
     resetResponse () {
       this.response = ''
     },
-    formatFragments: function (fragments) {
-      let html = ''
-
-      for (let fragment in fragments) {
-        html += fragment
-      }
-
-      return html
+    patientName (patient) {
+      return `${patient.name[0].given[0]} ${patient.name[0].family[0]}`
     }
   }
 }
