@@ -32,7 +32,7 @@ exports.location = async function(req, res, next) {
   .then(rows => {
     let address = encodeURIComponent(rows[0].text);
     
-    let query = `SELECT RAW CURL("https://maps.googleapis.com/maps/api/geocode/json", {"data":"address=${address}" , "request":"GET"} );`
+    let query = `SELECT RAW CURL("https://maps.googleapis.com/maps/api/geocode/json", {"data":["address=${address}", "request":"GET"} );`
     
     query = couchbase.N1qlQuery.fromString(query);
     
@@ -64,7 +64,7 @@ exports.cohortLocations = async function(req, res, next) {
       let address = encodeURIComponent(row.text);
       
       // WARNING: This will fail unless the endpoint is white listed for cURL.
-      let query = `SELECT RAW CURL("https://maps.googleapis.com/maps/api/geocode/json", {"data":"address=${address}" , "request":"GET"} );`
+      let query = `SELECT RAW CURL("https://maps.googleapis.com/maps/api/geocode/json", {"data":["address=${address}", "key=AIzaSyCkXlW0RHOLmA9VX9v80C_zRN486MTrzgE"], "request":"GET"} );`
       
       query = couchbase.N1qlQuery.fromString(query);
       
