@@ -47,8 +47,8 @@ const routes = [
       }, {
         path: 'analytics',
         component: AnalyticsView,
-        name: 'Analytics',
-        meta: {description: 'Analytics'}
+        name: 'Case Search',
+        meta: {description: ''}
       }, {
         path: 'casesearch',
         component: CaseSearchView,
@@ -57,7 +57,7 @@ const routes = [
       }, {
         path: 'incidents',
         component: IncidentsView,
-        name: 'Incidents',
+        name: 'Map',
         meta: {description: 'Example of using maps'}
       }, {
         path: 'server',
