@@ -1,3 +1,5 @@
+demo/web/server/public
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
