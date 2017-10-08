@@ -5,13 +5,9 @@ import NotFoundView from './components/404.vue'
 // Import Views - Dash
 import DashboardView from './components/views/Dashboard.vue'
 import PatientDetailView from './components/views/PatientDetail'
-import TasksView from './components/views/Tasks.vue'
-import SettingView from './components/views/Setting.vue'
 import AnalyticsView from './components/views/Analytics.vue'
 import CaseSearchView from './components/views/CaseSearch.vue'
 import IncidentsView from './components/views/Incidents.vue'
-import ServerView from './components/views/Server.vue'
-import ReposView from './components/views/Repos.vue'
 
 // Routes
 const routes = [
@@ -35,40 +31,20 @@ const routes = [
         name: 'Patient Detail',
         meta: {description: 'Detailed information for a single patient'}
       }, {
-        path: 'tasks',
-        component: TasksView,
-        name: 'Tasks',
-        meta: {description: 'Tasks page in the form of a timeline'}
-      }, {
-        path: 'setting',
-        component: SettingView,
-        name: 'Settings',
-        meta: {description: 'User settings page'}
-      }, {
-        path: 'analytics',
+        path: 'records/analytics',
         component: AnalyticsView,
-        name: 'Case Search',
+        name: 'Records Analysis',
         meta: {description: ''}
       }, {
-        path: 'casesearch',
+        path: 'records/search',
         component: CaseSearchView,
-        name: 'Case Search',
-        meta: {description: 'Case Search'}
+        name: 'Records Search',
+        meta: {description: 'Records Search'}
       }, {
         path: 'incidents',
         component: IncidentsView,
         name: 'Map',
-        meta: {description: 'Example of using maps'}
-      }, {
-        path: 'server',
-        component: ServerView,
-        name: 'Servers',
-        meta: {description: 'List of our servers'}
-      }, {
-        path: 'repos',
-        component: ReposView,
-        name: 'Repository',
-        meta: {description: 'List of popular javascript repos'}
+        meta: {description: 'Incident record map'}
       }
     ]
   }, {
