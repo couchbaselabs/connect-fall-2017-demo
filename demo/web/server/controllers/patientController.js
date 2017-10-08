@@ -71,14 +71,12 @@ exports.cohortLocations = async function(req, res, next) {
         queryPromise(query)
         .then(rows => {
           if (rows.length < 1) return;
-          
-          console.dir(rows[0]);
-
+         
           let patient = { "lat": Math.radians(rows[0].results[0].geometry.location.lat), "lng": Math.radians(rows[0].results[0].geometry.location.lng) };
           let query = `SELECT ${JSON.stringify(patient)} as pat, facility as fac, { "address": h.address.text, "name": h.name } as details, 3959*acos(sin(facility.lat) * sin(${patient.lat}) + cos(facility.lat) * cos(${patient.lat}) * cos(${patient.lng} - facility.lng)) as dist
                        FROM ${bucket._name} h
                        LET facility = { "lat": RADIANS(h.position.latitude), "lng": RADIANS(h.position.longitude) }
-                       WHERE resourceType = "Location" AND type.coding[0].code = "HOSP" OR type.coding[0].code = "INFD"
+                       WHERE resourceType = "Location" AND (type.coding[0].code = "HOSP" OR type.coding[0].code = "INFD")
                        ORDER BY dist 
                        LIMIT 1;`;    
 
