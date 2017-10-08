@@ -14,12 +14,12 @@
 
     <li class="header">Tools</li>
     <li class="pageLink" v-on:click="toggleMenu">
-      <router-link to="/analytics"><i class="fa fa-book"></i>
+      <router-link to="/records/analytics"><i class="fa fa-book"></i>
         <span class="page">Analytics</span>
       </router-link>
     </li>
     <li class="pageLink" v-on:click="toggleMenu">
-      <router-link to="/casesearch"><i class="fa fa-book"></i>
+      <router-link to="/records/search"><i class="fa fa-book"></i>
         <span class="page">Case Search</span>
       </router-link>
     </li>
