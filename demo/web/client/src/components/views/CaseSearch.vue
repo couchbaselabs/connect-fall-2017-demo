@@ -193,7 +193,7 @@ export default {
       })
     },
     map () {
-      this.$router.push({ path: 'incidents' })
+      this.$router.push({ path: '/incidents' })
     },
     toggleLoading () {
       this.loading = (this.loading === '') ? 'loading' : ''

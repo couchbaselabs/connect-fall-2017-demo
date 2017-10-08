@@ -116,29 +116,6 @@ export default {
       }
 
       this.temperatureChart = new Chart(ctx, config) // eslint-disable-line no-new
-
-      var pieChartCanvas = document.getElementById('languagePie').getContext('2d')
-      var pieConfig = {
-        type: 'pie',
-        data: {
-          labels: ['HTML', 'JavaScript', 'CSS'],
-          datasets: [{
-            data: [56.6, 37.7, 4.1],
-            backgroundColor: ['#00a65a', '#f39c12', '#00c0ef'],
-            hoverBackgroundColor: ['#00a65a', '#f39c12', '#00c0ef']
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: !this.isMobile,
-          legend: {
-            position: 'bottom',
-            display: true
-          }
-        }
-      }
-
-      new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new
     })
   },
   beforeDestroy () {
