@@ -12,13 +12,8 @@ router.get('/:id', async function(req, res, next) {
   let query = couchbase.N1qlQuery.fromString(n1ql);
   
   while (true) {
-    await queryPromise(query, function(err, rows) {
-      if (err) {
-        console.log(err);
-        res.status(500).send({ error: err });
-        return;
-      }
-      
+    await queryPromise(query)
+    .then(rows => {
       if (rows.length < 1) return;
       
       res.sse('event: update\n');
