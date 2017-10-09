@@ -4,7 +4,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
-      <!-- Sidebar user panel (optional) -->
+      <!-- Sidebar user panel (optional)
       <div class="user-panel">
         <div class="pull-left image">
           <img :src="pictureUrl" />
@@ -17,26 +17,11 @@
             <i class="fa fa-circle text-success"></i> Online
           </a>
         </div>
-      </div>
+      </div>  -->
 
-      <!-- search form (Optional) -->
-      <form v-on:submit.prevent class="sidebar-form">
         <div class="input-group">
-          <input type="text"
-            name="search"
-            id="search"
-            class="search form-control"
-            data-toggle="hideseek"
-            placeholder="Search Menus"
-            data-list=".sidebar-menu">
-          <span class="input-group-btn">
-            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-              <i class="fa fa-search"></i>
-            </button>
-          </span>
+        &nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>
         </div>
-      </form>
-      <!-- /.search form -->
 
       <!-- Sidebar Menu -->
       <sidebar-menu />
@@ -56,6 +41,6 @@ export default {
 </script>
 <style>
   .user-panel .image img {
-    border-radius: 50%;
+    display: none;
   }
 </style>

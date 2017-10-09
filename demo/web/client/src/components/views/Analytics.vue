@@ -4,7 +4,7 @@
     <!-- Search field -->
     <div class="row">
       <form class="ui form" @submit.prevent="search">
-        <div class="input-group" style="width:65%;margin-left:16px;">
+        <div class="input-group" style="width:580px;margin-left:16px;">
           <input class="form-control" placeholder="" type="text" v-model="criteria">
           <span class="input-group-btn input-group-addon">
           <span class="input-group-btn">
@@ -73,7 +73,7 @@
     </div>
 
     <div class="row">
-      <button v-on:click="map" class="btn btn-primary" style="margin-left:16px;">Map Results</button>
+      <button v-on:click="map" class="btn btn-lg btn-primary" style="margin-left:16px;">Map Results</button>
     </div>
   </section>
 </template>

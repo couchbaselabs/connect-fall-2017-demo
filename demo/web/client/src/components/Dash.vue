@@ -1,15 +1,19 @@
 <template>
   <div :class="['wrapper', classes]">
     <header class="main-header">
-	<span class="logo-mini">
-		<a href="/"><img src="/static/img/copilot-logo-white.svg" alt="Logo" class="img-responsive center-block logo"></a>
-	</span>
+      <span class="logo">
+        <a href="/"><img src="/static/img/demo_logo.png" alt="Logo" height="90%" width="auto"></a>
+      </span>
       <!-- Header Navbar -->
       <nav class="navbar navbar-static-top" role="navigation">
-        <!-- Sidebar toggle button-->
+      <h1 v-if="$route.name.length > 1" class="header-title">
+        {{$route.name}}
+      </h1>
+
+        <!-- Sidebar toggle button
         <a href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>
-        </a>
+        </a> -->
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
@@ -125,24 +129,12 @@
       </nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
-    <sidebar :display-name="demo.displayName" :picture-url="demo.avatar" />
+    <sidebar :display-name="demo.displayName" />
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
-  <section class="content-header" style="margin-left:16px;">
-        <h1>
-          {{$route.name }}
-          <small>{{ $route.meta.description }}</small>
-        </h1>
-      <!--       <ol class="breadcrumb">
-          <li>
-            <a href="javascript:;">
-              <i class="fa fa-home"></i>Home</a>
-          </li>
-          <li class="active">{{$route.name.toUpperCase()}}</li>
-        </ol>   -->
-      </section>
+
 
       <router-view></router-view>
     </div>
@@ -202,6 +194,58 @@ export default {
 </script>
 
 <style lang="scss">
+
+.content {
+padding: 32px!important;
+}
+
+.main-header>.navbar {
+  margin-left: 230px;
+  height: 68px!important;
+}
+
+.skin-blue .main-header .logo {
+background-color: #3575C6!important;
+height: 68px!important;
+padding: 8px!important;
+margin: 0!important;
+width: 230px;
+text-align: left;
+}
+
+.skin-blue .main-header .logo img {
+padding: 0;
+margin: 0;
+
+}
+.skin-blue .main-header .navbar {
+background-color: #3575C6!important;
+}
+
+h1.header-title {
+line-height: 2.9!important;
+margin: 0 0 0 32px!important;
+padding: 0!important;
+color: #fff!important;
+display:inline!important;
+font-weight: 400;
+font-style: italic;
+font-size: 24px
+}
+
+.input-group-addon {
+  padding: 3px 12px;
+}
+
+.form-control {
+  font-size: 16px;
+  color: #555;
+}
+
+
+
+
+
 .wrapper.fixed_layout {
   .main-header {
     position: fixed;
