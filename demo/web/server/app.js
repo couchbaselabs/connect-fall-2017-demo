@@ -51,7 +51,9 @@ app.use('/search', search);
 const patient = require('./routes/patient');
 app.use('/patient', patient);
 const records = require('./routes/records');
-app.use('/records', records)
+app.use('/records', records);
+const db = require('./routes/db');
+app.use('/db', db);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

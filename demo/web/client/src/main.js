@@ -58,7 +58,7 @@ sync(store, router)
 
 // Set up the event bus to distribute the server sent update events feed
 // Todo: Connect to login ID.  Hardwire the user UUID for now.
-let es = new EventSource(`${config.serverURI}/feed/0f62b5cb-3735-45f6-8ee9-deaeee7f308a`)
+let es = new EventSource(`${config.serverURI}/feed/${config.id}`)
 
 es.addEventListener('update', event => {
   EventBus.$emit('update', JSON.parse(event.data))

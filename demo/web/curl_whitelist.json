@@ -1,0 +1,4 @@
+{
+  "all_access":false,
+  "allowed_urls":["https://maps.googleapis.com/maps/api/geocode/json"]
+}

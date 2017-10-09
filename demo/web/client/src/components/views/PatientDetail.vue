@@ -1,16 +1,49 @@
 <template>
   <!-- Main content -->
   <section class="content">
-    <div class="col-xs-12">
+    <div class="row">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"></h3>
-          <div class="box-body">
-            <div class="col-sm-6 col-xs-12">
-              <p class="text-center">
-                <strong>Temperature Graph</strong>
-              </p>
-              <canvas id="temperature" ></canvas>
+          <h3 class="box-title">Default Box Example</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div v-if="error">
+            Found an error
+          </div>
+          <div v-else-if="patient">
+            <ul>
+              <template v-for="(value, key, index) in patientModel">
+                <li :key="key">
+                  {{ patientModel[key] }} - {{ patient[key] ? patient[key] : '(missing)' }}
+                </li>
+              </template>
+            </ul>
+          </div>
+          <div v-else>
+            No data
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          The footer of the box
+        </div>
+        <!-- box-footer -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+            <div class="box-body">
+              <div class="col-sm-6 col-xs-12">
+                <p class="text-center">
+                  <strong>Temperature Graph</strong>
+                </p>
+                <canvas id="temperature" ></canvas>
+              </div>
             </div>
           </div>
         </div>
@@ -23,59 +56,51 @@
 <script>
 import EventBus from '../../event-bus'
 import Chart from 'chart.js'
+import api from '../../api'
+import config from '../../config'
 
 export default {
+  data () {
+    return {
+      patientModel: null,
+      patient: null,
+      error: null
+    }
+  },
   computed: {
     isMobile () {
       return (window.innerWidth <= 800 && window.innerHeight <= 600)
     }
   },
   methods: {
-    /*
-    connectFeed (id) {
-      let es = new EventSource(`${config.serverURI}/feed/${id}`)
+    getModelAndDoc (name, route) {
+      api.request('get', `/db/model/${name}`)
+      .then(response => {
+        var data = response.data
 
-      es.addEventListener('update', event => {
-        let data = JSON.parse(event.data)
-        let chartData = this.temperatureChart.data.datasets[0].data
+        this[`${name}Model`] = data
+      })
+      .then(() => api.request('get', route))
+      .then(response => {
+        var data = response.data
 
-        chartData.push(data.values[0])
-
-        if (chartData.length > 12) {
-          chartData.shift()
-        }
-
-        this.temperatureChart.update()
-      }, false)
-
-      es.addEventListener('error', event => {
-        if (event.readyState === EventSource.CLOSED) {
-          console.log('Event was closed')
-          console.log(EventSource)
-        }
-      }, false)
-
-      this.feed = es
-    },
-    disconnectFeed () {
-      if (this.feed) {
-        this.feed.close()
-        this.feed = null
-      }
-    },
-    */
-    sleep (ms) {
-      return new Promise(resolve => setTimeout(resolve, ms))
+        this[name] = data[0].health
+      })
+      .catch(error => {
+        console.log(error)
+      })
     }
   },
-  created () {
+  mounted () {
+    this.getModelAndDoc('patient', `/patient/${config.id}`)
+
     this.$nextTick(() => {
       let ctx = document.getElementById('temperature').getContext('2d')
 
       var config = {
         type: 'line',
         data: {
-          labels: ['8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'],
+          labels: [],
           datasets: [{
             label: '°F',
             fill: false,
@@ -104,20 +129,30 @@ export default {
       this.temperatureChart = new Chart(ctx, config) // eslint-disable-line no-new
 
       EventBus.$on('update', data => {
+        let values = data.values[0]
         let chartData = this.temperatureChart.data.datasets[0].data
+        let chartLabels = this.temperatureChart.data.labels
+        let date = new Date(data.values[0].recordedAt)
+        let time = `${date.getDay()} ${date.getHours()} ${date.getMinutes()} ${date.getSeconds()}`
 
-        chartData.push(data.values[0])
+        chartData.push(values.value)
+        chartLabels.push(time)
 
         if (chartData.length > 12) {
           chartData.shift()
+          chartLabels.shift()
         }
 
         this.temperatureChart.update()
       })
     })
+  },
+  destroyed () {
+    EventBus.$off('update')
   }
 }
 </script>
+
 <style>
 .info-box {
   cursor: pointer;

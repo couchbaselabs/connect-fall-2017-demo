@@ -53,10 +53,7 @@ exports.diagnosis = async function(req, res, next) {
   query.addFacet('diagnosis', SearchFacet.term('code.text', 5));
   
   bucket.query(query, function(err, hits, meta) {
-    console.dir(err);
-    console.dir(hits);
-    console.dir(meta);
-    let data = { hits: [] };
+    let data = { hits: [], meta: {} };
     
     if (err) {
       res.json(data);
@@ -64,6 +61,7 @@ exports.diagnosis = async function(req, res, next) {
     }
     
     data.hits = hits;
+    data.meta = meta;
     
     res.json(data);      
   });
