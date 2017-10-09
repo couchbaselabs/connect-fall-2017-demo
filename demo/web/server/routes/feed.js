@@ -18,7 +18,7 @@ router.get('/:id', async function(req, res, next) {
       
       res.sse('event: update\n');
       res.sse('data: { "values": [');
-      res.sse(JSON.stringify(rows[rows.length - 1].value));      
+      res.sse(JSON.stringify(rows[rows.length - 1]));      
       res.sse('] }\n\n');
     })
     .catch(err => {
