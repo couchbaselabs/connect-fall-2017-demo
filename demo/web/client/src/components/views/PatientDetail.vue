@@ -21,30 +21,17 @@
 </template>
 
 <script>
-import config from '../../config'
+import EventBus from '../../event-bus'
 import Chart from 'chart.js'
 
 export default {
-  data () {
-    return {
-      generateRandomNumbers (numbers, max, min) {
-        var a = []
-        for (var i = 0; i < numbers; i++) {
-          a.push(Math.floor(Math.random() * (max - min + 1)) + min)
-        }
-        return a
-      }
-    }
-  },
   computed: {
-    personalNumbers () {
-      return this.generateRandomNumbers(12, 1000000, 10000)
-    },
     isMobile () {
       return (window.innerWidth <= 800 && window.innerHeight <= 600)
     }
   },
   methods: {
+    /*
     connectFeed (id) {
       let es = new EventSource(`${config.serverURI}/feed/${id}`)
 
@@ -76,13 +63,12 @@ export default {
         this.feed = null
       }
     },
+    */
     sleep (ms) {
       return new Promise(resolve => setTimeout(resolve, ms))
     }
   },
-  mounted () {
-    this.connectFeed('patient::perrykrug')
-
+  created () {
     this.$nextTick(() => {
       let ctx = document.getElementById('temperature').getContext('2d')
 
@@ -116,10 +102,19 @@ export default {
       }
 
       this.temperatureChart = new Chart(ctx, config) // eslint-disable-line no-new
+
+      EventBus.$on('update', data => {
+        let chartData = this.temperatureChart.data.datasets[0].data
+
+        chartData.push(data.values[0])
+
+        if (chartData.length > 12) {
+          chartData.shift()
+        }
+
+        this.temperatureChart.update()
+      })
     })
-  },
-  beforeDestroy () {
-    this.disconnectFeed()
   }
 }
 </script>

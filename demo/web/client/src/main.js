@@ -1,8 +1,10 @@
 // Use bluebird promises
 global.Promise = require('bluebird')
+import config from './config'
 // Import System requirements
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import EventBus from './event-bus'
 import { sync } from 'vuex-router-sync'
 import routes from './routes'
 import store from './store'
@@ -53,6 +55,21 @@ router.beforeEach((to, from, next) => {
 })
 
 sync(store, router)
+
+// Set up the event bus to distribute the server sent update events feed
+// Todo: Connect to login ID.  Hardwire the user UUID for now.
+let es = new EventSource(`${config.serverURI}/feed/0f62b5cb-3735-45f6-8ee9-deaeee7f308a`)
+
+es.addEventListener('update', event => {
+  EventBus.$emit('update', JSON.parse(event.data))
+})
+
+es.addEventListener('error', event => {
+  if (event.readyState === EventSource.CLOSED) {
+    console.log('Event was closed')
+    console.log(EventSource)
+  }
+}, false)
 
 Math.radians = function (degrees) {
   return degrees * Math.PI / 180
