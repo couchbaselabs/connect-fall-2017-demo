@@ -1,18 +1,18 @@
 {
   "resourceType": "Observation",
-  "id": "Observation/{{uuid}}",
+  "id": "{{uuid}}",
   "status": "entered-in-error",
   "code": {
     "text": "Temperature"
   },
   "subject": {
-    "reference": "Patient//{{uuid}}",
+    "reference": "{{uuid}}",
     "display": "Roel"
   },
   "issued": "2017-09-17T19:07:12.802Z",
   "performer": [
     {
-      "reference": "Practitioner//{{uuid}}"
+      "reference": "{{uuid}}"
     }
   ],
   "valueQuantity": {
