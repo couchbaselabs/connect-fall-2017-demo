@@ -23,7 +23,7 @@ const routes = [
         path: 'dashboard',
         alias: '',
         component: DashboardView,
-        name: 'Dashboard',
+        name: 'Clinical Dashboard',
         meta: {description: 'Overview of environment'}
       }, {
         path: 'patient',
@@ -33,17 +33,17 @@ const routes = [
       }, {
         path: 'records/analytics',
         component: AnalyticsView,
-        name: 'Records Analysis',
+        name: 'Trend Analysis',
         meta: {description: ''}
       }, {
         path: 'records/search',
         component: CaseSearchView,
-        name: 'Records Search',
+        name: 'Case Search',
         meta: {description: 'Records Search'}
       }, {
         path: 'incidents',
         component: IncidentsView,
-        name: ' ',
+        name: 'Geo-Mapping',
         meta: {description: ' '}
       }
     ]

@@ -130,6 +130,6 @@ html, body, .container-table {
   height: 4em;
 }
 .input-group input {
-  height: 4em;
+  height: 3em;
 }
 </style>
