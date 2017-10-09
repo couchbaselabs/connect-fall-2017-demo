@@ -43,8 +43,8 @@ const routes = [
       }, {
         path: 'incidents',
         component: IncidentsView,
-        name: 'Map',
-        meta: {description: 'Incident record map'}
+        name: ' ',
+        meta: {description: ' '}
       }
     ]
   }, {

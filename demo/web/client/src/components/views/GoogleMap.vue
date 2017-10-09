@@ -7,6 +7,16 @@
         :position="marker.position"
         />
     </GmapMap>
+    <div class="row col-md-12" style="margin-top: 32px;">
+    <div class="col-md-3">
+    </div>
+      <div class="col-md-4">
+        <input type="text" class="col-md-12 input-lg" placeholder="add a message">
+      </div>
+      <div class="col-md-5">
+        <button class="btn btn-lg btn-primary">Message Patients</button>
+      </div>
+    </div>
   </div>
 </template>
 
