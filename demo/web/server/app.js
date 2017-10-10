@@ -10,8 +10,9 @@ var bodyParser = require('body-parser');
 var sse = require('express-server-sent-events');
 
 var couchbase = require('couchbase');
-var cluster = new couchbase.Cluster('couchbase://localhost/');
-cluster.authenticate("admin", "password");
+var cluster = new couchbase.Cluster('couchbase://ec2-34-214-85-103.us-west-2.compute.amazonaws.com');
+cluster.enableCbas(['ec2-34-214-176-13.us-west-2.compute.amazonaws.com:8095']);
+cluster.authenticate("Administrator", "password1");
 
 Math.radians = function (degrees) {
   return degrees * Math.PI / 180
@@ -24,6 +25,7 @@ Math.degrees = function (radians) {
 var app = express();
 
 app.locals.couchbase = couchbase;
+app.locals.cluster = cluster;
 app.locals.bucket = cluster.openBucket('health');
 
 // view engine setup
