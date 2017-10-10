@@ -2,10 +2,16 @@
   <div>
     <GmapMap style="width: 100%; height: 400px;" :zoom="1" :center="{lat: 0, lng: 0}"
         ref="map">
-      <GmapMarker v-for="(marker, index) in markers"
+      <GmapMarker v-for="(marker, index) in patients"
         :key="index"
         :position="marker.position"
         />
+      <GmapMarker v-for="(marker, index) in hospitals"
+        :key="index"
+        :position="marker.position"
+        :icon='{ url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png" }'>
+          <GmapInfoWindow :options="{ content: marker.text }"/>
+      </GmapMarker>
     </GmapMap>
     <div class="row col-md-12" style="margin-top: 32px;">
     <div class="col-md-3">
@@ -27,24 +33,27 @@ export default {
   name: 'GoogleMap',
   data () {
     return {
-      markers: []
+      patients: [],
+      hospitals: [],
+      bounds: false
     }
   },
-  description: `
-  In which a random set of points are generated, and
-  the bounds of the map are changed to fit the points
-  `,
+  description: ``,
   watch: {
-    markers (markers) {
-      if (markers.length > 2) {
-        const bounds = new google.maps.LatLngBounds() // eslint-disable-line no-undef
+    bounds () {
+      if (this.patients.length + this.hospitals.length < 2) return
 
-        for (let m of markers) {
-          bounds.extend(m.position)
-        }
+      const bounds = new google.maps.LatLngBounds() // eslint-disable-line no-undef
 
-        this.$refs.map.$mapObject.fitBounds(bounds)
+      for (let p of this.patients) {
+        bounds.extend(p.position)
       }
+
+      for (let h of this.hospitals) {
+        bounds.extend(h.position)
+      }
+
+      this.$refs.map.$mapObject.fitBounds(bounds)
     }
   },
   methods: {
@@ -78,9 +87,18 @@ export default {
 
       for (let arr of data) {
         let matched = arr[0]
-        this.markers.push({ position: { lat: Math.degrees(matched.pat.lat), lng: Math.degrees(matched.pat.lng) } })
-        this.markers.push({ position: { lat: Math.degrees(matched.fac.lat), lng: Math.degrees(matched.fac.lng) } })
+        let details = matched.details
+        let text = `<div id="content"><p><b>${details.name}</b></p>`
+
+        if (details.url) text += `<p><a href="${details.url}">${details.url}</a></p>`
+        if (details.rating) text += `<p>Rating : ${details.rating}</p></div>`
+
+        this.patients.push({ position: { lat: Math.degrees(matched.pat.lat), lng: Math.degrees(matched.pat.lng) } })
+        this.hospitals.push({ position: { lat: Math.degrees(matched.fac.lat), lng: Math.degrees(matched.fac.lng) },
+          text: text })
       }
+
+      this.bounds = true
     })
     .catch(error => {
       this.$store.commit('TOGGLE_LOADING')

@@ -63,7 +63,7 @@ exports.cohortLocations = async function(req, res, next) {
       let address = encodeURIComponent(row.text);
       
       // WARNING: This will fail unless the endpoint is white listed for cURL.
-      let query = `SELECT RAW CURL("https://maps.googleapis.com/maps/api/geocode/json", {"data":["address=${address}", "key=AIzaSyCkXlW0RHOLmA9VX9v80C_zRN486MTrzgE"], "request":"GET"} );`
+      let query = `SELECT RADIANS(results.results[0].geometry.location.lat) as lat, RADIANS(results.results[0].geometry.location.lng) as lng from CURL("https://maps.googleapis.com/maps/api/geocode/json", {"data":["address=${address}", "key=AIzaSyCkXlW0RHOLmA9VX9v80C_zRN486MTrzgE"], "request":"GET"}) results;`
       
       query = couchbase.N1qlQuery.fromString(query);
       
@@ -72,8 +72,10 @@ exports.cohortLocations = async function(req, res, next) {
         .then(rows => {
           if (rows.length < 1) return;
          
-          let patient = { "lat": Math.radians(rows[0].results[0].geometry.location.lat), "lng": Math.radians(rows[0].results[0].geometry.location.lng) };
-          let query = `SELECT ${JSON.stringify(patient)} as pat, facility as fac, { "address": h.address.text, "name": h.name } as details, 3959*acos(sin(facility.lat) * sin(${patient.lat}) + cos(facility.lat) * cos(${patient.lat}) * cos(${patient.lng} - facility.lng)) as dist
+          let patient = { "lat": rows[0].lat, "lng": rows[0].lng };
+          let query = `SELECT ${JSON.stringify(patient)} as pat, facility as fac,
+                       { "address": address.text, "name": name, "rating": rating, "url": url } as details,
+                       3959*acos(sin(facility.lat) * sin(${patient.lat}) + cos(facility.lat) * cos(${patient.lat}) * cos(${patient.lng} - facility.lng)) as dist
                        FROM ${bucket._name} h
                        LET facility = { "lat": RADIANS(h.position.latitude), "lng": RADIANS(h.position.longitude) }
                        WHERE resourceType = "Location" AND (type.coding[0].code = "HOSP" OR type.coding[0].code = "INFD")
