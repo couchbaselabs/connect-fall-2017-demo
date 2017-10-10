@@ -39,6 +39,24 @@
               </div>
 
               <div class="row">
+                <div class="col-xs-12">
+                  <div class="box">
+                    <div class="box-header with-border">
+                      <h3 class="box-title"></h3>
+                      <div class="box-body">
+                        <div class="col-md-12">
+                          <p class="text-center">
+                            <strong>Analytics Chart</strong>
+                          </p>
+                          <canvas id="analytics"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
                 <div class="col-sm-12 table-responsive">
                   <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
                     <thead>
@@ -80,6 +98,7 @@
 
 <script>
 import api from '../../api'
+import Chart from 'chart.js'
 
 export default {
   name: 'Analytics',
@@ -88,10 +107,25 @@ export default {
       criteria: '',
       searching: '',
       hits: [],
-      response: ''
+      response: '',
+      year_month: [],
+      patient_count: []
     }
   },
   methods: {
+    getModelAndDoc (name, route) {
+      api.request('get', `/search/analytics/`)
+      .then(response => {
+        for (let i = 0; i < response.data.length; i++) {
+          this.year_month.push(response.data[i].year_month)
+          this.patient_count.push(response.data[i].patient_count)
+        }
+        this.analyticsChart.update()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
     search () {
       this.toggleLoading()
       this.resetResponse()
@@ -141,6 +175,41 @@ export default {
     resetResponse () {
       this.response = ''
     }
+  },
+  mounted () {
+    this.getModelAndDoc()
+    let ctx = document.getElementById('analytics').getContext('2d')
+
+    var config = {
+      type: 'line',
+      data: {
+        labels: this.year_month,
+        datasets: [{
+          label: 'Patient Count',
+          fill: false,
+          borderColor: '#284184',
+          pointBackgroundColor: '#284184',
+          backgroundColor: 'rgba(0, 0, 0, 0)',
+          data: this.patient_count
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: !this.isMobile,
+        legend: {
+          position: 'bottom',
+          display: true
+        },
+        tooltips: {
+          mode: 'label',
+          xPadding: 10,
+          yPadding: 10,
+          bodySpacing: 10
+        }
+      }
+    }
+
+    this.analyticsChart = new Chart(ctx, config) // eslint-disable-line no-new
   }
 }
 
