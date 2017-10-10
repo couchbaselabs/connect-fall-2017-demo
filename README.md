@@ -51,4 +51,13 @@ To run a production version:
 
 You should find the pages served on localhost:3000
 
+### Couchbase Server
+
+### Data
+
+The file `augment-data.json` contains records hand written to work with the demo.  To add these to a bucket, use (e.g.)
+
+`cbimport json -u admin -p password -b health -c couchbase://127.0.0.1:8091 -d file://augment-data.json -g '%id%' -f lines`
+
+On Macs look for cbimport in `/Applications/Couchbase\ Server.app/Contents/Resources/couchbase-core/bin/`
 
