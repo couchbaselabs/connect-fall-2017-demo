@@ -30,24 +30,18 @@
             <!-- checkbox -->
             <div class="form-group">
               <label>Diagnosis</label>
-              <div class="checkbox">
+              <div class="checkbox" v-for="diagnosis in diagnosisFacets" role="row">
                 <label>
-                  <input type="checkbox">
-                  Checkbox 1
+                  <input :value="diagnosis.term" v-model="checkedDiagnosis" type="checkbox" v-on:change="filterDiagnosis(diagnosis.term)">
+                  {{ diagnosis.term }} ( {{ diagnosis.count }} )
                 </label>
               </div>
 
-              <div class="checkbox">
+              <label>Onset</label>
+              <div class="checkbox" v-for="onset in onsetFacets" role="row">
                 <label>
-                  <input type="checkbox">
-                  Checkbox 2
-                </label>
-              </div>
-
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" disabled="">
-                  Checkbox disabled
+                  <input :value="onset.name" v-model="checkedOnset" type="checkbox" v-on:change="filterOnset(onset.name)">
+                  {{ onset.name }} ( {{ onset.count }} )
                 </label>
               </div>
             </div>
@@ -63,7 +57,7 @@
       <div class="col-md-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Case Search Results</h3>
+            <h3 class="box-title">Case Search Results – {{ total }} Results ( {{ took }} )</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
@@ -128,11 +122,45 @@ export default {
       criteria: '',
       searching: '',
       records: new Map(),
+      diagnosisFacets: [],
+      checkedDiagnosis: [],
+      onsetFacets: [],
+      checkedOnset: [],
+      filterOnlyDiagnosis: '',
+      filterOnlyOnset: '',
+      total: 0,
+      took: 0,
       entries: [],
       response: ''
     }
   },
   methods: {
+    filterDiagnosis (diagnosis) {
+      if (this.filterOnlyDiagnosis) {
+        this.filterOnlyDiagnosis = ''
+      } else {
+        this.filterOnlyDiagnosis = diagnosis
+      }
+      this.search()
+    },
+    filterOnset (onset) {
+      if (this.filterOnlyOnset) {
+        this.filterOnlyOnset = ''
+      } else {
+        this.filterOnlyOnset = onset
+      }
+      this.search()
+    },
+    roundTook (took) {
+      if (took < 1000 * 1000) {
+        return '<1ms'
+      } else if (took < 1000 * 1000 * 1000) {
+        return '' + Math.round(took / (1000 * 1000)) + 'ms'
+      } else {
+        let roundMs = Math.round(took / (1000 * 1000))
+        return '' + roundMs / 1000 + 's'
+      }
+    },
     search () {
       this.toggleLoading()
       this.resetResponse()
@@ -140,7 +168,7 @@ export default {
 
       this.records.clear()
 
-      api.request('post', '/search/diagnosis', { criteria: this.criteria })
+      api.request('post', '/search/diagnosis', { criteria: this.criteria, filterDiagnosis: this.filterOnlyDiagnosis, filterOnset: this.filterOnlyOnset })
       .then(response => {
         var data = response.data
 
@@ -156,13 +184,20 @@ export default {
 
           return
         }
-
         for (const hit of data.hits) {
           let idIndex = hit.fields['subject.reference'].lastIndexOf(':') + 1
           let id = hit.fields['subject.reference'].substring(idIndex)
           console.dir(hit)
           this.records.set(hit, id)
         }
+        if (data.meta.facets && data.meta.facets.diagnosis) {
+          this.diagnosisFacets = data.meta.facets.diagnosis.terms
+        }
+        if (data.meta.facets && data.meta.facets.onset) {
+          this.onsetFacets = data.meta.facets.onset.date_ranges
+        }
+        this.total = data.meta.totalHits
+        this.took = this.roundTook(data.meta.took)
 
         let ids = Array.from(this.records.values())
         this.$store.commit('SET_COHORT', ids)
