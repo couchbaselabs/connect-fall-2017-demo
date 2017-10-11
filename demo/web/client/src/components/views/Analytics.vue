@@ -69,10 +69,10 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="entry in hits" :key="entry.id" class="even" role="row">
-                        <td>{{ entry.id }}</td>
-                        <td>{{ entry.fields['subject.reference'] }}</td>
-                        <td>{{ entry.fields['reason.text'] }}</td>
+                      <tr v-for="entry in search_details" :key="entry.id" class="even" role="row">
+                        <td>{{ entry.encounter_id }}</td>
+                        <td>{{ entry.patient_id }}</td>
+                        <td></td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -114,7 +114,8 @@ export default {
       hits: [],
       response: '',
       year_month: [],
-      patient_count: []
+      patient_count: [],
+      search_details: []
     }
   },
   methods: {
@@ -130,6 +131,15 @@ export default {
           this.patient_count.push(response.data[i].patient_count)
         }
         this.analyticsChart.update()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    searchDetails (yearMonth) {
+      api.request('get', `/search/analytics-details/?code=${this.criteria}&gender=${this.gender}&min_age=${this.min_age}&max_age=${this.max_age}&year_month=${yearMonth}`)
+      .then(response => {
+        this.search_details = response.data
       })
       .catch(error => {
         console.log(error)
@@ -214,6 +224,14 @@ export default {
           xPadding: 10,
           yPadding: 10,
           bodySpacing: 10
+        },
+        onClick: (event) => {
+          var item = this.analyticsChart.getElementAtEvent(event)[0]
+          if (item) {
+            var label = this.analyticsChart.data.labels[item._index]
+            // var value = this.analyticsChart.data.datasets[item._datasetIndex].data[item._index]
+          }
+          this.searchDetails(label)
         }
       }
     }

@@ -137,3 +137,39 @@ exports.analytics = async function(req, res, next) {
         res.send(result);
     });
 }
+
+exports.analyticsDetails = async function(req, res, next) {
+    let couchbase = req.app.locals.couchbase;
+    let cluster = req.app.locals.cluster;
+    let CbasQuery = couchbase.CbasQuery;
+    /* select p.id AS patient_id, e.id AS encounter_id, c
+
+from patient p, encounter as e, condition as c
+
+where p.id = substring_after(e.subject.reference, "uuid:")
+and   e.id = substring_after(c.context.reference, "uuid:")
+
+and p.gender = 'male'
+and c.code.text = 'Mongoitis'
+and get_year(datetime(e.period.`start`)) - get_year(date(p.birthDate)) between 20 and 80
+
+and substring(e.period.`start`, 1, 7) = '2017-10'
+
+limit 20 */
+    var statement = "SELECT p.id AS patient_id, e.id AS encounter_id, c " +
+                    "FROM patient p, encounter AS e, condition AS c " +
+                    "WHERE p.id = substring_after(e.subject.reference, 'uuid:') " +
+                    "AND e.id = substring_after(c.context.reference, 'uuid:') " +
+                    "AND p.gender = '" + req.query.gender + "' " +
+                    "AND c.code.text = '" + req.query.code + "' " +
+                    "AND GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) BETWEEN " + req.query.min_age + " AND " + req.query.max_age + " " +
+                    "AND SUBSTRING(e.period.`start`, 1, 7) = '" + req.query.year_month + "' " +
+                    "LIMIT 20";
+    var query = CbasQuery.fromString(statement);
+    cluster.query(query, (error, result) => {
+        if(error) {
+            return res.status(500).send({ code: error.code, message: error.message });
+        }
+        res.send(result);
+    });
+}
