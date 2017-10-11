@@ -60,10 +60,10 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <div v-for="entry in entries" :key="entry.id" class="row" style="margin-bottom:16px;">
-              <div style="width: 32px;overflow:ellipsis;"><strong>{{ entry.score }}</strong></div>
+            <div v-for="entry in entries" :key="entry.id" style="margin-bottom:16px;">
               <div v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]'></div>
-              <span>diagnosis: <em>{{ entry.fields['code.text'] }}</em></span>
+              <span style="width: 16px;text-overflow: ellipsis;">search rank: <em>{{ entry.score }}</em></span>&nbsp;|&nbsp;
+              <span>diagnosis: <em>{{ entry.fields['code.text'] }}</em></span>&nbsp;|&nbsp;
               <span>patient: <em>{{ patientName(records.get(entry)) }}</em></span>
             </div>
           </div>
