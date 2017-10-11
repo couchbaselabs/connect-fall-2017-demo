@@ -258,8 +258,7 @@ export default {
         let values = data.values[0]
         let chartData = this.temperatureChart.data.datasets[0].data
         let chartLabels = this.temperatureChart.data.labels
-        let date = new Date(data.values[0].recordedAt)
-        let time = `${date.getDay()} ${date.getHours()} ${date.getMinutes()} ${date.getSeconds()}`
+        let time = new Date(data.values[0].recordedAt).toTimeString().substr(0, 8)
 
         chartData.push(values.value)
         chartLabels.push(time)
