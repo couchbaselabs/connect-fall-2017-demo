@@ -13,6 +13,7 @@
               Found an error
             </div>
             <div v-else-if="patient">
+              <!-- Rendering controlled by model object
               <ul>
                 <template v-for="(value, key, index) in patientModel">
                   <li :key="key">
@@ -20,16 +21,17 @@
                   </li>
                 </template>
               </ul>
+              -->
+              <!-- Fixed rendering -->
+              <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>
+              <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
+              <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
             </div>
             <div v-else>
               No data
             </div>
           </div>
           <!-- /.box-body -->
-          <div class="box-footer">
-            The footer of the box
-          </div>
-          <!-- box-footer -->
         </div>
         <!-- /.box -->
       </div>
@@ -46,10 +48,6 @@
               </template>
             </div>
             <!-- /.box-body -->
-            <div class="box-footer">
-              The footer of the box
-            </div>
-            <!-- box-footer -->
           </div>
           <!-- /.box -->
         </div>
@@ -90,35 +88,41 @@
 
               <div v-if="history" class="row">
                 <div class="col-sm-12 table-responsive">
-                  <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
-                    <thead>
-                      <tr role="row">
-                        <th aria-label="Date" aria-sort="ascending" style="width: 80px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">Date</th>
-                        <th aria-label="Condition" style="width: 160px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Condition</th>
-                        <th aria-label="Status" style="width: 40px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Status</th>
-                        <th aria-label="Notes" style="width: 200px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Notes</th>
-                        <th v-if="this.hasExtensions" aria-label="Additional Information" style="width: 200px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Additional Information</th>
-                       </tr>
-                    </thead>
-                    <tbody>
+                  <table style="width:100%" aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
+                    <tr>
+                      <th>Date</th>
                       <template v-for="(record, index) in history">
-                        <tr :class="(index & 1) ? 'odd' : 'even'" :key="index" role="row">
-                          <td class="sorting_1">{{ recordStartDate(record.condition) }}</td>
-                          <td>{{ record.condition.code.text }}</td>
-                          <td>{{ record.condition.clinicalStatus }}</td>
-                          <td>
-                            <div v-for="(note, index) in record.condition.note" :key="index">
+                        <td :key="index">{{ recordStartDate(record.condition) }}</td>
+                      </template>
+                    </tr>
+                    <tr>
+                      <th>Condition</th>
+                      <template v-for="(record, index) in history">
+                        <td :key="index">{{ record.condition.code.text }}</td>
+                      </template>
+                    </tr>
+                    <tr>
+                      <th>Status</th>
+                      <template v-for="(record, index) in history">
+                        <td :key="index">{{ record.condition.clinicalStatus }}</td>
+                      </template>
+                    </tr>
+                    <tr>
+                      <th>Notes</th>
+                      <template v-for="(record, index) in history">
+                        <td :key="index">
+                          <div v-for="(note, index) in record.condition.note" :key="index">
                               {{ note.text }}
                             </div>
-                          </td>
-                          <template v-if="hasExtensions">
-                            <td v-for="(value, key, index) in record.condition.extension" :key="key">
-                                <strong>{{ toCapitalized(key) }}</strong> {{ value }}
-                            </td>
-                          </template>
-                        </tr>
+                        </td>
                       </template>
-                    </tbody>
+                    </tr>
+                    <template v-for="(value, key) in extensions">
+                      <tr :key="key">
+                        <th>{{ toCapitalized(key) }}</th>
+                        <td v-for="item in value" :key="item">{{ item }}</td>
+                      </tr>
+                    </template>
                   </table>
                 </div>
               </div>
@@ -145,26 +149,37 @@ export default {
       patientModel: null,
       patient: null,
       error: null,
-      history: null
+      history: null,
+      extensions: null
     }
   },
   computed: {
-    hasExtensions () {
-      if (!this.history) return false
-
-      for (let record of this.history) {
-        if (record.condition.extension) return true
-      }
-
-      return false
-    },
     isMobile () {
       return (window.innerWidth <= 800 && window.innerHeight <= 600)
     }
   },
   methods: {
+    getExtensions () {
+      if (!this.history) return false
+
+      let labels = {}
+      this.extensions = {}
+
+      this.history.map((record, index) => {
+        if (record.condition.extension) {
+          Object.entries(record.condition.extension)
+          .map(entry => {
+            if (!labels[entry[0]]) {
+              labels[entry[0]] = true
+              this.extensions[entry[0]] = Array.from({ length: this.history.length })
+            }
+            this.extensions[entry[0]][index] = entry[1]
+          })
+        }
+      })
+    },
     getModelAndDoc (name, route) {
-      api.request('get', `/db/model/${name}`)
+      return api.request('get', `/db/model/${name}`)
       .then(response => {
         var data = response.data
 
@@ -182,11 +197,10 @@ export default {
     },
     getPatientHistory () {
       // Just reporting Conditions for now
-      api.request('get', `/records/patient/${config.id}/conditions`)
+      return api.request('get', `/records/patient/${config.id}/conditions`)
       .then(response => {
         this.history = response.data
-
-        console.dir(this.history)
+        this.getExtensions()
       })
       .catch(error => {
         console.log(error)
