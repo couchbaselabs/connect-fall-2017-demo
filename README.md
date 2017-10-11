@@ -61,3 +61,26 @@ The file `augment-data.json` contains records hand written to work with the demo
 
 On Macs look for cbimport in `/Applications/Couchbase\ Server.app/Contents/Resources/couchbase-core/bin/`
 
+### Indexes
+
+Several queries examine resourceType and id:
+
+`CREATE INDEX `resource-idx` ON `health`(`resourceType`,`id`);`
+
+Mapping hospitals queries on location resources and specific type codes:
+
+`CREATE INDEX `location-idx` ON `health`(type.coding[0].code) WHERE  resourceType = “Location”;`
+
+Monitoring incoming observations from our select patient:
+
+`CREATE INDEX `observation-idx` ON `health`(subject.reference, issued,  valueQuantity.`value`);`
+
+### Installing Couchnode from GitHub
+
+To install from the latest
+
+`npm install --save git+https://git@github.com/brett19/couchnode.git`
+
+To pin the installation to a specific commit
+
+`npm install --save git+https://git@github.com/brett19/couchnode.git#dba79ef33b1f4e7d5e88906538624c65caf3d841`
