@@ -5,12 +5,18 @@
     <uses-permission android:name="android.permission.NFC" />
 
     <application
+        android:name="com.jasonette.seed.Launcher.Launcher"
         android:allowBackup="true"
         android:icon="@drawable/logo_icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name="com.jasonette.seed.Core.JasonViewActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"
+            android:theme="@style/JasonetteTheme">
+        </activity>
         <activity
             android:name=".app.launch.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -23,7 +29,8 @@
         <activity
             android:name=".app.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".app.temperature.TemperatureActivity"
             android:keepScreenOn="true"
@@ -44,11 +51,9 @@
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/filter_nfc" />
         </activity>
-
         <provider
             android:name=".app.launch.Runtime"
             android:authorities="autoload"
             android:exported="false"></provider>
     </application>
-
 </manifest>

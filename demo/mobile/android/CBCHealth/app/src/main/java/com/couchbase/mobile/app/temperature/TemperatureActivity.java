@@ -35,7 +35,6 @@ public class TemperatureActivity extends AppCompatActivity {
 
         collector = CollectorService.getCollectorByType(Collector.COLLECTOR_TYPE_TEMPERATURE);
         collector.initialize(this, getIntent());
-        CBLite.getInstance().startReplication();
     }
 
     @Override
@@ -100,7 +99,7 @@ public class TemperatureActivity extends AppCompatActivity {
                 }});
                 // Todo pull reference id from login info?
                 properties.put("subject", new HashMap<String, Object>() {{
-                    put("reference", "patient::perrykrug");
+                    put("reference", Runtime.getPatientID());
                 }});
 
                 Document record = new Document(properties);
