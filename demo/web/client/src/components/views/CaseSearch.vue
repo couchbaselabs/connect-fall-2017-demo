@@ -53,69 +53,26 @@
     </div>
     <!-- Results row -->
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-10" style="max-width: 1250px">
         <div class="box" style="margin-top: 16px;border-color: #3575C6;">
           <div class="box-header">
             <h3 class="box-title">{{ total }} Results ( {{ took }} )</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-
-          <div v-for="entry in entries" :key="entry.id" class="row">
-            <div class="font-weight-bold">{{ entry.score }}</div>
-            <div v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]'></div>
-            <span class="font-weight-bold">{{ patientName(records.get(entry)) }}</span>
-            <span>{{ entry.fields['code.text'] }}</span>
-          </div>
-
-<!--
-            <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
-              <div class="row">
-                <div class="col-sm-6">
-                  <div id="example1_length" class="dataTables_length">
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-sm-12 table-responsive">
-                  <table aria-describedby="example1_info" role="grid" id="example1" class="table table-striped dataTable">
-                    <thead>
-                      <tr role="row">
-                        <th aria-label="Text" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">Records Text</th>
-                        <th aria-label="Diagnosis" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">Diagnosis</th>
-                        <th aria-label="Patient" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Patient</th>
-                        <th aria-label="Notes" style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Rank</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="entry in entries" :key="entry.id" class="even" role="row">
-                        <td v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]'></td>
-                        <td>{{ entry.fields['code.text'] }}</td>
-                        <td>{{ patientName(records.get(entry)) }}</td>
-                        <td>{{ entry.score }}</td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th colspan="1" rowspan="1">Records Text</th>
-                        <th colspan="1" rowspan="1">Diagnosis</th>
-                        <th colspan="1" rowspan="1">Patient</th>
-                        <th colspan="1" rowspan="1">Rank</th>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-            </div> -->
-            <!-- /.box-body -->
+            <div v-for="entry in entries" :key="entry.id" class="row" style="margin-bottom:16px;">
+              <div style="width: 32px;overflow:ellipsis;"><strong>{{ entry.score }}</strong></div>
+              <div v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]'></div>
+              <span>diagnosis: <em>{{ entry.fields['code.text'] }}</em></span>
+              <span>patient: <em>{{ patientName(records.get(entry)) }}</em></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="row">
-      <button v-on:click="map" class="btn btn-lg btn-primary" style="margin-left:16px;">Map Results</button>
+      <button v-on:click="map" class="btn btn-primary" style="margin-left:16px;">Map Results</button>
     </div>
   </section>
 </template>
