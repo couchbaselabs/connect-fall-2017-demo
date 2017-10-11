@@ -50,8 +50,6 @@ var feed = require('./routes/feed');
 app.use('/feed', sse, feed);
 const search = require('./routes/search');
 app.use('/search', search);
-const patient = require('./routes/patient');
-app.use('/patient', patient);
 const records = require('./routes/records');
 app.use('/records', records);
 const db = require('./routes/db');

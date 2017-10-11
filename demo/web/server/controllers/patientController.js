@@ -6,14 +6,32 @@ exports.patient = function(req, res, next) {
   N1qlQuery(n1ql, req, res, next);
 };
 
-exports.cohort = function(req, res, next) {
-  let n1ql = `patient WHERE resourceType = 'Patient' AND id IN ${JSON.stringify(req.body)};`;
+exports.conditions = function(req, res, next) {
+  let n1ql = `condition WHERE resourceType = 'Condition' AND subject.reference = 'urn:uuid:${req.params.id}';`;
+
+  N1qlQuery(n1ql, req, res, next);  
+}
+
+exports.encounters = function(req, res, next) {
+  let n1ql = `condition WHERE resourceType = 'Encounter' AND subject.reference = 'urn:uuid:${req.params.id}';`;  
   
   N1qlQuery(n1ql, req, res, next);
 }
 
-exports.encounters = function(req, res, next) {
-  let n1ql = "encounter WHERE resourceType = 'Encounter' AND META().id LIKE 'encounter::" + req.params.id + "%';";
+exports.observations = function(req, res, next) {
+  let n1ql = `condition WHERE resourceType = 'Observation' AND subject.reference = 'urn:uuid:${req.params.id}';`;  
+  
+  N1qlQuery(n1ql, req, res, next);
+}
+
+exports.references = function(req, res, next) {
+  let n1ql = `references WHERE subject.reference = 'urn:uuid:${req.params.id}';`;  
+  
+  N1qlQuery(n1ql, req, res, next);
+}
+
+exports.cohort = function(req, res, next) {
+  let n1ql = `patient WHERE resourceType = 'Patient' AND id IN ${JSON.stringify(req.body)};`;
   
   N1qlQuery(n1ql, req, res, next);
 }
