@@ -2,15 +2,15 @@
   <!-- Main content -->
   <section class="content">
     <!-- Search field -->
-    <div class="row center-block">
+    <div class="row">
       <div class="col-sm-6 col-xs-12">
       <form class="ui form" @submit.prevent="search">
         <div class="input-group">
-          <input class="form-control" placeholder="Case Search" type="text" v-model="criteria">
+          <input class="form-control" placeholder="search cases..." type="text" v-model="criteria">
           <span class="input-group-btn input-group-addon">
-            <button type="submit">
-              <span class="input-group-addon">
-                <i class="fa fa-search"></i>
+            <button type="submit" style="border-width:0;background-color:#fff;outline:none;">
+              <span class="input-group-addon" style="border-width:0;">
+                <i class="fa fa-lg fa-search"></i>
               </span>
             </button>
           </span>
@@ -18,9 +18,9 @@
       </form>
       </div>
     </div>
-    <div class="row center-block">
+    <div class="row">
       <div class="col-sm-6 col-xs-12">
-      <div class="box box-warning">
+      <div class="box" style="margin-top: 16px;">
         <div class="box-header with-border">
           <h3 class="box-title">Refine Results</h3>
         </div>
@@ -29,7 +29,7 @@
           <form role="form">
             <!-- checkbox -->
             <div class="form-group">
-              <label>Diagnosis</label>
+              <label v-if="">Diagnosis</label>
               <div class="checkbox" v-for="diagnosis in diagnosisFacets" role="row">
                 <label>
                   <input :value="diagnosis.term" v-model="checkedDiagnosis" type="checkbox" v-on:change="filterDiagnosis(diagnosis.term)">
@@ -37,7 +37,7 @@
                 </label>
               </div>
 
-              <label>Onset</label>
+              <label v-if="">Onset</label>
               <div class="checkbox" v-for="onset in onsetFacets" role="row">
                 <label>
                   <input :value="onset.name" v-model="checkedOnset" type="checkbox" v-on:change="filterOnset(onset.name)">
@@ -52,15 +52,23 @@
       </div>
     </div>
     <!-- Results row -->
-    <div class="row center-block">
-      <h2>Cases</h2>
+    <div class="row">
       <div class="col-md-12">
-        <div class="box">
+        <div class="box" style="margin-top: 16px;border-color: #3575C6;">
           <div class="box-header">
-            <h3 class="box-title">Case Search Results – {{ total }} Results ( {{ took }} )</h3>
+            <h3 class="box-title">{{ total }} Results ( {{ took }} )</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
+
+          <div v-for="entry in entries" :key="entry.id" class="row">
+            <div class="font-weight-bold">{{ entry.score }}</div>
+            <div v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]'></div>
+            <span class="font-weight-bold">{{ patientName(records.get(entry)) }}</span>
+            <span>{{ entry.fields['code.text'] }}</span>
+          </div>
+
+<!--
             <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
               <div class="row">
                 <div class="col-sm-6">
@@ -71,7 +79,7 @@
 
               <div class="row">
                 <div class="col-sm-12 table-responsive">
-                  <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
+                  <table aria-describedby="example1_info" role="grid" id="example1" class="table table-striped dataTable">
                     <thead>
                       <tr role="row">
                         <th aria-label="Text" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">Records Text</th>
@@ -99,7 +107,7 @@
                   </table>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- /.box-body -->
           </div>
         </div>
@@ -107,7 +115,7 @@
     </div>
 
     <div class="row">
-      <button v-on:click="map">Map Results</button>
+      <button v-on:click="map" class="btn btn-lg btn-primary" style="margin-left:16px;">Map Results</button>
     </div>
   </section>
 </template>

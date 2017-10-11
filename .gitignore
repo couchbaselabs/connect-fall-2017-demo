@@ -119,4 +119,9 @@ fabric.propertiesroperties
 /demo/web/.DS_Store
 /demo/web/client/.DS_Store
 /demo/web/server/.DS_Store
+<<<<<<< Updated upstream
 .DS_Store
+=======
+/demo/web/client/static/.DS_Store
+/demo/web/client/static/img/.DS_Store
+>>>>>>> Stashed changes

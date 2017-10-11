@@ -242,8 +242,13 @@ font-size: 24px
   color: #555;
 }
 
+.btn.btn-primary {
+  background-color: #3575C6!important;
+}
 
-
+.mark, mark {
+  background-color: #fffaa8;
+}
 
 
 .wrapper.fixed_layout {
