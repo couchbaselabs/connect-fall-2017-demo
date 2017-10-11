@@ -65,7 +65,7 @@ export default {
     }
   },
   mounted: function () {
-    api.request('post', `/patient/cohort/locations`, this.$store.state.cohort)
+    api.request('post', `/records/patient/cohort/locations`, this.$store.state.cohort)
     .then(response => {
       this.toggleLoading()
 
