@@ -5,15 +5,15 @@
     <div class="row">
       <form class="ui form" @submit.prevent="search">
         <div class="input-group" style="width:580px;margin-left:16px;">
-          <input class="form-control" placeholder="Medical Condition" type="text" v-model="criteria">
+          <input class="form-control" placeholder="Medical Condition" type="text" v-model="criteria" required>
         </div>
         <div class="checkbox" style="width:580px;margin-left:16px;">
-          <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender"> Male</label>
-          <label class="radio-inline"><input name="gender" type="radio" value="female" v-model="gender"> Female</label>
+          <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender" required> Male</label>
+          <label class="radio-inline"><input name="gender" type="radio" value="female" v-model="gender" required> Female</label>
         </div>
         <div class="input-group" style="width:580px;margin-left:16px;">
-          <input class="form-control" size="2" style="width: 70px" placeholder="Min" type="text" v-model="criteria">
-          <input class="form-control" size="2" style="width: 70px" placeholder="Max" type="text" v-model="criteria">
+          <input class="form-control" size="2" style="width: 100px" placeholder="Min Age" type="text" v-model="min_age" required>
+          <input class="form-control" size="2" style="width: 100px; margin-left: 20px" placeholder="Max Age" type="text" v-model="max_age" required>
         </div>
         <div class="input-group">
           <button style="margin-left: 16px; margin-top: 10px" type="submit" class="btn btn-primary">Submit</button>
@@ -108,6 +108,8 @@ export default {
     return {
       criteria: '',
       gender: '',
+      min_age: '',
+      max_age: '',
       searching: '',
       hits: [],
       response: '',
@@ -117,10 +119,12 @@ export default {
   },
   methods: {
     search (name, route) {
-      api.request('get', `/search/analytics/?code=${this.criteria}&gender=${this.gender}`)
+      while (this.year_month.length > 0) {
+        this.year_month.pop()
+        this.patient_count.pop()
+      }
+      api.request('get', `/search/analytics/?code=${this.criteria}&gender=${this.gender}&min_age=${this.min_age}&max_age=${this.max_age}`)
       .then(response => {
-        // this.year_month = []
-        // this.patient_count = []
         for (let i = 0; i < response.data.length; i++) {
           this.year_month.push(response.data[i].year_month)
           this.patient_count.push(response.data[i].patient_count)
