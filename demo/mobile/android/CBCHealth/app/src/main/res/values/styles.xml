@@ -1,4 +1,7 @@
 <resources>
+    <style name="JasonetteTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
