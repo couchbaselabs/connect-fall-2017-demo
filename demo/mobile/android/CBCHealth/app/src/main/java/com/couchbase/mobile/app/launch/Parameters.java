@@ -4,14 +4,16 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public enum Parameters {
-    DEFAULT("db", "blip://localhost:4984/db"),
-    EMULATOR("db", "blip://10.0.2.2:4984/db");
+    DEFAULT("db", "blip://localhost:4984/db", "0f62b5cb-3735-45f6-8ee9-deaeee7f308a"),
+    EMULATOR("db", "blip://10.0.2.2:4984/db", "0f62b5cb-3735-45f6-8ee9-deaeee7f308a");
 
     private final String databaseName;
     private final URI remoteURI;
+    private final String patientID;
 
-    Parameters(String databaseName, String remote) {
+    Parameters(String databaseName, String remote, String patientID) {
         this.databaseName = databaseName;
+        this.patientID = patientID;
 
         try {
             this.remoteURI = new URI(remote);
@@ -23,4 +25,5 @@ public enum Parameters {
 
     public String getDatabaseName() { return databaseName; }
     public URI getRemoteURI() { return remoteURI; }
+    public String getPatientID() { return patientID; }
 }

@@ -39,6 +39,8 @@ public class Runtime extends ContentProvider {
 
     public static ObjectMapper getObjectMapper() { return  ObjectMapperHolder.objectMapper; }
 
+    public static String getPatientID() { return parameters.getPatientID(); }
+
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {

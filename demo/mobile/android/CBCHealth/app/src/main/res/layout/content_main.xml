@@ -47,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/vitals_buttons_size"
         android:layout_marginTop="@dimen/vitals_buttons_spacing"
+        android:onClick="onScaleButtonClick"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardiogram"
         app:srcCompat="@drawable/ic_scale"
