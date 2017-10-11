@@ -30,4 +30,8 @@
         <item>#43abae</item>
         <item>#394948</item>
     </string-array>
+
+    <string-array name="asyncActions">
+        <item>network</item>
+    </string-array>
 </resources>
