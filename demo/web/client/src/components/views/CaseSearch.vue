@@ -88,7 +88,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="entry in entries" :key="entry.id" class="even" role="row">
-                        <td v-html='entry.fragments["note.text"][0]'></td>
+                        <td v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]'></td>
                         <td>{{ entry.fields['code.text'] }}</td>
                         <td>{{ patientName(records.get(entry)) }}</td>
                         <td>{{ entry.score }}</td>
@@ -160,14 +160,14 @@ export default {
         for (const hit of data.hits) {
           let idIndex = hit.fields['subject.reference'].lastIndexOf(':') + 1
           let id = hit.fields['subject.reference'].substring(idIndex)
-          console.dir(hit)
+
           this.records.set(hit, id)
         }
 
         let ids = Array.from(this.records.values())
         this.$store.commit('SET_COHORT', ids)
 
-        return api.request('post', '/patient/cohort', ids)
+        return api.request('post', '/records/patient/cohort', ids)
       })
       .then(response => {
         let idToData = new Map()
@@ -202,6 +202,8 @@ export default {
       this.response = ''
     },
     patientName (patient) {
+      if (!patient) return '(missing)'
+
       return `${patient.name[0].given[0]} ${patient.name[0].family[0]}`
     }
   }
