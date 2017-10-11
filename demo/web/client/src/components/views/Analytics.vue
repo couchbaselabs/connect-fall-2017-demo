@@ -5,16 +5,18 @@
     <div class="row">
       <form class="ui form" @submit.prevent="search">
         <div class="input-group" style="width:580px;margin-left:16px;">
-          <input class="form-control" placeholder="" type="text" v-model="criteria">
-          <span class="input-group-btn input-group-addon">
-          <span class="input-group-btn">
-            <button type="submit" style="border-width:0;background-color:#fff;outline:none;">
-              <span class="input-group-addon" style="border-width:0;">
-                <i class="fa fa-lg fa-search"></i>
-              </span>
-            </button>
-            </span>
-          </span>
+          <input class="form-control" placeholder="Medical Condition" type="text" v-model="criteria">
+        </div>
+        <div class="checkbox" style="width:580px;margin-left:16px;">
+          <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender"> Male</label>
+          <label class="radio-inline"><input name="gender" type="radio" value="female" v-model="gender"> Female</label>
+        </div>
+        <div class="input-group" style="width:580px;margin-left:16px;">
+          <input class="form-control" size="2" style="width: 70px" placeholder="Min" type="text" v-model="criteria">
+          <input class="form-control" size="2" style="width: 70px" placeholder="Max" type="text" v-model="criteria">
+        </div>
+        <div class="input-group">
+          <button style="margin-left: 16px; margin-top: 10px" type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
     </div>
@@ -105,6 +107,7 @@ export default {
   data () {
     return {
       criteria: '',
+      gender: '',
       searching: '',
       hits: [],
       response: '',
@@ -113,9 +116,11 @@ export default {
     }
   },
   methods: {
-    getModelAndDoc (name, route) {
-      api.request('get', `/search/analytics/`)
+    search (name, route) {
+      api.request('get', `/search/analytics/?code=${this.criteria}&gender=${this.gender}`)
       .then(response => {
+        // this.year_month = []
+        // this.patient_count = []
         for (let i = 0; i < response.data.length; i++) {
           this.year_month.push(response.data[i].year_month)
           this.patient_count.push(response.data[i].patient_count)
@@ -126,7 +131,7 @@ export default {
         console.log(error)
       })
     },
-    search () {
+    search1 () {
       this.toggleLoading()
       this.resetResponse()
       this.$store.commit('TOGGLE_LOADING')
@@ -177,7 +182,7 @@ export default {
     }
   },
   mounted () {
-    this.getModelAndDoc()
+    // this.getModelAndDoc()
     let ctx = document.getElementById('analytics').getContext('2d')
 
     var config = {

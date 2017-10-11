@@ -125,8 +125,8 @@ exports.analytics = async function(req, res, next) {
                     "WHERE p.id = substring_after(e.subject.reference, 'uuid:') " +
                     "AND e.id = substring_after(c.context.reference, 'uuid:') " +
                     "AND GET_DATE_FROM_DATETIME(DATETIME(e.period.`start`)) > DATE('2007-10-01') " +
-                    "AND p.gender = 'male' " +
-                    "AND c.code.text = 'Mongoitis' " +
+                    "AND p.gender = '" + req.query.gender + "' " +
+                    "AND c.code.text = '" + req.query.code + "' " +
                     "AND GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) BETWEEN 20 AND 80 " +
                     "GROUP BY SUBSTRING(e.period.`start`, 1, 7) AS year_month";
     var query = CbasQuery.fromString(statement);
