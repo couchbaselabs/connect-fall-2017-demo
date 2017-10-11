@@ -127,7 +127,7 @@ exports.analytics = async function(req, res, next) {
                     "AND GET_DATE_FROM_DATETIME(DATETIME(e.period.`start`)) > DATE('2007-10-01') " +
                     "AND p.gender = '" + req.query.gender + "' " +
                     "AND c.code.text = '" + req.query.code + "' " +
-                    "AND GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) BETWEEN 20 AND 80 " +
+                    "AND GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) BETWEEN " + req.query.min_age + " AND " + req.query.max_age + " " +
                     "GROUP BY SUBSTRING(e.period.`start`, 1, 7) AS year_month";
     var query = CbasQuery.fromString(statement);
     cluster.query(query, (error, result) => {
