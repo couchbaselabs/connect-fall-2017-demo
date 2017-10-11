@@ -10,4 +10,6 @@ router.post('/diagnosis', searchController.diagnosis)
 
 router.get('/analytics', searchController.analytics);
 
+router.get('/analytics-details', searchController.analyticsDetails);
+
 module.exports = router;
