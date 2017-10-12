@@ -113,22 +113,22 @@ export default {
       searching: '',
       hits: [],
       response: '',
-      year_month: [],
-      patient_count: [],
-      search_details: []
+      search_details: [],
+      chart_data: {
+        labels: []
+      }
     }
   },
   methods: {
     search (name, route) {
-      while (this.year_month.length > 0) {
-        this.year_month.pop()
-        this.patient_count.pop()
-      }
+      this.analyticsChart.data.labels = []
+      this.analyticsChart.data.datasets = []
       api.request('get', `/search/analytics/?code=${this.criteria}&gender=${this.gender}&min_age=${this.min_age}&max_age=${this.max_age}`)
       .then(response => {
-        for (let i = 0; i < response.data.length; i++) {
-          this.year_month.push(response.data[i].year_month)
-          this.patient_count.push(response.data[i].patient_count)
+        this.chart_data = response.data
+        this.analyticsChart.data.labels = response.data.labels
+        for (let i = 0; i < response.data.datasets.length; i++) {
+          this.analyticsChart.data.datasets.push(response.data.datasets[i])
         }
         this.analyticsChart.update()
       })
@@ -202,15 +202,8 @@ export default {
     var config = {
       type: 'line',
       data: {
-        labels: this.year_month,
-        datasets: [{
-          label: 'Patient Count',
-          fill: false,
-          borderColor: '#284184',
-          pointBackgroundColor: '#284184',
-          backgroundColor: 'rgba(0, 0, 0, 0)',
-          data: this.patient_count
-        }]
+        labels: [],
+        datasets: []
       },
       options: {
         responsive: true,
