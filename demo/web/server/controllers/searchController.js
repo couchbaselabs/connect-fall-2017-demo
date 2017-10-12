@@ -186,21 +186,7 @@ exports.analyticsDetails = async function(req, res, next) {
     let couchbase = req.app.locals.couchbase;
     let cluster = req.app.locals.cluster;
     let CbasQuery = couchbase.CbasQuery;
-    /* select p.id AS patient_id, e.id AS encounter_id, c
-
-from patient p, encounter as e, condition as c
-
-where p.id = substring_after(e.subject.reference, "uuid:")
-and   e.id = substring_after(c.context.reference, "uuid:")
-
-and p.gender = 'male'
-and c.code.text = 'Mongoitis'
-and get_year(datetime(e.period.`start`)) - get_year(date(p.birthDate)) between 20 and 80
-
-and substring(e.period.`start`, 1, 7) = '2017-10'
-
-limit 20 */
-    var statement = "SELECT p.id AS patient_id, e.id AS encounter_id, c " +
+    var statement = "SELECT p.id AS p_id, p.name AS p_name, GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) AS p_age, p.address AS p_address, e.period.`start` AS e_date " +
                     "FROM patient p, encounter AS e, condition AS c " +
                     "WHERE p.id = substring_after(e.subject.reference, 'uuid:') " +
                     "AND e.id = substring_after(c.context.reference, 'uuid:') " +
