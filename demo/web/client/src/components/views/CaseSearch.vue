@@ -18,8 +18,32 @@
       </form>
       </div>
     </div>
+
+    <!-- Everything row -->
     <div class="row">
-      <div class="col-sm-6 col-xs-12">
+    <!-- Results column -->
+      <div class="col-md-8" style="max-width: 1250px">
+        <div class="box" style="margin-top: 16px;border-color: #3575C6;">
+          <div class="box-header">
+            <div class="pull-right">
+              <button v-on:click="map" class="btn btn-primary" style="margin-right:16px;">Map Results</button>
+            </div>
+            <h3 class="box-title">{{ total }} Results ( {{ took }} )</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div v-for="entry in entries" :key="entry.id" style="margin-bottom:16px;">
+              <div v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]' style="font-weight:600;"></div>
+              <span>search rank: <em>{{ entry.score }}</em></span>
+              &nbsp;|&nbsp;
+              <span>diagnosis: <em>{{ entry.fields['code.text'] }}</em></span>
+              &nbsp;|&nbsp;
+              <span>patient: <em>{{ patientName(records.get(entry)) }}</em></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
       <div class="box" style="margin-top: 16px;">
         <div class="box-header with-border">
           <h3 class="box-title">Refine Results</h3>
@@ -50,29 +74,6 @@
       <!-- /.box-body -->
       </div>
       </div>
-    </div>
-    <!-- Results row -->
-    <div class="row">
-      <div class="col-md-10" style="max-width: 1250px">
-        <div class="box" style="margin-top: 16px;border-color: #3575C6;">
-          <div class="box-header">
-            <h3 class="box-title">{{ total }} Results ( {{ took }} )</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <div v-for="entry in entries" :key="entry.id" style="margin-bottom:16px;">
-              <div v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]' style="font-weight:600;"></div>
-              <span style="display: inline-block;width: 124px;white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">search rank: <em>{{ entry.score }}</em></span>&nbsp;|&nbsp;
-              <span>diagnosis: <em>{{ entry.fields['code.text'] }}</em></span>&nbsp;|&nbsp;
-              <span>patient: <em>{{ patientName(records.get(entry)) }}</em></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <button v-on:click="map" class="btn btn-primary" style="margin-left:16px;">Map Results</button>
     </div>
   </section>
 </template>
