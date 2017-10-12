@@ -20,7 +20,7 @@
       </div>  -->
 
         <div class="input-group">
-        &nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>
+        &nbsp;<br>&nbsp;<br>&nbsp;<br>
         </div>
 
       <!-- Sidebar Menu -->

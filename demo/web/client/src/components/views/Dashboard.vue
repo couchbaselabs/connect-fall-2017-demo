@@ -1,23 +1,8 @@
 <template>
   <!-- Main content -->
-  <section class="content">
+  <section class="content" style="padding:16px!important;">
 
-    <div class="col-xs-12">
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"></h3>
-          <div class="box-body">
-            <div class="col-sm-6 col-xs-12">
-              <p class="text-center">
-                <strong>Temperature Graph</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- /.row -->
-
+<img src="/static/img/dashboard.png">
   </section>
   <!-- /.content -->
 </template>
