@@ -15,12 +15,12 @@
           <span class="sr-only">Toggle navigation</span>
         </a> -->
         <!-- Navbar Right Menu -->
-        <div class="navbar-custom-menu">
+        <div class="navbar-custom-menu" style="margin-right:32px;">
           <ul class="nav navbar-nav">
             <!-- Messages-->
             <li class="dropdown messages-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-envelope-o"></i>
+                <i class="fa fa-2x fa-envelope-o"></i>
                 <span class="label label-success">{{ userInfo.messages | count }}</span>
               </a>
               <ul class="dropdown-menu">
@@ -35,7 +35,7 @@
                         <h4>
                           Support Team
                           <small>
-                            <i class="fa fa-clock-o"></i> 5 mins</small>
+                            <i class="fa fa-2x fa-clock-o"></i> 5 mins</small>
                         </h4>
                         <!-- The message -->
                         <p>Why not consider this a test message?</p>
@@ -55,7 +55,7 @@
             <!-- Notifications Menu -->
             <li class="dropdown notifications-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-bell-o"></i>
+                <i class="fa fa-2x fa-bell-o"></i>
                 <span class="label label-warning">{{ userInfo.notifications | count }}</span>
               </a>
               <ul class="dropdown-menu">
@@ -81,7 +81,7 @@
             <!-- Tasks Menu -->
             <li class="dropdown tasks-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-flag-o"></i>
+                <i class="fa fa-2x fa-flag-o"></i>
                 <span class="label label-danger">{{ userInfo.tasks | count }} </span>
               </a>
               <ul class="dropdown-menu">
@@ -115,15 +115,6 @@
               </ul>
             </li>
 
-            <!-- User Account Menu -->
-            <li class="dropdown user user-menu">
-              <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <!-- The user image in the navbar-->
-                <img v-bind:src="demo.avatar" class="user-image" alt="User Image">
-                <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <span class="hidden-xs">{{ demo.displayName }}</span>
-              </a>
-            </li>
           </ul>
         </div>
       </nav>
@@ -254,6 +245,9 @@ font-size: 24px
   background-color: #fffaa8;
 }
 
+.main-header .navbar .nav>li>a>.label {
+font-size: 15px!important;
+}
 
 .wrapper.fixed_layout {
   .main-header {
