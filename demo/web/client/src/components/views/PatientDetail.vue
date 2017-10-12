@@ -7,17 +7,14 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body" style="padding-left:32px;">
-        <div v-if="error">
-          Found an error
-        </div>
         <div class="container">
           <div class="row">
-            <div v-else-if="patient" class="col">
+            <div v-if="patient" class="col-6">
               <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>
               <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
               <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
             </div>
-            <div v-if="patient && patient.extension" class="col">
+            <div v-if="patient && patient.extension" class="col-6">
               <template v-for="(value, key, index) in patient.extension">
                 <p :key="key"><strong>{{ toCapitalized(key) }}:</strong> {{ value }}</p>
               </template>
