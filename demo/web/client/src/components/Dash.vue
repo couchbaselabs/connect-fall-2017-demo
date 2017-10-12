@@ -195,6 +195,10 @@ export default {
 
 <style lang="scss">
 
+body {
+font-size: 16px!important;
+}
+
 .content {
 padding: 32px!important;
 }

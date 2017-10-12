@@ -61,8 +61,8 @@
           <!-- /.box-header -->
           <div class="box-body">
             <div v-for="entry in entries" :key="entry.id" style="margin-bottom:16px;">
-              <div v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]'></div>
-              <span style="width: 16px;text-overflow: ellipsis;">search rank: <em>{{ entry.score }}</em></span>&nbsp;|&nbsp;
+              <div v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]' style="font-weight:600;"></div>
+              <span style="display: inline-block;width: 124px;white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">search rank: <em>{{ entry.score }}</em></span>&nbsp;|&nbsp;
               <span>diagnosis: <em>{{ entry.fields['code.text'] }}</em></span>&nbsp;|&nbsp;
               <span>patient: <em>{{ patientName(records.get(entry)) }}</em></span>
             </div>
