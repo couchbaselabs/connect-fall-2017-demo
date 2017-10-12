@@ -28,7 +28,7 @@ const routes = [
       }, {
         path: 'patient',
         component: PatientDetailView,
-        name: 'Patient Detail',
+        name: 'Patients',
         meta: {description: 'Detailed information for a single patient'}
       }, {
         path: 'records/analytics',

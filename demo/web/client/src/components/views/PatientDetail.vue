@@ -1,58 +1,28 @@
 <template>
   <!-- Main content -->
   <section class="content">
-    <div class="row">
-      <div class="col-xs-6">
-        <div class="box">
-          <div class="box-header with-border">
-            <h3 class="box-title">Patient Profile</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <div v-if="error">
-              Found an error
-            </div>
-            <div v-else-if="patient">
-              <!-- Rendering controlled by model object
-              <ul>
-                <template v-for="(value, key, index) in patientModel">
-                  <li :key="key">
-                    {{ patientModel[key] }} - {{ patient[key] ? patient[key] : '(missing)' }}
-                  </li>
-                </template>
-              </ul>
-              -->
-              <!-- Fixed rendering -->
-              <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>
-              <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
-              <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
-            </div>
-            <div v-else>
-              No data
-            </div>
-          </div>
-          <!-- /.box-body -->
-        </div>
-        <!-- /.box -->
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Patient Profile</h3>
       </div>
-      <div v-if="patient && patient.extension">
-        <div class="col-xs-6">
-          <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">Extended Profile</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <template v-for="(value, key, index) in patient.extension">
-                <p :key="key"><strong>{{ toCapitalized(key) }}</strong> {{ value }}</p>
-              </template>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
+      <!-- /.box-header -->
+      <div class="box-body">
+        <div v-if="error">
+          Found an error
+        </div>
+        <div v-else-if="patient">
+          <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>
+          <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
+          <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
+        </div>
+        <div v-if="patient && patient.extension" class="pull-right">
+          <template v-for="(value, key, index) in patient.extension">
+            <p :key="key"><strong>{{ toCapitalized(key) }}</strong> {{ value }}</p>
+          </template>
         </div>
       </div>
     </div>
+
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
