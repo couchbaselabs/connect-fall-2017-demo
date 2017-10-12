@@ -33,7 +33,7 @@ const routes = [
       }, {
         path: 'records/analytics',
         component: AnalyticsView,
-        name: 'Trend Analysis',
+        name: 'Data Analysis',
         meta: {description: ''}
       }, {
         path: 'records/search',

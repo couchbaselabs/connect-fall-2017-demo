@@ -15,7 +15,7 @@
     <li class="header">Data-Mining Tools</li>
     <li class="pageLink" v-on:click="toggleMenu">
       <router-link to="/records/analytics"><i class="fa fa-lg fa-line-chart"></i>
-        <span class="page">Analysis</span>
+        <span class="page">Data Analysis</span>
       </router-link>
     </li>
     <li class="pageLink" v-on:click="toggleMenu">
