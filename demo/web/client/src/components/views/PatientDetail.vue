@@ -11,7 +11,7 @@
           Found an error
         </div>
         <div class="container">
-          <div class="row>"
+          <div class="row">
             <div v-else-if="patient" class="col">
               <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>
               <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
@@ -19,7 +19,7 @@
             </div>
             <div v-if="patient && patient.extension" class="col">
               <template v-for="(value, key, index) in patient.extension">
-                <p :key="key"><strong>{{ toCapitalized(key) }}</strong> {{ value }}</p>
+                <p :key="key"><strong>{{ toCapitalized(key) }}:</strong> {{ value }}</p>
               </template>
             </div>
           </div>
@@ -33,9 +33,7 @@
           <div class="box-header with-border">
             <div class="box-body">
               <div class="col-sm-6 col-xs-12">
-                <p class="text-center">
-                  <strong>Temperature Graph</strong>
-                </p>
+                <p><strong>Temperature Graph</strong></p>
                 <canvas id="temperature" ></canvas>
               </div>
             </div>
