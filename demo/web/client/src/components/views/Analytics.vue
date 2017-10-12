@@ -5,7 +5,14 @@
     <div class="row">
       <form class="ui form" @submit.prevent="search">
         <div class="input-group" style="width:580px;margin-left:16px;">
-          <input class="form-control" placeholder="Medical Condition" type="text" v-model="criteria" required>
+          <input class="form-control" placeholder="search all available databases..." type="text" v-model="criteria" required>
+          <span class="input-group-btn input-group-addon">
+            <button type="submit" style="border-width:0;background-color:#fff;outline:none;">
+              <span class="input-group-addon" style="border-width:0;">
+                <i class="fa fa-lg fa-search"></i>
+              </span>
+            </button>
+          </span>
         </div>
         <div class="checkbox" style="width:580px;margin-left:16px;">
           <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender" required> Male</label>
@@ -15,9 +22,9 @@
           <input class="form-control" size="2" style="width: 100px" placeholder="Min Age" type="text" v-model="min_age" required>
           <input class="form-control" size="2" style="width: 100px; margin-left: 20px" placeholder="Max Age" type="text" v-model="max_age" required>
         </div>
-        <div class="input-group">
-          <button style="margin-left: 16px; margin-top: 10px" type="submit" class="btn btn-primary">Submit</button>
-        </div>
+    <!--       <div class="input-group">
+         <button style="margin-left: 16px; margin-top: 10px" type="submit" class="btn btn-primary">Submit</button>
+        </div>  -->
       </form>
     </div>
     <!-- /.row -->
@@ -27,37 +34,16 @@
       <div class="col-md-12" style="padding-left:0;">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Search Results</h3>
+          <div class="pull-right">
+            <button v-on:click="map" class="btn btn-primary" style="margin-right:16px;">Map Results</button>
+          </div>
+            <h3 class="box-title">Results</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
-              <div class="row">
-                <div class="col-sm-6">
-                  <div id="example1_length" class="dataTables_length">
+            <canvas id="analytics"></canvas>
 
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-xs-12">
-                  <div class="box">
-                    <div class="box-header with-border">
-                      <h3 class="box-title"></h3>
-                      <div class="box-body">
-                        <div class="col-md-12">
-                          <p class="text-center">
-                            <strong>Analytics Chart</strong>
-                          </p>
-                          <canvas id="analytics"></canvas>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+            <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper" style="margin-top:24px;">
               <div class="row">
                 <div class="col-sm-12 table-responsive">
                   <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
@@ -75,13 +61,6 @@
                         <td>{{ entry.p_age }}</td>
                       </tr>
                     </tbody>
-                    <tfoot>
-                      <tr>
-                        <th colspan="1" rowspan="1">Patient ID</th>
-                        <th colspan="1" rowspan="1">Patient Name</th>
-                        <th colspan="1" rowspan="1">Patient Age</th>
-                      </tr>
-                    </tfoot>
                   </table>
                 </div>
               </div>
@@ -90,10 +69,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="row">
-      <button v-on:click="map" class="btn btn-lg btn-primary" style="margin-left:16px;">Map Results</button>
     </div>
   </section>
 </template>
@@ -243,7 +218,8 @@ export default {
   vertical-align: middle;
   display: inherit;
 }
-.fullCanvas {
-  width: 100%;
+canvas#analytics {
+  width: 94%!important;
+  height: 380px!important;
 }
 </style>
