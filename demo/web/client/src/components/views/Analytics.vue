@@ -221,6 +221,7 @@ export default {
 }
 canvas#analytics {
 
-  max-height: 380px!important;
+  height: 460px!important;
+  max-width: 980px!important;
 }
 </style>
