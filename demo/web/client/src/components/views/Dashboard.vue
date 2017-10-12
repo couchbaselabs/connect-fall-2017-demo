@@ -1,8 +1,7 @@
 <template>
   <!-- Main content -->
   <section class="content" style="padding:16px!important;">
-
-<img src="/static/img/dashboard.png">
+    <img src="/static/img/dashboard.png" width="99%">
   </section>
   <!-- /.content -->
 </template>
