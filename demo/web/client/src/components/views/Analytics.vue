@@ -20,8 +20,8 @@
           <label class="radio-inline"><input name="gender" type="radio" value="both" v-model="gender" required> Male & Female</label>
         </div>
         <div class="input-group" style="width:580px;margin-left:16px;">
-          <input class="form-control" size="2" style="width: 100px" placeholder="Min Age" type="text" v-model="min_age" required>
-          <input class="form-control" size="2" style="width: 100px; margin-left: 20px" placeholder="Max Age" type="text" v-model="max_age" required>
+          <input class="form-control" size="2" style="width: 100px" placeholder="min age" type="text" v-model="min_age">
+          <input class="form-control" size="2" style="width: 100px; margin-left: 20px" placeholder="max age" type="text" v-model="max_age">
         </div>
     <!--       <div class="input-group">
          <button style="margin-left: 16px; margin-top: 10px" type="submit" class="btn btn-primary">Submit</button>
@@ -35,9 +35,6 @@
       <div class="col-md-12" style="padding-left:0;">
         <div class="box">
           <div class="box-header">
-          <div class="pull-right">
-            <button v-on:click="map" class="btn btn-primary" style="margin-right:16px;">Map Results</button>
-          </div>
             <h3 class="box-title">Results</h3>
           </div>
           <!-- /.box-header -->
@@ -83,9 +80,9 @@ export default {
   data () {
     return {
       criteria: '',
-      gender: '',
-      min_age: '',
-      max_age: '',
+      gender: 'both',
+      min_age: '0',
+      max_age: '100',
       searching: '',
       hits: [],
       response: '',
@@ -172,7 +169,6 @@ export default {
     }
   },
   mounted () {
-  Chart.defaults.global.legend.labels.usePointStyle = true;
     // this.getModelAndDoc()
     let ctx = document.getElementById('analytics').getContext('2d')
 
@@ -221,7 +217,7 @@ export default {
   display: inherit;
 }
 canvas#analytics {
-  width: 94%!important;
-  height: 380px!important;
+
+  max-height: 380px!important;
 }
 </style>
