@@ -8,7 +8,7 @@
     </li>
     <li class="pageLink" v-on:click="toggleMenu">
       <router-link to="/patient"><i class="fa fa-lg fa-table"></i>
-        <span class="page">Patient Detail</span>
+        <span class="page">Patients</span>
       </router-link>
     </li>
 
