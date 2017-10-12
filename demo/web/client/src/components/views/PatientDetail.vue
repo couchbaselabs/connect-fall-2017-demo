@@ -29,9 +29,12 @@
         <div class="box">
           <div class="box-header with-border">
             <div class="box-body">
-              <div class="col-sm-6 col-xs-12">
+              <div class="col-md-6">
                 <p><strong>Temperature Graph</strong></p>
                 <canvas id="temperature" ></canvas>
+              </div>
+              <div class="col-md-6" style="padding-left:32px;">
+                <img src="/static/img/patient_profile.png" height="auto" width="500px">
               </div>
             </div>
           </div>
