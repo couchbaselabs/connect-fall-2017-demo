@@ -134,9 +134,13 @@ group by substring(e.period.`start`, 1, 7) as year_month, p.maritalStatus.text a
                     "FROM patient p, encounter AS e, condition AS c " +
                     "WHERE p.id = substring_after(e.subject.reference, 'uuid:') " +
                     "AND e.id = substring_after(c.context.reference, 'uuid:') " +
-                    "AND GET_DATE_FROM_DATETIME(DATETIME(e.period.`start`)) > DATE('2007-10-01') " +
-                    "AND p.gender = '" + req.query.gender + "' " +
-                    "AND c.code.text = '" + req.query.code + "' " +
+                    "AND GET_DATE_FROM_DATETIME(DATETIME(e.period.`start`)) > DATE('2007-10-01') ";
+
+    if(req.query.gender != "both") {
+                    statement += "AND p.gender = '" + req.query.gender + "' ";
+    }
+
+    statement +=    "AND c.code.text = '" + req.query.code + "' " +
                     "AND GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) BETWEEN " + req.query.min_age + " AND " + req.query.max_age + " " +
                     "GROUP BY SUBSTRING(e.period.`start`, 1, 7) AS year_month, p.maritalStatus.text as maritalStatus";
     var query = CbasQuery.fromString(statement);
@@ -189,9 +193,13 @@ exports.analyticsDetails = async function(req, res, next) {
     var statement = "SELECT p.id AS p_id, p.name AS p_name, GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) AS p_age, p.address AS p_address, e.period.`start` AS e_date " +
                     "FROM patient p, encounter AS e, condition AS c " +
                     "WHERE p.id = substring_after(e.subject.reference, 'uuid:') " +
-                    "AND e.id = substring_after(c.context.reference, 'uuid:') " +
-                    "AND p.gender = '" + req.query.gender + "' " +
-                    "AND c.code.text = '" + req.query.code + "' " +
+                    "AND e.id = substring_after(c.context.reference, 'uuid:') ";
+
+    if(req.query.gender != "both") {
+                    statement += "AND p.gender = '" + req.query.gender + "' ";
+    }
+
+    statement +=    "AND c.code.text = '" + req.query.code + "' " +
                     "AND GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) BETWEEN " + req.query.min_age + " AND " + req.query.max_age + " " +
                     "AND SUBSTRING(e.period.`start`, 1, 7) = '" + req.query.year_month + "' " +
                     "LIMIT 20";
