@@ -6,10 +6,10 @@
         <h3 class="box-title">Patient Profile</h3>
       </div>
       <!-- /.box-header -->
-      <div class="box-body" style="padding-left:32px;">
+      <div class="box-body" style="padding-left:24px;">
         <div class="container">
           <div class="row">
-            <div v-if="patient" class="col-6">
+            <div v-if="patient" class="col-md-6">
               <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>
               <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
               <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
