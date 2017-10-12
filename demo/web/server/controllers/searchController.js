@@ -1,4 +1,5 @@
 var express = require('express');
+var randomHexColor = require('random-hex-color');
 var router = express.Router();
 
 exports.encounters = async function(req, res, next) {
@@ -120,7 +121,16 @@ exports.analytics = async function(req, res, next) {
     let couchbase = req.app.locals.couchbase;
     let cluster = req.app.locals.cluster;
     let CbasQuery = couchbase.CbasQuery;
-    var statement = "SELECT year_month, count(p.id) AS patient_count " +
+    /* select year_month, maritalStatus, count(p.id) as patient_count
+from patient p, encounter as e, condition as c
+where p.id = substring_after(e.subject.reference, "uuid:")
+and   e.id = substring_after(c.context.reference, "uuid:")
+and get_date_from_datetime(datetime(e.period.`start`)) > date('2007-10-01')
+and p.gender = 'male'
+and c.code.text = 'Diabetes'
+and get_year(datetime(e.period.`start`)) - get_year(date(p.birthDate)) between 20 and 80
+group by substring(e.period.`start`, 1, 7) as year_month, p.maritalStatus.text as maritalStatus */
+    var statement = "SELECT year_month, maritalStatus, count(p.id) AS patient_count " +
                     "FROM patient p, encounter AS e, condition AS c " +
                     "WHERE p.id = substring_after(e.subject.reference, 'uuid:') " +
                     "AND e.id = substring_after(c.context.reference, 'uuid:') " +
@@ -128,13 +138,47 @@ exports.analytics = async function(req, res, next) {
                     "AND p.gender = '" + req.query.gender + "' " +
                     "AND c.code.text = '" + req.query.code + "' " +
                     "AND GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) BETWEEN " + req.query.min_age + " AND " + req.query.max_age + " " +
-                    "GROUP BY SUBSTRING(e.period.`start`, 1, 7) AS year_month";
+                    "GROUP BY SUBSTRING(e.period.`start`, 1, 7) AS year_month, p.maritalStatus.text as maritalStatus";
     var query = CbasQuery.fromString(statement);
     cluster.query(query, (error, result) => {
         if(error) {
             return res.status(500).send({ code: error.code, message: error.message });
         }
-        res.send(result);
+        var stats = {};
+        var datasets = [];
+        for(var i = 0; i < result.length; i++) {
+            if(!stats[result[i].maritalStatus]) {
+                stats[result[i].maritalStatus] = {};
+            }
+            stats[result[i].maritalStatus][result[i].year_month] = result[i].patient_count;
+        }
+        var labels = result.map(item => item.year_month);
+        labels = labels.filter((item, index, inputArray) => {
+            return inputArray.indexOf(item) == index;
+        });
+        labels.sort();
+        for(var key in stats) {
+            if(stats.hasOwnProperty(key)) {
+                var l = [];
+                var p = [];
+                for(var j = 0; j < labels.length; j++) {
+                    p.push(stats[key][labels[j]]);
+                }
+                var hexColor = randomHexColor();
+                datasets.push({
+                    data: p,
+                    label: key,
+                    fill: false,
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    borderColor: hexColor,
+                    pointBackgroundColor: hexColor
+                });
+            }
+        }
+        res.send({
+            labels: labels,
+            datasets: datasets
+        });
     });
 }
 
