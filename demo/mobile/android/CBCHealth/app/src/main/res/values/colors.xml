@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- http://paletton.com/#uid=53V0u0khRXn50+DcgZfmGUmrlOy -->
+    <!--
     <color name="colorPrimary">@color/pastel_mauve</color>
+    -->
+    <color name="colorPrimary">#3575c6</color>
+    <!--
     <color name="colorPrimaryDark">#5c6dee</color>
+    -->
+    <color name="colorPrimaryDark">#3575c6</color>
     <color name="colorAccent">#73caf4</color>
     <color name="splashBackground">#E0E0E0</color>
     <color name="temperatureArcStart">@color/bright_amber</color>
