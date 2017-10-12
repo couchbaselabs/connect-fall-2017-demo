@@ -10,15 +10,17 @@
         <div v-if="error">
           Found an error
         </div>
-        <div v-else-if="patient">
-          <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>
-          <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
-          <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
-        </div>
-        <div v-if="patient && patient.extension" class="pull-right">
-          <template v-for="(value, key, index) in patient.extension">
-            <p :key="key"><strong>{{ toCapitalized(key) }}</strong> {{ value }}</p>
-          </template>
+        <div class="row>"
+          <div v-else-if="patient" class="col">
+            <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>
+            <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
+            <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
+          </div>
+          <div v-if="patient && patient.extension" class="col">
+            <template v-for="(value, key, index) in patient.extension">
+              <p :key="key"><strong>{{ toCapitalized(key) }}</strong> {{ value }}</p>
+            </template>
+          </div>
         </div>
       </div>
     </div>
@@ -27,7 +29,6 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header with-border">
-            <h3 class="box-title"></h3>
             <div class="box-body">
               <div class="col-sm-6 col-xs-12">
                 <p class="text-center">
@@ -40,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div class="row center-block">
+    <div class="row">
       <div class="col-md-12">
         <div class="box">
           <div class="box-header">
