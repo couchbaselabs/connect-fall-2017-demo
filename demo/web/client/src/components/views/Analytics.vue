@@ -17,6 +17,7 @@
         <div class="checkbox" style="width:580px;margin-left:16px;">
           <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender" required> Male</label>
           <label class="radio-inline"><input name="gender" type="radio" value="female" v-model="gender" required> Female</label>
+          <label class="radio-inline"><input name="gender" type="radio" value="both" v-model="gender" required> Male & Female</label>
         </div>
         <div class="input-group" style="width:580px;margin-left:16px;">
           <input class="form-control" size="2" style="width: 100px" placeholder="Min Age" type="text" v-model="min_age" required>
