@@ -172,6 +172,7 @@ export default {
     }
   },
   mounted () {
+  Chart.defaults.global.legend.labels.usePointStyle = true;
     // this.getModelAndDoc()
     let ctx = document.getElementById('analytics').getContext('2d')
 
