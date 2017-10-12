@@ -172,6 +172,10 @@ export default {
     }
   },
   mounted () {
+    this.gender = 'both'
+    this.min_age = '0'
+    this.max_age = '100'
+
     // this.getModelAndDoc()
     let ctx = document.getElementById('analytics').getContext('2d')
 
