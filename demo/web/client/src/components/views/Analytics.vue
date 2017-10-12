@@ -15,14 +15,17 @@
           </span>
         </div>
         <div class="checkbox" style="width:580px;margin-left:16px;">
-          <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender" required> Male</label>
-          <label class="radio-inline"><input name="gender" type="radio" value="female" v-model="gender" required> Female</label>
-          <label class="radio-inline"><input name="gender" type="radio" value="both" v-model="gender" required> Male & Female</label>
+          <span class="input-group pull-right" style="margin-left:16px;white-space:nowrap">
+            <input class="form-control" size="2" style="width: 140px;height:34px;" placeholder="min age" type="text" v-model="min_age">
+            <input class="form-control" size="2" style="width: 140px; height:34px;margin-left: 16px" placeholder="max age" type="text" v-model="max_age">
+          </span>
+          <span>
+            <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender" required> Male</label>
+            <label class="radio-inline"><input name="gender" type="radio" value="female" v-model="gender" required> Female</label>
+            <label class="radio-inline"><input name="gender" type="radio" value="both" v-model="gender" required> Male & Female</label>
+          </span>
         </div>
-        <div class="input-group" style="width:580px;margin-left:16px;">
-          <input class="form-control" size="2" style="width: 100px" placeholder="min age" type="text" v-model="min_age">
-          <input class="form-control" size="2" style="width: 100px; margin-left: 20px" placeholder="max age" type="text" v-model="max_age">
-        </div>
+
     <!--       <div class="input-group">
          <button style="margin-left: 16px; margin-top: 10px" type="submit" class="btn btn-primary">Submit</button>
         </div>  -->
@@ -80,9 +83,9 @@ export default {
   data () {
     return {
       criteria: '',
-      gender: 'both',
-      min_age: '0',
-      max_age: '100',
+      gender: '',
+      min_age: '',
+      max_age: '',
       searching: '',
       hits: [],
       response: '',
