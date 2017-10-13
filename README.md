@@ -94,7 +94,7 @@ You should find the pages served on localhost:3000
 
 ### Couchbase Server
 
-### Data
+#### Data
 
 The file `augment-data.json` contains records hand written to work with the demo.  To add these to a bucket, use (e.g.)
 
@@ -104,7 +104,7 @@ cbimport json -u admin -p password -b health -c couchbase://127.0.0.1:8091 -d fi
 
 On Macs look for cbimport in `/Applications/Couchbase\ Server.app/Contents/Resources/couchbase-core/bin/`
 
-### Whitelisting sites for curl
+#### Whitelisting sites for curl
 
 The curl functionality in N1QL requires sites to be white/black listed.  For this application, whitelist the Google
 geocoding endpoint by creating
@@ -120,7 +120,7 @@ with contents
 }
 ```
 
-### Indexes
+#### Indexes
 
 Several queries examine resourceType and id:
 
@@ -138,6 +138,14 @@ Monitoring incoming observations from our select patient:
 
 ```
 CREATE INDEX `observation-idx` ON `health`(subject.reference, issued,  valueQuantity.`value`);
+```
+
+Full text search:
+
+The full text search index definition can be found in `demo/models/fts-index.json`.  Load it with something like this.
+
+```
+curl -T fts-index.json http://admin:password@localhost:8094/api/index/diagnosis
 ```
 
 ### Installing Couchnode from GitHub
