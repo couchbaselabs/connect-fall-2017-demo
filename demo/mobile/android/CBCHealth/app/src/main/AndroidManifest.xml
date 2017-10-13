@@ -13,13 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.jasonette.seed.Core.JasonViewActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/JasonetteTheme"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
-        <activity
             android:name=".app.launch.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,20 +24,21 @@
         </activity>
         <activity
             android:name=".app.MainActivity"
+            android:keepScreenOn="true"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".app.CareMessage"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" 
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".app.temperature.TemperatureActivity"
             android:keepScreenOn="true"
             android:label="Temperature"
-            android:parentActivityName=".app.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".app.MainActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -57,17 +53,23 @@
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/filter_nfc"/>
         </activity>
+        <activity
+            android:name="com.jasonette.seed.Core.JasonViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/JasonetteTheme"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity
+            android:name=".app.patient.PatientActivity"
+            android:label="@string/title_activity_patient"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <provider
             android:name=".app.launch.Runtime"
             android:authorities="autoload"
             android:exported="false"/>
-
-        <activity
-            android:name=".app.patient.PatientActivity"
-            android:label="@string/title_activity_patient"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
 
         <meta-data
             android:name="com.urbanairship.autopilot"
