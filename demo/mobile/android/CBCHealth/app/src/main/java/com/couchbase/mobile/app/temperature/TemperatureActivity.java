@@ -4,26 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.ViewGroup;
 
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Document;
+import com.couchbase.mobile.R;
 import com.couchbase.mobile.app.launch.Runtime;
 import com.couchbase.mobile.collectors.Collector;
 import com.couchbase.mobile.collectors.CollectorService;
+import com.couchbase.mobile.custom.ArcGaugeView;
 import com.couchbase.mobile.database.CBLite;
-import com.couchbase.mobile.fhir.FHIRResource;
 
-import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TemperatureActivity extends AppCompatActivity {
     private static final String TAG = TemperatureActivity.class.getCanonicalName();
 
-    private TemperatureView temperatureView;
+    private ArcGaugeView agv;
+    private TemperatureChart chart;
+
     private Collector collector;
     private boolean sampling = false;
 
@@ -31,23 +30,12 @@ public class TemperatureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        temperatureView = TemperatureView.getInstance(this, savedInstanceState);
+        setContentView(R.layout.view_temperature);
+        agv = findViewById(R.id.agv);
+        chart = findViewById(R.id.chart);
 
         collector = CollectorService.getCollectorByType(Collector.COLLECTOR_TYPE_TEMPERATURE);
         collector.initialize(this, getIntent());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        ViewGroup parent = (ViewGroup)temperatureView.getRoot().getParent();
-
-        if (null != parent) {
-            parent.removeView(temperatureView.getRoot());
-        }
-
-        setContentView(temperatureView.getRoot());
     }
 
     @Override
@@ -67,13 +55,6 @@ public class TemperatureActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
-        ((ViewGroup)temperatureView.getRoot().getParent()).removeView(temperatureView.getRoot());
-    }
-
-    @Override
     public void onNewIntent(Intent intent) {
         setIntent(intent);
     }
@@ -86,7 +67,7 @@ public class TemperatureActivity extends AppCompatActivity {
             public void sample(final Map<?, ?> sample) {
                 if (null == sample) return;
 
-                temperatureView.setTemperature((Double)sample.get("value"));
+                setTemperature((Double)sample.get("value"));
 
                 Map<String, Object> properties = new HashMap<>();
 
@@ -123,5 +104,12 @@ public class TemperatureActivity extends AppCompatActivity {
 
     private void stopSampling() {
         sampling = false;
+    }
+
+    private void setTemperature(double temperature) {
+        agv.setText(String.format ("%.1f", temperature));
+        agv.setSweep((float)temperature*355.0F/108.0F);
+
+        chart.addEntry((float)temperature);
     }
 }
