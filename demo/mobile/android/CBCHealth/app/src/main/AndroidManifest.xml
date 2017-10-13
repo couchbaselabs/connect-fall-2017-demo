@@ -33,6 +33,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".app.CareMessage"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".app.temperature.TemperatureActivity"
             android:keepScreenOn="true"
             android:label="Temperature"
@@ -63,6 +68,22 @@
             android:label="@string/title_activity_patient"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-    </application>
 
+        <meta-data
+            android:name="com.urbanairship.autopilot"
+            android:value="com.couchbase.mobile.notifications.Autopilot"/>
+        <receiver
+            android:name=".notifications.AirshipReceiver"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name="com.urbanairship.push.CHANNEL_UPDATED"/>
+                <action android:name="com.urbanairship.push.OPENED"/>
+                <action android:name="com.urbanairship.push.RECEIVED"/>
+                <action android:name="com.urbanairship.push.DISMISSED"/>
+
+                <category android:name="${applicationId}"/>
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>
