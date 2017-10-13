@@ -14,7 +14,7 @@
             </button>
           </span>
         </div>
-        <div class="form-inline" style="width:580px;margin-left:16px;padding:4px 0;line-height:1.4;>
+        <div class="form-inline" style="width:580px;margin-left:16px;padding:4px 0;line-height:1.4;">
           <span class="form-group pull-right" style="margin-left:16px;white-space:nowrap">
             <label style="font-weight:normal;"> min-age: </label>
             <input class="form-control" size="2" style="width: 70px;height:32px;margin-right:20px;" placeholder="min age" type="text" v-model="min_age">
