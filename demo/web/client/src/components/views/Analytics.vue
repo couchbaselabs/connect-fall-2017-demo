@@ -14,10 +14,12 @@
             </button>
           </span>
         </div>
-        <div class="checkbox" style="width:580px;margin-left:16px;">
-          <span class="input-group pull-right" style="margin-left:16px;white-space:nowrap">
-            <label class="radio-inline"> min-age: <input class="form-control" size="2" style="width: 70px;height:32px;margin-right:32px;" placeholder="min age" type="text" v-model="min_age"></label>
-            <label class="radio-inline"> max-age: <input class="form-control" size="2" style="width: 70px; height:32px;" placeholder="max age" type="text" v-model="max_age"></label>
+        <div class="form-inline" style="width:580px;margin-left:16px;">
+          <span class="form-group pull-right" style="margin-left:16px;white-space:nowrap">
+            <label> min-age: </label>
+            <input class="form-control" size="2" style="width: 70px;height:32px;margin-right:32px;" placeholder="min age" type="text" v-model="min_age">
+            <label> max-age: </label>
+            <input class="form-control" size="2" style="width: 70px; height:32px;" placeholder="max age" type="text" v-model="max_age">
           </span>
           <span>
             <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender" required> Male</label>
