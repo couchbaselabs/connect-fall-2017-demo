@@ -14,7 +14,7 @@
             </button>
           </span>
         </div>
-        <div class="form-inline" style="width:580px;display:flex;align-items:center;padding:4px 0;">
+        <div class="form-inline" style="width:580px;display:flex;align-items:center;padding:4px 0;margin-left:16px;">
           <div style="margin-right: 20px">
             <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender" required> Male</label>
             <label class="radio-inline"><input name="gender" type="radio" value="female" v-model="gender" required> Female</label>
@@ -27,16 +27,12 @@
             <input class="form-control" size="2" style="width: 70px; height:32px;" placeholder="max age" type="text" v-model="max_age">
           </div>
         </div>
-
-    <!--       <div class="input-group">
-         <button style="margin-left: 16px; margin-top: 10px" type="submit" class="btn btn-primary">Submit</button>
-        </div>  -->
       </form>
     </div>
     <!-- /.row -->
 
     <!-- Results row -->
-    <div class="row" style="margin-top:32px;">
+    <div class="row" style="margin-top:32px;margin-left:16px;">
       <div class="col-md-12" style="padding-left:0;">
         <div class="box">
           <div class="box-header">
