@@ -57,7 +57,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="entry in search_details" :key="entry.id" class="even" role="row">
-                        <td>{{ entry.p_id }}</td>
+                        <td><a href="#">{{ entry.p_id }}</a></td>
                         <td>{{ entry.p_name[0].given[0] }} {{ entry.p_name[0].family }}</td>
                         <td>{{ entry.p_age }}</td>
                       </tr>
