@@ -41,7 +41,6 @@ public class AirshipReceiver extends com.urbanairship.AirshipReceiver {
         Log.i(TAG, "Notification opened. Alert: " + notificationInfo.getMessage().getAlert() + ". NotificationId: " + notificationInfo.getNotificationId());
 
         Intent intent = new Intent(context, CareMessage.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
 
         return true;
