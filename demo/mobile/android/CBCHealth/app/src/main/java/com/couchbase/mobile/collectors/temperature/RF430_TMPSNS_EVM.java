@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 
 import com.couchbase.mobile.collectors.Collector;
 import com.couchbase.mobile.hardware.HardwareManager;
@@ -166,13 +167,21 @@ public class RF430_TMPSNS_EVM implements Collector, Runnable {
 
         String dataFromTag = Conversion.bytesToHexString(result);
 
+        Log.i(TAG, dataFromTag + ' ' + dataFromTag.length());
+
+        if (20 > dataFromTag.length())  {
+            sampleReadyListener.sample(null);
+
+            return;
+        }
+
         double B_Value = 4330.0;
         double R0_Value = 100000.0;
         double T0_Value = 298.15;
         double K0_Temp = 273.15;
 
         long refValue = Long.parseLong(dataFromTag.substring(6,8).concat(dataFromTag.substring(4,6)),16);
-        long thermValue  = Long.parseLong(dataFromTag.substring(10,12).concat(dataFromTag.substring(8,10)),16);
+        long thermValue = Long.parseLong(dataFromTag.substring(10,12).concat(dataFromTag.substring(8,10)),16);
 
         double temperature = (((((thermValue * 0.9) / 16384.0) / 2.0) / 0.0000024) * 8738.13) / refValue;
 
