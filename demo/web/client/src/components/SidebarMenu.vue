@@ -11,16 +11,15 @@
         <span class="page">Patients</span>
       </router-link>
     </li>
-
+    <li class="pageLink" v-on:click="toggleMenu">
+      <router-link to="/records/search"><i class="fa fa-lg fa-search"></i>
+        <span class="page">Case Search</span>
+      </router-link>
+    </li>
     <li class="header">Data-Mining Tools</li>
     <li class="pageLink" v-on:click="toggleMenu">
       <router-link to="/records/analytics"><i class="fa fa-lg fa-line-chart"></i>
         <span class="page">Data Analysis</span>
-      </router-link>
-    </li>
-    <li class="pageLink" v-on:click="toggleMenu">
-      <router-link to="/records/search"><i class="fa fa-lg fa-search"></i>
-        <span class="page">Case Search</span>
       </router-link>
     </li>
     <li class="pageLink" v-on:click="toggleMenu">
