@@ -38,7 +38,7 @@
               &nbsp;|&nbsp;
               <span>diagnosis: <em>{{ entry.fields['code.text'] }}</em></span>
               &nbsp;|&nbsp;
-              <span>patient: <em>{{ patientName(records.get(entry)) }}</em></span>
+              <span>patient: <em><a href="#">{{ patientName(records.get(entry)) }}</a></em></span>
             </div>
           </div>
         </div>
