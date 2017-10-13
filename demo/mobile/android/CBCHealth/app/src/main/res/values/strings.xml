@@ -5,4 +5,5 @@
     <string name="degrees_fahrenheit">°F</string>
     <string name="degrees_celsius">°C</string>
     <string name="title_activity_patient">PatientActivity</string>
+    <string name="title_activity_care_message">Care Message</string>
 </resources>
