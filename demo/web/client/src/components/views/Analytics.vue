@@ -36,7 +36,7 @@
     <!-- /.row -->
 
     <!-- Results row -->
-    <div class="row center-block" style="margin-top:32px;">
+    <div class="row" style="margin-top:32px;">
       <div class="col-md-12" style="padding-left:0;">
         <div class="box">
           <div class="box-header">
