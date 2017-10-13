@@ -17,10 +17,10 @@
     <div class="col-md-3">
     </div>
       <div class="col-md-4">
-        <input type="text" class="col-md-12 input-lg" placeholder="add a message">
+        <input v-model="message" type="text" class="col-md-12 input-lg" placeholder="Add a message">
       </div>
       <div class="col-md-5">
-        <button class="btn btn-lg btn-primary">Message Patients</button>
+        <button v-on:click="messagePatients" class="btn btn-lg btn-primary">Message Patients</button>
       </div>
     </div>
   </div>
@@ -35,7 +35,8 @@ export default {
     return {
       patients: [],
       hospitals: [],
-      bounds: false
+      bounds: false,
+      message: null
     }
   },
   description: ``,
@@ -57,6 +58,14 @@ export default {
     }
   },
   methods: {
+    messagePatients () {
+      api.request('post', '/messaging/alert', {
+        'audience': 'all',
+        'notification': { 'alert': `${this.message}` },
+        'device_types': [ 'android' ]
+      })
+      .catch(error => console.log(error))
+    },
     toggleLoading () {
       this.loading = (this.loading === '') ? 'loading' : ''
     },
