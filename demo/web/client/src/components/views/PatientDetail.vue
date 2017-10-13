@@ -190,6 +190,7 @@ export default {
   mounted () {
     this.getModelAndDoc('patient', `/records/patient/${config.id}`)
     this.getPatientHistory()
+    this.lastSampleTime = 0
 
     this.$nextTick(() => {
       let ctx = document.getElementById('temperature').getContext('2d')
@@ -226,18 +227,27 @@ export default {
       this.temperatureChart = new Chart(ctx, config) // eslint-disable-line no-new
 
       EventBus.$on('update', data => {
-        let values = data.values[0]
         let chartData = this.temperatureChart.data.datasets[0].data
         let chartLabels = this.temperatureChart.data.labels
-        let time = new Date(data.values[0].recordedAt).toTimeString().substr(0, 8)
+        console.dir(data.values)
+        data.values.forEach(sample => {
+          console.dir(sample)
+          let recordedAt = new Date(sample.recordedAt)
 
-        chartData.push(values.value)
-        chartLabels.push(time)
+          if (this.lastSampleTime >= recordedAt.valueOf()) return
 
-        if (chartData.length > 12) {
+          this.lastSampleTime = recordedAt.valueOf()
+
+          let time = recordedAt.toTimeString().substr(0, 8)
+
+          chartData.push(sample.value)
+          chartLabels.push(time)
+
+          if (chartData.length <= 12) return
+
           chartData.shift()
           chartLabels.shift()
-        }
+        }, this)
 
         this.temperatureChart.update()
       })
