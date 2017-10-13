@@ -1,6 +1,6 @@
 <template>
   <!-- Main content -->
-  <section class="content" style="margin-left: 16px;">
+  <section class="content">
     <!-- Search field -->
     <div class="row">
       <form class="ui form" @submit.prevent="search">
@@ -14,18 +14,18 @@
             </button>
           </span>
         </div>
-        <div class="form-inline" style="width:580px;margin-left:16px;padding:4px 0;line-height:1.4;">
-          <span class="form-group pull-right" style="margin-left:16px;white-space:nowrap">
-            <label style="font-weight:normal;"> min-age: </label>
-            <input class="form-control" size="2" style="width: 70px;height:32px;margin-right:20px;" placeholder="min age" type="text" v-model="min_age">
-            <label style="font-weight:normal;"> max-age: </label>
-            <input class="form-control" size="2" style="width: 70px; height:32px;" placeholder="max age" type="text" v-model="max_age">
-          </span>
-          <span>
+        <div class="form-inline" style="width:580px;display:flex;align-items:center;padding:4px 0;">
+          <div style="margin-right: 20px">
             <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender" required> Male</label>
             <label class="radio-inline"><input name="gender" type="radio" value="female" v-model="gender" required> Female</label>
             <label class="radio-inline"><input name="gender" type="radio" value="both" v-model="gender" required> Male & Female</label>
-          </span>
+          </div>
+          <div class="form-group" style="white-space:nowrap">
+            <label style="font-weight:normal;"> min-age: </label>
+            <input class="form-control" size="2" style="width: 70px;height:32px;margin-right:16px;" placeholder="min age" type="text" v-model="min_age">
+            <label style="font-weight:normal;"> max-age: </label>
+            <input class="form-control" size="2" style="width: 70px; height:32px;" placeholder="max age" type="text" v-model="max_age">
+          </div>
         </div>
 
     <!--       <div class="input-group">
