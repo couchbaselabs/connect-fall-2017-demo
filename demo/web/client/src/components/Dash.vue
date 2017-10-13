@@ -187,7 +187,7 @@ export default {
 <style lang="scss">
 
 body {
-font-size: 16px!important;
+font-size: 15px!important;
 }
 
 .content {
