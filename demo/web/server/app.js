@@ -48,6 +48,8 @@ app.use(function(req, res, next) {
 
 var feed = require('./routes/feed');
 app.use('/feed', sse, feed);
+const messaging = require('./routes/messaging');
+app.use('/messaging', messaging);
 const search = require('./routes/search');
 app.use('/search', search);
 const records = require('./routes/records');
