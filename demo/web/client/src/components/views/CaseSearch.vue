@@ -23,7 +23,7 @@
     <div class="row">
     <!-- Results column -->
       <div class="col-md-8" style="max-width: 1250px">
-        <div class="box" style="margin-top: 16px;border-color: #3575C6;">
+        <div class="box" style="margin-top: 16px;">
           <div class="box-header">
             <div class="pull-right">
               <button v-on:click="map" class="btn btn-primary" style="margin-right:16px;">Map Results</button>
