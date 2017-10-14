@@ -213,6 +213,10 @@ export default {
 
 </script>
 <style>
+.checkbox-inline, .radio-inline {
+  vertical-align:inherit!important;
+  top: -2px!important;
+}
 .info-box {
   cursor: pointer;
 }
