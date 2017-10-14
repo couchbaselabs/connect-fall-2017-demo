@@ -32,8 +32,8 @@
     <!-- /.row -->
 
     <!-- Results row -->
-    <div class="row" style="margin-top:32px;margin-left:16px;">
-      <div class="col-md-12" style="padding-left:0;">
+    <div class="row" style="margin-top:32px;">
+      <div class="col-md-12">
         <div class="box">
           <div class="box-header">
             <h3 class="box-title">Results</h3>
