@@ -4,9 +4,10 @@ export default {
   serverURI: 'http://10.110.1.136:8080',
   user: null,
   token: null,
+  alerts: [],
   userInfo: {
     messages: [{1: 'test', 2: 'test'}],
-    alerts: [],
+    notifications: [],
     tasks: []
   },
   cohort: []

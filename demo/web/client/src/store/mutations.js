@@ -15,6 +15,6 @@ export default {
     state.cohort = cohort
   },
   SET_ALERT (state, sample) {
-    state.userInfo.alerts = sample
+    state.alerts = sample
   }
 }

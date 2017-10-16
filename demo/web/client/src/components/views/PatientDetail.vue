@@ -180,8 +180,7 @@ export default {
       }
 
       this.temperatureChart = new Chart(ctx, config) // eslint-disable-line no-new
-
-      EventBus.$on('update', data => {
+      this.updateCB = (data) => {
         let chartData = this.temperatureChart.data.datasets[0].data
         let chartLabels = this.temperatureChart.data.labels
 
@@ -204,11 +203,13 @@ export default {
         }, this)
 
         this.temperatureChart.update()
-      })
+      }
+
+      EventBus.$on('update', this.updateCB)
     })
   },
   destroyed () {
-    EventBus.$off('update')
+    EventBus.$off('update', this.updateCB)
   }
 }
 </script>

@@ -21,11 +21,11 @@
             <li class="dropdown tasks-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-2x fa-bell-o"></i>
-                <span class="label label-danger">{{ userInfo.alerts | count }}</span>
+                <span class="label label-danger">{{ alerts | count }}</span>
               </a>
               <ul class="dropdown-menu">
-                <li class="header">You have {{ userInfo.alerts | count }} alert(s)</li>
-                <li v-if="userInfo.alerts.length > 0">
+                <li class="header">You have {{ alerts | count }} alert(s)</li>
+                <li v-if="alerts.length > 0">
                   <!-- Inner Menu: contains the alerts -->
                   <ul class="menu">
                     <li>
@@ -37,7 +37,7 @@
                             <i class="fa fa-2x fa-clock-o"></i> 5 mins</small>
                         </h4>
                         <!-- The message -->
-                        <p>Temperature Spike <em>{{ userInfo.alerts[0].value.toFixed(1) }}</em></p>
+                        <p>Temperature Spike <em>{{ alerts[0].value.toFixed(1) }}</em></p>
                         <button v-on:click="showPatient()" type="button" class="btn btn-block btn-danger btn-xs">Patient Detail</button>
                       </a>
                       </a>
@@ -45,7 +45,7 @@
                     <!-- end alert -->
                   </ul>
                 </li>
-                <li class="footer" v-if="userInfo.alerts.length > 0">
+                <li class="footer" v-if="alerts.length > 0">
                   <a href="javascript:;">View all</a>
                 </li>
               </ul>
@@ -99,7 +99,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'userInfo'
+      'alerts'
     ]),
     demo () {
       return {
@@ -119,7 +119,7 @@ export default {
       this.$store.commit('TOGGLE_SEARCHING')
     }
   },
-  mounted () {
+  created () {
     this.lastSampleTime = 0
 
     EventBus.$on('update', data => {
@@ -133,9 +133,6 @@ export default {
         if (sample.value > 82) this.$store.commit('SET_ALERT', [ sample ])
       }, this)
     })
-  },
-  destroyed () {
-    EventBus.$off('update')
   }
 }
 </script>
