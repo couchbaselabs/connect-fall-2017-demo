@@ -10,6 +10,7 @@
     "axios": "^0.16.2",
     "bluebird": "^3.5.0",
     "body-parser": "~1.17.1",
+    "connect-history-api-fallback": "^1.4.0",
     "cookie-parser": "~1.4.3",
     "couchbase": "git+https://github.com/brett19/couchnode.git",
     "debug": "~2.6.3",
