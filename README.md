@@ -92,6 +92,17 @@ npm run build
 
 You should find the pages served on localhost:3000
 
+#### Enabling push notifications
+
+The Node web server reads configuration parameters for Urban Airship from the shell environment.  In the shell, before running the server, export the keys as follows.
+
+```
+export UA_APPLICATION_KEY=<your application key>
+export UA_APPLICATION_MASTER_SECRET=<your application master secret>
+```
+
+These keys come from your Urban Airship project.
+
 ### Couchbase Server
 
 #### Data
