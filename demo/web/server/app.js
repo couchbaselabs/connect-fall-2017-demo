@@ -10,9 +10,9 @@ var bodyParser = require('body-parser');
 var sse = require('express-server-sent-events');
 
 var couchbase = require('couchbase');
-var cluster = new couchbase.Cluster('couchbase://ec2-34-214-85-103.us-west-2.compute.amazonaws.com');
-cluster.enableCbas(['ec2-34-214-176-13.us-west-2.compute.amazonaws.com:8095']);
-cluster.authenticate("Administrator", "password1");
+var cluster = new couchbase.Cluster(process.env.CLUSTER)
+cluster.authenticate(process.env.CLUSTER_USER, process.env.CLUSTER_PASSWORD);
+cluster.enableCbas([process.env.CLUSTER_CBAS]);
 
 Math.radians = function (degrees) {
   return degrees * Math.PI / 180
