@@ -107,8 +107,15 @@ export default {
         this.history = true
 
         response.data.map(record => {
-          this.conditions.push(record.condition)
+          let condition = record.condition
+          let date = new Date(condition.assertedDate ? condition.assertedDate : condition.onsetDateTime)
+
+          condition.date = date
+
+          this.conditions.push(condition)
         })
+
+        this.conditions.sort((a, b) => { return a.date < b.date })
       })
       .catch(error => {
         console.log(error)
