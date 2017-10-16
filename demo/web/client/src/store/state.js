@@ -6,7 +6,7 @@ export default {
   token: null,
   userInfo: {
     messages: [{1: 'test', 2: 'test'}],
-    notifications: [],
+    alerts: [],
     tasks: []
   },
   cohort: []
