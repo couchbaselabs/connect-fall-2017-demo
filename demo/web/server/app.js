@@ -25,6 +25,9 @@ Math.degrees = function (radians) {
 
 var app = express();
 
+// handle fallback for HTML5 history API
+app.use(require('connect-history-api-fallback')())
+
 app.locals.couchbase = couchbase;
 app.locals.cluster = cluster;
 app.locals.bucket = cluster.openBucket('health');
@@ -47,7 +50,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-var feed = require('./routes/feed');
+const feed = require('./routes/feed');
 app.use('/feed', sse, feed);
 const messaging = require('./routes/messaging');
 app.use('/messaging', messaging);
