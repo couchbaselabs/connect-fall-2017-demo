@@ -11,7 +11,7 @@
     <tbody>
       <template v-for="(record, index) in conditions">
         <tr :key="index">
-          <td>{{ recordStartDate(record) }}</td>
+          <td>{{ record.date.toDateString() }}</td>
           <td>{{ record.code.text }}</td>
           <td>{{ toCapitalized(record.clinicalStatus) }}</td>
           <td>
@@ -52,12 +52,6 @@ export default {
     }
   },
   methods: {
-    recordStartDate (record) {
-      if (record.assertedDate) return record.assertedDate
-      if (record.onsetDateTime) return record.onsetDateTime
-
-      return ''
-    },
     toCapitalized (string) {
       return stringUtils.toCapitalized(string)
     }
