@@ -59,42 +59,7 @@
 
               <div v-if="history" class="row">
                 <div class="col-sm-12 table-responsive">
-                  <table style="width:100%" aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
-                    <tr>
-                      <th>Date</th>
-                      <template v-for="(record, index) in history">
-                        <td :key="index">{{ recordStartDate(record.condition) }}</td>
-                      </template>
-                    </tr>
-                    <tr>
-                      <th>Condition</th>
-                      <template v-for="(record, index) in history">
-                        <td :key="index">{{ record.condition.code.text }}</td>
-                      </template>
-                    </tr>
-                    <tr>
-                      <th>Status</th>
-                      <template v-for="(record, index) in history">
-                        <td :key="index">{{ record.condition.clinicalStatus }}</td>
-                      </template>
-                    </tr>
-                    <tr>
-                      <th>Notes</th>
-                      <template v-for="(record, index) in history">
-                        <td :key="index">
-                          <div v-for="(note, index) in record.condition.note" :key="index">
-                              {{ note.text }}
-                            </div>
-                        </td>
-                      </template>
-                    </tr>
-                    <template v-for="(value, key) in extensions">
-                      <tr :key="key">
-                        <th>{{ toCapitalized(key) }}</th>
-                        <td v-for="item in value" :key="item">{{ item }}</td>
-                      </tr>
-                    </template>
-                  </table>
+                  <Conditions :conditions="conditions"></Conditions>
                 </div>
               </div>
             </div>
@@ -108,6 +73,7 @@
 </template>
 
 <script>
+import Conditions from './Conditions'
 import EventBus from '../../event-bus'
 import Chart from 'chart.js'
 import api from '../../api'
@@ -115,13 +81,16 @@ import config from '../../config'
 import stringUtils from '../../bin/string_utils'
 
 export default {
+  components: {
+    Conditions
+  },
   data () {
     return {
       patientModel: null,
       patient: null,
       error: null,
       history: null,
-      extensions: null
+      conditions: null
     }
   },
   computed: {
@@ -130,23 +99,19 @@ export default {
     }
   },
   methods: {
-    getExtensions () {
-      if (!this.history) return false
+    getConditions () {
+      this.conditions = []
 
-      let labels = {}
-      this.extensions = {}
+      api.request('get', `/records/patient/${config.id}/conditions`)
+      .then(response => {
+        this.history = true
 
-      this.history.map((record, index) => {
-        if (record.condition.extension) {
-          Object.entries(record.condition.extension)
-          .map(entry => {
-            if (!labels[entry[0]]) {
-              labels[entry[0]] = true
-              this.extensions[entry[0]] = Array.from({ length: this.history.length })
-            }
-            this.extensions[entry[0]][index] = entry[1]
-          })
-        }
+        response.data.map(record => {
+          this.conditions.push(record.condition)
+        })
+      })
+      .catch(error => {
+        console.log(error)
       })
     },
     getModelAndDoc (name, route) {
@@ -166,30 +131,13 @@ export default {
         console.log(error)
       })
     },
-    getPatientHistory () {
-      // Just reporting Conditions for now
-      return api.request('get', `/records/patient/${config.id}/conditions`)
-      .then(response => {
-        this.history = response.data
-        this.getExtensions()
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    },
-    recordStartDate (record) {
-      if (record.assertedDate) return record.assertedDate
-      if (record.onsetDateTime) return record.onsetDateTime
-
-      return ''
-    },
     toCapitalized (string) {
       return stringUtils.toCapitalized(string)
     }
   },
   mounted () {
     this.getModelAndDoc('patient', `/records/patient/${config.id}`)
-    this.getPatientHistory()
+    this.getConditions()
     this.lastSampleTime = 0
 
     this.$nextTick(() => {
@@ -229,9 +177,8 @@ export default {
       EventBus.$on('update', data => {
         let chartData = this.temperatureChart.data.datasets[0].data
         let chartLabels = this.temperatureChart.data.labels
-        console.dir(data.values)
+
         data.values.forEach(sample => {
-          console.dir(sample)
           let recordedAt = new Date(sample.recordedAt)
 
           if (this.lastSampleTime >= recordedAt.valueOf()) return
