@@ -1,5 +1,6 @@
 // Use bluebird promises everywhere
 global.Promise = require('bluebird')
+require('dotenv').config();
 
 var express = require('express');
 var path = require('path');
