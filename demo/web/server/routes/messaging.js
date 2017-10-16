@@ -10,8 +10,8 @@ let ua = axios.create({
     'Accept': 'application/vnd.urbanairship+json; version=3;'
   },
   auth: {
-    username: 'q7wC9CzpQM-XP96lU6WjOA',
-    password: '_jLq81jpRFaRow2P56jaHw'
+    username: process.env.UA_APPLICATION_KEY,
+    password: process.env.UA_APPLICATION_MASTER_SECRET
   }
 })  
 
