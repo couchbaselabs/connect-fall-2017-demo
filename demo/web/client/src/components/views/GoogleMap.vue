@@ -62,7 +62,7 @@ export default {
       api.request('post', '/messaging/alert', {
         'audience': 'all',
         'notification': { 'alert': `${this.message}` },
-        'device_types': [ 'android' ]
+        'device_types': 'all'
       })
       .catch(error => console.log(error))
     },
