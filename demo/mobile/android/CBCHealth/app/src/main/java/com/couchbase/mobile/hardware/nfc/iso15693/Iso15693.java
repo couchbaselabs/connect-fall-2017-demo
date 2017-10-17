@@ -96,7 +96,7 @@ public class Iso15693 {
             for (byte[] command : commandBlock) {
                 try {
                     response = nfcV.transceive(command);
-                } catch(TagLostException ex) {
+                } catch (TagLostException ex) {
                     // Many implementations incorrectly respond with tag lost exceptions
                     // especially during writes
                     // Ignore it and continue
@@ -107,8 +107,8 @@ public class Iso15693 {
                 }
             }
         } catch (IOException ex) {
+            Log.e(TAG, "Error communicating with card: " + ex.toString());
             ex.printStackTrace();
-            Log.e(TAG, ex.toString());
             response = null;
         } finally {
             close(nfcV);

@@ -3,7 +3,7 @@ apply plugin: "com.android.application"
 def packageRoot = "com.couchbase.mobile"
 def parametersPackage = packageRoot + ".app.launch.Parameters"
 
-def BUILD_TOOLS_VERSION = "26.0.1"
+def BUILD_TOOLS_VERSION = "26.0.2"
 
 android {
     compileSdkVersion 26
@@ -37,7 +37,7 @@ android {
 }
 
 def SUPPORT_LIBRARY_VERSION = "26.0.2"
-def COUCHBASE_LITE_VERSION = "2.0.0-DB016"
+def COUCHBASE_LITE_VERSION = "2.0.0-DB018"
 def URBAN_AIRSHIP_VERSION = "8.8.+"
 
 dependencies {
