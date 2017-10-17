@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- capture anything using NfcV -->
     <tech-list>
         <tech>android.nfc.tech.NfcV</tech>
     </tech-list>
