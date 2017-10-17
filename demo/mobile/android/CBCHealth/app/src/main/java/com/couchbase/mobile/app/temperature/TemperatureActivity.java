@@ -54,6 +54,11 @@ public class TemperatureActivity extends AppCompatActivity {
         collector.disable(this);
     }
 
+    /**
+     * Obtaining information from intents
+     * https://developer.android.com/guide/topics/connectivity/nfc/nfc.html#obtain-info
+     */
+
     @Override
     public void onNewIntent(Intent intent) {
         setIntent(intent);
