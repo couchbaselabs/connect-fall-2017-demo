@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.couchbase.mobile">
 
+    <!--
+    Requesting NFC Access in the Android Manifest
+    https://developer.android.com/guide/topics/connectivity/nfc/nfc.html#manifest
+    -->
     <uses-permission android:name="android.permission.NFC"/>
 
     <application
@@ -18,7 +22,6 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -33,26 +36,39 @@
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" 
             android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".app.temperature.TemperatureActivity"
             android:keepScreenOn="true"
             android:label="Temperature"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:parentActivityName=".app.MainActivity">
+
+            <!--
+                android:launchMode="singleTask"
+                https://developer.android.com/guide/components/activities/tasks-and-back-stack.html#TaskLaunchModes
+                https://stackoverflow.com/questions/28938074/app-called-nfc-services-replacing-my-own-app
+            -->
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".app.MainActivity"/>
-            <!-- Add a technology filter -->
+
+            <!--
+                Filtering for NFC Intents
+                ACTION_TECH_DISCOVERED
+                https://developer.android.com/guide/topics/connectivity/nfc/nfc.html#tech-disc
+             -->
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED"/>
             </intent-filter>
-
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/filter_nfc"/>
         </activity>
+
         <activity
             android:name="com.jasonette.seed.Core.JasonViewActivity"
             android:screenOrientation="portrait"
@@ -83,7 +99,6 @@
                 <action android:name="com.urbanairship.push.OPENED"/>
                 <action android:name="com.urbanairship.push.RECEIVED"/>
                 <action android:name="com.urbanairship.push.DISMISSED"/>
-
                 <category android:name="${applicationId}"/>
             </intent-filter>
         </receiver>
