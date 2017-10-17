@@ -9,7 +9,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "${BUILD_TOOLS_VERSION}"
     defaultConfig {
-        def parameters = ".DEFAULT"
+        def parameters = ".CLUSTER"
         applicationId packageRoot + ".health"
         minSdkVersion 17
         targetSdkVersion 26

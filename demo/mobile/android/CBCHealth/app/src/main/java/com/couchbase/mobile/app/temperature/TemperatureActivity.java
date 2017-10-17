@@ -80,7 +80,7 @@ public class TemperatureActivity extends AppCompatActivity {
                 }});
                 // Todo pull reference id from login info?
                 properties.put("subject", new HashMap<String, Object>() {{
-                    put("reference", Runtime.getPatientID());
+                    put("reference", "urn:uuid:" + Runtime.getPatientID());
                 }});
 
                 Document record = new Document(properties);
