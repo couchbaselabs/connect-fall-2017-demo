@@ -44,6 +44,7 @@
         </div>
         <div class="pull-right">
           <p>page 1 of 3 &nbsp; <a href="#">next ></a></p>
+        </div>
       </div>
       <div class="col-md-4">
       <div class="box" style="margin-top: 16px;">
