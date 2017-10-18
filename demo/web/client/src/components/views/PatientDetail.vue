@@ -26,9 +26,9 @@
               <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
               <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
             </div>
-            <div v-if="patient && patient.extension" class="col-6">
-              <template v-for="(value, key, index) in patient.extension">
-                <p :key="key"><strong>{{ toCapitalized(key) }}:</strong> {{ value }}</p>
+            <div v-if="patient && patient.telecom" class="col-6">
+              <template v-for="(item, index) in getExtensions(patient.telecom[0])">
+                <p :key="item[0]"><strong>{{ toCapitalized(item[0]) }}:</strong> {{ item[1] }}</p>
               </template>
             </div>
           </div>
@@ -132,6 +132,11 @@ export default {
       .catch(error => {
         console.log(error)
       })
+    },
+    getExtensions (field) {
+      let ignore = [ 'system', 'use', 'value' ]
+
+      return Object.entries(field).filter(entry => !ignore.includes(entry[0]))
     },
     getModelAndDoc (name, route) {
       return api.request('get', `/db/model/${name}`)
