@@ -12,4 +12,6 @@ router.get('/analytics', searchController.analytics);
 
 router.get('/analytics-details', searchController.analyticsDetails);
 
+router.get('/analytics/social', searchController.analyticsSocial);
+
 module.exports = router;
