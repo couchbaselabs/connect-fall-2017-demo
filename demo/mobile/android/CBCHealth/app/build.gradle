@@ -18,6 +18,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField(parametersPackage, "PARAMETERS", parametersPackage + parameters)
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -37,7 +38,7 @@ android {
 }
 
 def SUPPORT_LIBRARY_VERSION = "26.0.2"
-def COUCHBASE_LITE_VERSION = "2.0.0-163" // 2.0.0-0163 is 2.0.0-DB018 with fix of 1419
+def COUCHBASE_LITE_VERSION = "1.4.1-78" // 1.4.1
 def URBAN_AIRSHIP_VERSION = "8.8.+"
 
 dependencies {
