@@ -43,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onAppointmentButtonClick(View v) {
+        Intent intent = new Intent(this, CareMessage.class);
+        startActivity(intent);
+    }
     public void onPatientButtonClick(View v) {
         Intent intent = new Intent(this, PatientActivity.class);
         startActivity(intent);
