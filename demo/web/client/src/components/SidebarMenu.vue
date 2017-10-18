@@ -24,7 +24,7 @@
     </li>
     <li class="pageLink" v-on:click="toggleMenu">
       <router-link to="/incidents"><i class="fa fa-lg fa-map-marker"></i>
-        <span class="page">Geo-Mapping</span>
+        <span class="page">Case Mapping</span>
       </router-link>
     </li>
   </ul>

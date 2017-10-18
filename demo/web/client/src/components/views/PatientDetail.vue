@@ -3,14 +3,26 @@
   <section class="content">
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Patient Profile</h3>
+        <h3 class="box-title pull-left">Krug, Perry</h3>
+        <div class="pull-right" style="margin-right: 16px;">
+          <div class="input-group">
+            <input class="form-control" placeholder="find patients..." type="text">
+            <span class="input-group-btn input-group-addon">
+              <button type="submit" style="border-width:0;background-color:#fff;outline:none;">
+                <span class="input-group-addon" style="border-width:0;">
+                  <i class="fa fa-search"></i>
+                </span>
+              </button>
+            </span>
+          </div>
+        </div>
       </div>
       <!-- /.box-header -->
       <div class="box-body" style="padding-left:24px;">
         <div class="container">
           <div class="row">
             <div v-if="patient" class="col-md-6">
-              <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>
+            <!--  <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>  -->
               <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
               <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
             </div>
