@@ -91,10 +91,13 @@ public class PatientActivity extends AppCompatActivity implements DocumentChange
 
     List<Item> getExtension(Document doc) {
         List<Item> list = new ArrayList<>();
-        Dictionary extension = doc.getDictionary("extension");
-        if (extension != null) {
-            for (String key : extension.getKeys()) {
-                list.add(new Item(key, extension.getObject(key).toString()));
+        Array telecom = doc.getArray("telecom");
+        if(telecom.count() > 0) {
+            Dictionary tele = telecom.getDictionary(0);
+            if (tele != null) {
+                for (String key : tele.getKeys()) {
+                    list.add(new Item(key, tele.getObject(key).toString()));
+                }
             }
         }
         return list;
