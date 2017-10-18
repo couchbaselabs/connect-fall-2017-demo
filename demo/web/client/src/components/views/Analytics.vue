@@ -3,31 +3,44 @@
   <section class="content">
     <!-- Search field -->
     <div class="row">
-      <form class="ui form" @submit.prevent="search">
-        <div class="input-group" style="width:580px;margin-left:16px;">
-          <input class="form-control" placeholder="search all available databases..." type="text" v-model="criteria" required>
-          <span class="input-group-btn input-group-addon">
-            <button type="submit" style="border-width:0;background-color:#fff;outline:none;">
-              <span class="input-group-addon" style="border-width:0;">
-                <i class="fa fa-lg fa-search"></i>
-              </span>
-            </button>
-          </span>
-        </div>
-        <div class="form-inline" style="width:580px;display:flex;align-items:center;padding:4px 0;margin-left:16px;">
-          <div style="margin-right: 20px">
-            <label class="radio-inline"><input name="gender" type="radio" value="male" v-model="gender" required> Male</label>
-            <label class="radio-inline"><input name="gender" type="radio" value="female" v-model="gender" required> Female</label>
-            <label class="radio-inline"><input name="gender" type="radio" value="both" v-model="gender" required> Male & Female</label>
-          </div>
-          <div class="form-group" style="white-space:nowrap">
-            <label style="font-weight:normal;"> min-age: </label>
-            <input class="form-control" size="2" style="width: 70px;height:32px;margin-right:16px;" placeholder="min age" type="text" v-model="min_age">
-            <label style="font-weight:normal;"> max-age: </label>
-            <input class="form-control" size="2" style="width: 70px; height:32px;" placeholder="max age" type="text" v-model="max_age">
-          </div>
-        </div>
-      </form>
+      <div class="dropdown">
+        <div>Diagnosis:</div>
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+          {{ diagnosis }}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" v-on:click.prevent="diagnosis = $event.target.innerText">
+          <li v-for="entry in diagnoses" :key="entry"><a href="#">{{ entry }}</a></li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <div>City:</div>
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+          {{ city }}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" v-on:click.prevent="city = $event.target.innerText">
+          <li v-for="entry in cityList" :key="entry"><a href="#">{{ entry }}</a></li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <div>Gender:</div>
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+          {{ gender }}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" v-on:click.prevent="gender = $event.target.innerText">
+          <li v-for="entry in genderList" :key="entry"><a href="#">{{ entry }}</a></li>
+        </ul>
+      </div>
+      <input type="text" v-model="age[0]" required>
+      <input type="text" v-model="age[1]" required>
+      <!-- <input id="age_slider" type="range" data-provide="slider" data-slider-min="0" data-slider-max="110" data-slider-step="1" v-bind:data-slider-value="age"/>{{ age }} -->
+      <button v-on:click.prevent="searchSocial" type="button" style="border-width:0;background-color:#fff;outline:none;">
+        <span class="input-group-addon" style="border-width:0;">
+          <i class="fa fa-lg fa-search"></i>
+        </span>
+      </button>
     </div>
     <!-- /.row -->
 
@@ -80,10 +93,13 @@ export default {
   name: 'Analytics',
   data () {
     return {
-      criteria: '',
-      gender: '',
-      min_age: '',
-      max_age: '',
+      age: [ '0', '100' ],
+      diagnosis: 'Select Diagnosis',
+      diagnoses: [ 'Scaleitis', 'Flu' ],
+      city: 'Select City',
+      cityList: [ 'Boston', 'Worchester', 'Springfield', 'Cambridge', 'Taunton' ],
+      gender: 'Select Gender',
+      genderList: [ 'All', 'Male', 'Female', 'Other' ],
       searching: '',
       hits: [],
       response: '',
@@ -97,7 +113,7 @@ export default {
     search (name, route) {
       this.analyticsChart.data.labels = []
       this.analyticsChart.data.datasets = []
-      api.request('get', `/search/analytics/?code=${this.criteria}&gender=${this.gender}&min_age=${this.min_age}&max_age=${this.max_age}`)
+      api.request('get', `/search/analytics/?code=${this.diagnosis}&gender=${this.gender}&min_age=${this.age[0]}&max_age=${this.age[1]}`)
       .then(response => {
         this.chart_data = response.data
         this.analyticsChart.data.labels = response.data.labels
@@ -111,7 +127,7 @@ export default {
       })
     },
     searchDetails (yearMonth) {
-      api.request('get', `/search/analytics-details/?code=${this.criteria}&gender=${this.gender}&min_age=${this.min_age}&max_age=${this.max_age}&year_month=${yearMonth}`)
+      api.request('get', `/search/analytics-details/?diagnosis=${this.diagnosis}&gender=${this.gender}&min_age=${this.age[0]}&max_age=${this.age[1]}&year_month=${yearMonth}`)
       .then(response => {
         this.search_details = response.data
       })
@@ -119,48 +135,24 @@ export default {
         console.log(error)
       })
     },
-    search1 () {
-      this.toggleLoading()
-      this.resetResponse()
-      this.$store.commit('TOGGLE_LOADING')
+    searchSocial (name, route) {
+      this.analyticsChart.data.labels = []
+      this.analyticsChart.data.datasets = []
 
-      api.request('post', '/casesearch', { criteria: this.criteria })
+      api.request('get', `/search/analytics/social?diagnosis=${this.diagnosis}&gender=${this.gender}&city=${this.city}`)
       .then(response => {
-        this.toggleLoading()
+        this.chart_data = response.data
+        this.analyticsChart.data.labels = response.data.labels
 
-        var data = response.data
-
-        if (data.error) {
-          var errorName = data.error.name
-          if (errorName) {
-            this.response = errorName === 'InvalidCriteriaError'
-            ? 'Invalid criteria. Please try again.'
-            : errorName
-          } else {
-            this.response = data.error
-          }
-
-          return
+        for (let set of response.data.datasets) {
+          this.analyticsChart.data.datasets.push(set)
         }
 
-        if (data.hits) {
-          this.hits = data.hits
-        } else {
-          this.hits = {}
-        }
+        this.analyticsChart.update()
       })
       .catch(error => {
-        this.$store.commit('TOGGLE_LOADING')
         console.log(error)
-
-        this.response = 'Server appears to be offline'
-        this.toggleLoading()
       })
-    },
-    map () {
-      let ids = this.hits.map(hit => hit.fields['subject.reference'])
-      this.$store.commit('SET_COHORT', ids)
-      this.$router.push({ path: 'incidents' })
     },
     toggleLoading () {
       this.loading = (this.loading === '') ? 'loading' : ''
@@ -170,11 +162,6 @@ export default {
     }
   },
   mounted () {
-    this.gender = 'both'
-    this.min_age = '0'
-    this.max_age = '100'
-
-    // this.getModelAndDoc()
     let ctx = document.getElementById('analytics').getContext('2d')
 
     var config = {
