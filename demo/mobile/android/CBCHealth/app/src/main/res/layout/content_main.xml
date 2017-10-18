@@ -40,7 +40,9 @@
         app:layout_constraintTop_toBottomOf="@+id/thermometer"
         app:srcCompat="@drawable/ic_cardiogram"
         android:tint="@android:color/white"
-        android:backgroundTint="@color/colorAccent" />
+        android:backgroundTint="@color/colorAccent"
+        android:onClick="onAppointmentButtonClick"
+        />
 
     <ImageButton
         android:id="@+id/scale"
