@@ -43,7 +43,7 @@ const routes = [
       }, {
         path: 'incidents',
         component: IncidentsView,
-        name: 'Geo-Mapping',
+        name: 'Case Search Results > By Location',
         meta: {description: ' '}
       }
     ]
