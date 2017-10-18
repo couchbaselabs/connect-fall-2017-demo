@@ -223,7 +223,7 @@ exports.analyticsSocial = async function(req, res, next) {
   let CbasQuery = couchbase.CbasQuery;
   
   let query = `SELECT year_month, Facebook, WhatsApp, Snapchat, count(p.id) as patient_count
-                 FROM condition_archive c, patient_archive p
+                 FROM condition c, patient p
                  WHERE substring_after(c.subject.reference, "uuid:") = meta(p).id
                  AND c.code.text = '${req.query.diagnosis}'
                  AND date(c.assertedDate) > date('2007-01-01') `;
@@ -232,8 +232,11 @@ exports.analyticsSocial = async function(req, res, next) {
     query += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
   }
 
-  query += `AND lower(p.address[0].city) = lower('${req.query.city}')
-            GROUP BY
+  if (req.query.city != 'All') {
+    query += `AND p.address[0].city = '${req.query.city}' `;
+  }
+
+  query += `GROUP BY
               substring(c.assertedDate, 1, 7) as year_month,
               p.telecom[0].facebook is not unknown as Facebook,
               p.telecom[0].whatsapp is not unknown as WhatsApp,

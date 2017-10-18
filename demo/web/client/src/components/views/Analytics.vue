@@ -33,10 +33,21 @@
           <li v-for="entry in genderList" :key="entry"><a href="#">{{ entry }}</a></li>
         </ul>
       </div>
-      <input type="text" v-model="age[0]" required>
-      <input type="text" v-model="age[1]" required>
+      <div class="dropdown">
+        <div>Group By:</div>
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+          {{ grouping }}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" v-on:click.prevent="grouping = $event.target.innerText">
+          <li v-for="entry in groupList" :key="entry"><a href="#">{{ entry }}</a></li>
+        </ul>
+      </div>
+      <!--- <input type="text" v-model="age[0]" required>
+      <input type="text" v-model="age[1]" required> -->
+      <!-- <input id="age_slider" type="range" v-model="age" data-provide="slider" data-slider-min="0" data-slider-max="110" data-slider-step="1" data-slider-value="[0,110]"/>{{ age }} -->
       <!-- <input id="age_slider" type="range" data-provide="slider" data-slider-min="0" data-slider-max="110" data-slider-step="1" v-bind:data-slider-value="age"/>{{ age }} -->
-      <button v-on:click.prevent="searchSocial" type="button" style="border-width:0;background-color:#fff;outline:none;">
+      <button v-on:click.prevent="searchRouter" type="button" style="border-width:0;background-color:#fff;outline:none;">
         <span class="input-group-addon" style="border-width:0;">
           <i class="fa fa-lg fa-search"></i>
         </span>
@@ -95,11 +106,13 @@ export default {
     return {
       age: [ '0', '100' ],
       diagnosis: 'Select Diagnosis',
-      diagnoses: [ 'Scaleitis', 'Flu' ],
-      city: 'Select City',
-      cityList: [ 'Boston', 'Worchester', 'Springfield', 'Cambridge', 'Taunton' ],
-      gender: 'Select Gender',
+      diagnoses: [ 'Scaleitis', 'Mongoitis', 'Diabetes' ],
+      city: 'All',
+      cityList: [ 'All', 'Boston', 'Worchester', 'Springfield', 'Cambridge', 'Taunton' ],
+      gender: 'All',
       genderList: [ 'All', 'Male', 'Female', 'Other' ],
+      grouping: 'Age',
+      groupList: [ 'Age', 'Social Media' ],
       searching: '',
       hits: [],
       response: '',
@@ -110,6 +123,13 @@ export default {
     }
   },
   methods: {
+    searchRouter () {
+      if (this.grouping === this.groupList[0]) {
+
+      } else if (this.grouping === this.groupList[1]) {
+        this.searchSocial(null, null)
+      }
+    },
     search (name, route) {
       this.analyticsChart.data.labels = []
       this.analyticsChart.data.datasets = []
