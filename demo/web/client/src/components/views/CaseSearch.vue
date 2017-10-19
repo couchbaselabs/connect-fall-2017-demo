@@ -33,7 +33,7 @@
           <!-- /.box-header -->
           <div class="box-body">
             <div v-for="entry in entries" :key="entry.id" style="margin-bottom:16px;">
-              <div v-if="entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]' style="font-weight:600;"></div>
+              <div v-if="entry.fragments && entry.fragments['note.text'][0]" v-html='entry.fragments["note.text"][0]' style="font-weight:600;"></div>
               <span>search rank: <em>{{ entry.score }}</em></span>
               &nbsp;|&nbsp;
               <span>diagnosis: <em>{{ entry.fields['code.text'] }}</em></span>
