@@ -122,6 +122,7 @@ export default {
   },
   methods: {
     searchRouter () {
+      // These must match terms expected in server/controllers/searchController.js
       if (this.grouping === this.groupList[0]) {
         this.searchByAge()
       } else if (this.grouping === this.groupList[1]) {
