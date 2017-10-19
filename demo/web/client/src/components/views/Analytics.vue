@@ -125,7 +125,7 @@ export default {
   methods: {
     searchRouter () {
       if (this.grouping === this.groupList[0]) {
-
+        this.searchByAge()
       } else if (this.grouping === this.groupList[1]) {
         this.searchSocial(null, null)
       }
@@ -155,11 +155,11 @@ export default {
         console.log(error)
       })
     },
-    searchSocial (name, route) {
+    searchByAge () {
       this.analyticsChart.data.labels = []
       this.analyticsChart.data.datasets = []
 
-      api.request('get', `/search/analytics/social?diagnosis=${this.diagnosis}&gender=${this.gender}&city=${this.city}`)
+      api.request('get', `/search/analytics/age?city=${this.city}&diagnosis=${this.diagnosis}&gender=${this.gender}`)
       .then(response => {
         this.chart_data = response.data
         this.analyticsChart.data.labels = response.data.labels
@@ -169,6 +169,43 @@ export default {
         }
 
         this.analyticsChart.update()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    searchByAgeDetails (yearMonth, ageGroup) {
+      api.request('get', `/search/analytics/age/details?age_group=${ageGroup}&city=${this.city}&diagnosis=${this.diagnosis}&gender=${this.gender}&year_month=${yearMonth}`)
+      .then(response => {
+        this.search_details = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    searchSocial (name, route) {
+      this.analyticsChart.data.labels = []
+      this.analyticsChart.data.datasets = []
+
+      api.request('get', `/search/analytics/social?city=${this.city}&diagnosis=${this.diagnosis}&gender=${this.gender}`)
+      .then(response => {
+        this.chart_data = response.data
+        this.analyticsChart.data.labels = response.data.labels
+
+        for (let set of response.data.datasets) {
+          this.analyticsChart.data.datasets.push(set)
+        }
+
+        this.analyticsChart.update()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    searchSocialDetails (yearMonth) {
+      api.request('get', `/search/analytics/social/details?city=${this.city}&diagnosis=${this.diagnosis}&gender=${this.gender}&year_month=${yearMonth}`)
+      .then(response => {
+        this.search_details = response.data
       })
       .catch(error => {
         console.log(error)
@@ -205,11 +242,17 @@ export default {
         },
         onClick: (event) => {
           var item = this.analyticsChart.getElementAtEvent(event)[0]
-          if (item) {
-            var label = this.analyticsChart.data.labels[item._index]
-            // var value = this.analyticsChart.data.datasets[item._datasetIndex].data[item._index]
+
+          if (!item) return
+
+          var label = this.analyticsChart.data.labels[item._index]
+          // var value = this.analyticsChart.data.datasets[item._datasetIndex].data[item._index]
+
+          if (this.grouping === this.groupList[0]) {
+            this.searchByAgeDetails(label, item._datasetIndex)
+          } else if (this.grouping === this.groupList[1]) {
+            this.searchSocialDetails(label)
           }
-          this.searchDetails(label)
         }
       }
     }
