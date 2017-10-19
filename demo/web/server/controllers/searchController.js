@@ -245,8 +245,9 @@ exports.analyticsByAge = async function(req, res, next) {
   }
 
   query += `GROUP BY
-            substring(c.assertedDate, 1, 7) as year_month, 
-            to_bigint((get_year(current_date()) - get_year(date(p.birthDate))) / 30) as age_group`
+              substring(c.assertedDate, 1, 7) as year_month, 
+              to_bigint((get_year(current_date()) - get_year(date(p.birthDate))) / 30) as age_group
+            ORDER BY year_month`
 
   query = CbasQuery.fromString(query);
 
@@ -258,7 +259,6 @@ exports.analyticsByAge = async function(req, res, next) {
     let stats = {};
     let datasets = [];
     let labels = [];
-    let index = [];
 
     for (const record of result) {
       labels.push(record.year_month);
@@ -268,7 +268,7 @@ exports.analyticsByAge = async function(req, res, next) {
       stats[record.age_group][record.year_month] = record.patient_count;      
     }
     
-    labels = [...new Set(labels)].sort();
+    labels = [...new Set(labels)];
 
     let knife = 0;
 
@@ -356,7 +356,8 @@ exports.analyticsSocial = async function(req, res, next) {
               substring(c.assertedDate, 1, 7) as year_month,
               p.telecom[0].facebook is not unknown as Facebook,
               p.telecom[0].whatsapp is not unknown as WhatsApp,
-              p.telecom[0].snapchat is not unknown as Snapchat;`
+              p.telecom[0].snapchat is not unknown as Snapchat
+            ORDER BY year_month;`
 
   query = CbasQuery.fromString(query);
 
@@ -385,7 +386,7 @@ exports.analyticsSocial = async function(req, res, next) {
       if (!found) stats['None'][record.year_month] = record.patient_count;
     }
     
-    labels = [...new Set(labels)].sort();
+    labels = [...new Set(labels)];
 
     let knife = 0;
 
