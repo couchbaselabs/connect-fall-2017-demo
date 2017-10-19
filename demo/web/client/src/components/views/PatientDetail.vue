@@ -5,12 +5,12 @@
       <div class="box-header with-border">
         <h3 class="box-title pull-left">Krug, Perry</h3>
         <div class="pull-right" style="margin-right: 16px;">
-          <div class="input-group">
-            <input class="form-control" placeholder="find patients..." type="text">
-            <span class="input-group-btn input-group-addon">
-              <button type="submit" style="border-width:0;background-color:#fff;outline:none;">
+          <div class="input-group" style="width:250px;">
+            <input class="form-control" placeholder="find patients..." type="text" style="width:250px;height:32px;">
+            <span class="input-group-btn input-group-addon" style="height:32px;padding: 0;">
+              <button type="submit" style="border-width:0;background-color:#fff;outline:none;height: 30px;">
                 <span class="input-group-addon" style="border-width:0;">
-                  <i class="fa fa-search"></i>
+                  <i class="fa fa-search" style="font-size: 18px;"></i>
                 </span>
               </button>
             </span>
