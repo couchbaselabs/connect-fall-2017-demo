@@ -7,13 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Document;
+import com.couchbase.lite.util.Log;
 import com.couchbase.mobile.R;
 import com.couchbase.mobile.app.launch.Runtime;
 import com.couchbase.mobile.collectors.Collector;
 import com.couchbase.mobile.collectors.CollectorService;
 import com.couchbase.mobile.custom.ArcGaugeView;
 import com.couchbase.mobile.database.CBLite;
+import com.couchbase.mobile.utils.DateUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,7 +81,7 @@ public class TemperatureActivity extends AppCompatActivity {
 
                 // Format reading as FHIR Observation
                 properties.put("resourceType", "Observation");
-                properties.put("issued", sample.get("issued"));
+                properties.put("issued",DateUtils.toJson((Date)sample.get("issued")));
                 properties.put("valueQuantity", new HashMap<String, Object>() {{
                     put("value", sample.get("value"));
                     put("unit", sample.get("unit"));
@@ -88,12 +91,11 @@ public class TemperatureActivity extends AppCompatActivity {
                     put("reference", "urn:uuid:" + Runtime.getPatientID());
                 }});
 
-                Document record = new Document(properties);
-
+                Document record = CBLite.getInstance().getDatabase().createDocument();
                 try {
-                    CBLite.getInstance().getDatabase().save(record);
+                    record.putProperties(properties);
                 } catch (CouchbaseLiteException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Failed to call putProperties(): " + properties);
                 }
 
                 SystemClock.sleep(1000);
