@@ -134,9 +134,8 @@ and c.code.text = 'Diabetes'
 and get_year(datetime(e.period.`start`)) - get_year(date(p.birthDate)) between 20 and 80
 group by substring(e.period.`start`, 1, 7) as year_month, p.maritalStatus.text as maritalStatus */
     var statement = "SELECT year_month, maritalStatus, count(p.id) AS patient_count " +
-                    "FROM patient p, encounter AS e, condition AS c " +
+                    "FROM patient p, condition AS c " +
                     "WHERE p.id = substring_after(e.subject.reference, 'uuid:') " +
-                    "AND e.id = substring_after(c.context.reference, 'uuid:') " +
                     "AND GET_DATE_FROM_DATETIME(DATETIME(e.period.`start`)) > DATE('2007-10-01') ";
 
     if(req.query.gender != "both") {
@@ -193,7 +192,7 @@ exports.analyticsDetails = async function(req, res, next) {
     let couchbase = req.app.locals.couchbase;
     let cluster = req.app.locals.cluster;
     let CbasQuery = couchbase.CbasQuery;
-    var statement = "SELECT p.id AS p_id, p.name AS p_name, GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) AS p_age, p.address AS p_address, e.period.`start` AS e_date " +
+    var statement = "SELECT p.id AS p_id, p.name AS p_name, p.address AS p_address, e.period.`start` AS e_date " +
                     "FROM patient p, encounter AS e, condition AS c " +
                     "WHERE p.id = substring_after(e.subject.reference, 'uuid:') " +
                     "AND e.id = substring_after(c.context.reference, 'uuid:') ";
@@ -217,6 +216,112 @@ exports.analyticsDetails = async function(req, res, next) {
     });
 }
 
+exports.analyticsByAge = async function(req, res, next) {
+  let couchbase = req.app.locals.couchbase;
+  let cluster = req.app.locals.cluster;
+  let CbasQuery = couchbase.CbasQuery;
+  let query = `SELECT year_month, age_group, count(p.id) as patient_count
+                 FROM condition c, patient p
+                 WHERE substring_after(c.subject.reference, "uuid:") /*+ indexnl */ = meta(p).id
+                 AND c.code.text = '${req.query.diagnosis}'
+                 AND date(c.assertedDate) > date('2007-10-01') `;
+  
+  if (req.query.gender != 'All') {
+    query += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
+  }
+
+  if (req.query.city != 'All') {
+    query += `AND p.address[0].city = '${req.query.city}' `;
+  }
+
+  query += `GROUP BY
+            substring(c.assertedDate, 1, 7) as year_month, 
+            to_bigint((get_year(date(c.assertedDate)) - get_year(date(p.birthDate))) / 30) as age_group`
+
+  query = CbasQuery.fromString(query);
+
+  cluster.query(query, (error, result) => {
+    if (error) {
+      return res.status(500).send({ code: error.code, message: error.message });
+    }
+
+    let stats = {};
+    let datasets = [];
+    let labels = [];
+    let index = [];
+
+    for (const record of result) {
+      labels.push(record.year_month);
+
+      if (!stats[record.age_group]) stats[record.age_group] = {};
+
+      stats[record.age_group][record.year_month] = record.patient_count;      
+    }
+    
+    labels = [...new Set(labels)].sort();
+
+    let knife = 0;
+
+    for (const key in stats) {
+      if (stats.hasOwnProperty(key)) {
+        var entries = [];
+
+        for (let nn = 0; nn < labels.length; ++nn) {
+          entries.push(stats[key][labels[nn]]);
+        }
+
+        datasets.push({
+            data: entries,
+            label: key,
+            fill: false,
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: palette[knife],
+            pointBackgroundColor: palette[knife]
+        });
+      }
+
+      knife = (knife + 1) % palette.length;
+    }
+
+    res.send({
+        labels: labels,
+        datasets: datasets
+    });
+  });
+}
+
+exports.analyticsByAgeDetails = async function(req, res, next) {
+  let couchbase = req.app.locals.couchbase;
+  let cluster = req.app.locals.cluster;
+  let CbasQuery = couchbase.CbasQuery;
+  let query = `SELECT p.id AS p_id, p.name AS p_name, p.address AS p_address, c.assertedDate AS c_date, 2017 - GET_YEAR(DATE(p.birthDate)) AS p_age
+               FROM condition c, patient p
+               WHERE substring_after(c.subject.reference, "uuid:") /*+ indexnl */ = meta(p).id
+               AND c.code.text = '${req.query.diagnosis}' `;
+
+  if (req.query.gender != 'All') {
+    query += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
+  }
+
+  if (req.query.city != 'All') {
+    query += `AND p.address[0].city = '${req.query.city}' `;
+  }
+
+  query +=       `and substring(c.assertedDate, 1, 7) = '${req.query.year_month}'
+                  and to_bigint((get_year(date(c.assertedDate)) - get_year(date(p.birthDate))) / 30) = ${req.query.age_group}
+                  LIMIT 20;`;
+
+  query = CbasQuery.fromString(query);
+
+  cluster.query(query, (error, result) => {
+    if (error) {
+      return res.status(500).send({ code: error.code, message: error.message });
+    }
+    
+    res.send(result);
+  });
+}
+
 exports.analyticsSocial = async function(req, res, next) {
   let couchbase = req.app.locals.couchbase;
   let cluster = req.app.locals.cluster;
@@ -224,9 +329,9 @@ exports.analyticsSocial = async function(req, res, next) {
   
   let query = `SELECT year_month, Facebook, WhatsApp, Snapchat, count(p.id) as patient_count
                  FROM condition c, patient p
-                 WHERE substring_after(c.subject.reference, "uuid:") = meta(p).id
+                 WHERE substring_after(c.subject.reference, "uuid:") /*+ indexnl */ = meta(p).id
                  AND c.code.text = '${req.query.diagnosis}'
-                 AND date(c.assertedDate) > date('2007-01-01') `;
+                 AND date(c.assertedDate) > date('2007-10-01') `;
   
   if (req.query.gender != 'All') {
     query += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
@@ -298,5 +403,37 @@ exports.analyticsSocial = async function(req, res, next) {
         labels: labels,
         datasets: datasets
     });
+  });
+}
+
+exports.analyticsSocialDetails = async function(req, res, next) {
+  let couchbase = req.app.locals.couchbase;
+  let cluster = req.app.locals.cluster;
+  let CbasQuery = couchbase.CbasQuery;
+  let query = `SELECT p.id AS p_id, p.name AS p_name, p.address AS p_address, c.assertedDate AS c_date, 2017 - GET_YEAR(DATE(p.birthDate)) AS p_age
+               FROM condition c, patient p
+               WHERE substring_after(c.subject.reference, "uuid:") /*+ indexnl */ = meta(p).id
+               AND c.code.text = '${req.query.diagnosis}' `;
+
+  if (req.query.gender != 'All') {
+    query += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
+  }
+
+  if (req.query.city != 'All') {
+    query += `AND p.address[0].city = '${req.query.city}' `;
+  }
+
+  query +=        `AND p.telecom[0].facebook is not unknown
+                  AND SUBSTRING(c.assertedDate, 1, 7) = '${req.query.year_month}'
+                  LIMIT 20;`;
+
+  query = CbasQuery.fromString(query);
+
+  cluster.query(query, (error, result) => {
+    if (error) {
+      return res.status(500).send({ code: error.code, message: error.message });
+    }
+    
+    res.send(result);
   });
 }
