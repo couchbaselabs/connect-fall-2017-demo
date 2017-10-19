@@ -3,7 +3,9 @@ var randomHexColor = require('random-hex-color');
 var router = express.Router();
 
 // Based on Couchbase colors (TM)
-let palette = [ '#E72731', '#0074e0', '#f0ce0f', '#b26cda', '#00b6bd', '#00a1db', '#eb242a', '#fd9d0d' ];
+const palette = [ '#E72731', '#0074e0', '#f0ce0f', '#b26cda', '#00b6bd', '#00a1db', '#eb242a', '#fd9d0d' ];
+const searchKeyAllGenders = 'All Genders';
+const searchKeyAllCities = 'All Cities';
 
 exports.encounters = async function(req, res, next) {
   let couchbase = req.app.locals.couchbase;
@@ -120,6 +122,14 @@ function ISODateString(d){
       + pad(d.getUTCMinutes())+':'
       + pad(d.getUTCSeconds())+'Z'}
 
+function searchAllGenders(param) {
+  return param === searchKeyAllGenders;
+}
+
+function searchAllCities(param) {
+  return param === searchKeyAllCities;
+}
+
 exports.analytics = async function(req, res, next) {
     let couchbase = req.app.locals.couchbase;
     let cluster = req.app.locals.cluster;
@@ -138,8 +148,8 @@ group by substring(e.period.`start`, 1, 7) as year_month, p.maritalStatus.text a
                     "WHERE p.id = substring_after(e.subject.reference, 'uuid:') " +
                     "AND GET_DATE_FROM_DATETIME(DATETIME(e.period.`start`)) > DATE('2007-10-01') ";
 
-    if(req.query.gender != "both") {
-                    statement += "AND p.gender = lower('" + req.query.gender + "') ";
+    if (!searchAllGenders(req.query.gender)) {
+                    statement += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
     }
 
     statement +=    "AND c.code.text = '" + req.query.code + "' " +
@@ -197,7 +207,7 @@ exports.analyticsDetails = async function(req, res, next) {
                     "WHERE p.id = substring_after(e.subject.reference, 'uuid:') " +
                     "AND e.id = substring_after(c.context.reference, 'uuid:') ";
 
-    if (req.query.gender.toLowerCase() != "all") {
+    if (!searchAllGenders(req.query.gender)) {
                     statement += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
     }
 
@@ -226,11 +236,11 @@ exports.analyticsByAge = async function(req, res, next) {
                  AND c.code.text = '${req.query.diagnosis}'
                  AND date(c.assertedDate) > date('2007-10-01') `;
   
-  if (req.query.gender != 'All') {
+  if (!searchAllGenders(req.query.gender)) {
     query += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
   }
 
-  if (req.query.city != 'All') {
+  if (!searchAllCities(req.query.city)) {
     query += `AND p.address[0].city = '${req.query.city}' `;
   }
 
@@ -299,11 +309,11 @@ exports.analyticsByAgeDetails = async function(req, res, next) {
                WHERE substring_after(c.subject.reference, "uuid:") /*+ indexnl */ = meta(p).id
                AND c.code.text = '${req.query.diagnosis}' `;
 
-  if (req.query.gender != 'All') {
+  if (!searchAllGenders(req.query.gender)) {
     query += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
   }
 
-  if (req.query.city != 'All') {
+  if (!searchAllCities(req.query.city)) {
     query += `AND p.address[0].city = '${req.query.city}' `;
   }
 
@@ -333,11 +343,11 @@ exports.analyticsSocial = async function(req, res, next) {
                  AND c.code.text = '${req.query.diagnosis}'
                  AND date(c.assertedDate) > date('2007-10-01') `;
   
-  if (req.query.gender != 'All') {
+  if (!searchAllGenders(req.query.gender)) {
     query += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
   }
 
-  if (req.query.city != 'All') {
+  if (!searchAllCities(req.query.city)) {
     query += `AND p.address[0].city = '${req.query.city}' `;
   }
 
@@ -415,11 +425,11 @@ exports.analyticsSocialDetails = async function(req, res, next) {
                WHERE substring_after(c.subject.reference, "uuid:") /*+ indexnl */ = meta(p).id
                AND c.code.text = '${req.query.diagnosis}' `;
 
-  if (req.query.gender != 'All') {
+  if (!searchAllGenders(req.query.gender)) {
     query += `AND p.gender = '${req.query.gender.toLowerCase()}' `;
   }
 
-  if (req.query.city != 'All') {
+  if (!searchAllCities(req.query.city)) {
     query += `AND p.address[0].city = '${req.query.city}' `;
   }
 
