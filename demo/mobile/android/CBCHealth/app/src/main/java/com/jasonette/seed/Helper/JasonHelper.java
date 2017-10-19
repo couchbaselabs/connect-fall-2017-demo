@@ -279,7 +279,7 @@ public class JasonHelper {
 
             if (null == json) return new JSONObject();
 
-            return new JSONObject(json.toMap());
+            return new JSONObject(json.getProperties());
         }
 
         // we're expecting a filename that looks like "file://..."
