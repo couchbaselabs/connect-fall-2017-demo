@@ -4,6 +4,30 @@ Background, stage script, and application code for Couchbase Connect SF Fall 201
 
 ## Instructions
 
+### Tl;dr version
+
+On the machine that will host the web server, do this:
+
+```
+git clone https://github.com/couchbaselabs/connect-fall-2017-demo.git
+cd connect-fall-2017-demo/demo/web/client
+rm -rf node_modules package-lock.json
+npm install
+npm run build
+cd ../server
+rm -rf node_modules package-lock.json
+npm install
+cat > .env
+UA_APPLICATION_KEY='<your app key>'
+UA_APPLICATION_MASTER_SECRET='<Your app master secret>'
+CLUSTER='couchbase://localhost'
+CLUSTER_USER='<username>'
+CLUSTER_PASSWORD='<password>'
+CLUSTER_CBAS='localhosst:8095'
+Ctrl-d
+node ./bin/www
+```
+
 ### On the machine that will host the web server
 
 Install node.  Note the server requires version 7 or higher.  I recommend using nvm to manage Node versions if you have an existing installation.  (The nvm installation guide can be found [here](https://github.com/creationix/nvm/blob/master/README.md#install-script)
