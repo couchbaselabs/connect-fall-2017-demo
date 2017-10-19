@@ -43,12 +43,14 @@
       <input type="text" v-model="age[1]" required> -->
       <!-- <input id="age_slider" type="range" v-model="age" data-provide="slider" data-slider-min="0" data-slider-max="110" data-slider-step="1" data-slider-value="[0,110]"/>{{ age }} -->
       <!-- <input id="age_slider" type="range" data-provide="slider" data-slider-min="0" data-slider-max="110" data-slider-step="1" v-bind:data-slider-value="age"/>{{ age }} -->
-      <button v-on:click.prevent="searchRouter" type="button" class="btn-primary" style="border-width:0;outline:none;color:#fff">
-      Find Patients
-        <span class="input-group-addon" style="border-width: 0px; width:140px;padding:8px 0;background-color:transparent;color:#fff">
-          <i class="fa fa-lg fa-search"></i>
-        </span>
-      </button>
+      <div class="input-group">
+        <button v-on:click.prevent="searchRouter" type="button" class="btn-primary" style="border-width:0;outline:none;color:#fff">
+          Find Patients
+          <span class="input-group-addon" style="border-width: 0px; width:140px;padding:8px 0;background-color:transparent;color:#fff">
+            <i class="fa fa-lg fa-search"></i>
+          </span>
+        </button>
+      </div>
     </div>
     <!-- /.row -->
 
