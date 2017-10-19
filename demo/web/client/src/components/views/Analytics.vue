@@ -2,10 +2,9 @@
   <!-- Main content -->
   <section class="content">
     <!-- Search field -->
-    <div class="row">
+    <div style="display: flex; align-items: center;justify-content: flex-start;">
       <div class="dropdown">
-        <div>Diagnosis:</div>
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
           {{ diagnosis }}
           <span class="caret"></span>
         </button>
@@ -14,8 +13,7 @@
         </ul>
       </div>
       <div class="dropdown">
-        <div>City:</div>
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
           {{ city }}
           <span class="caret"></span>
         </button>
@@ -24,8 +22,7 @@
         </ul>
       </div>
       <div class="dropdown">
-        <div>Gender:</div>
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
           {{ gender }}
           <span class="caret"></span>
         </button>
@@ -34,8 +31,7 @@
         </ul>
       </div>
       <div class="dropdown">
-        <div>Group By:</div>
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
           {{ grouping }}
           <span class="caret"></span>
         </button>
@@ -47,8 +43,8 @@
       <input type="text" v-model="age[1]" required> -->
       <!-- <input id="age_slider" type="range" v-model="age" data-provide="slider" data-slider-min="0" data-slider-max="110" data-slider-step="1" data-slider-value="[0,110]"/>{{ age }} -->
       <!-- <input id="age_slider" type="range" data-provide="slider" data-slider-min="0" data-slider-max="110" data-slider-step="1" v-bind:data-slider-value="age"/>{{ age }} -->
-      <button v-on:click.prevent="searchRouter" type="button" style="border-width:0;background-color:#fff;outline:none;">
-        <span class="input-group-addon" style="border-width:0;">
+      <button v-on:click.prevent="searchRouter" type="button" class="btn-primary" style="border-width:0;outline:none;">
+        <span class="input-group-addon" style="border-width: 0px; width:80px;padding:6px 0;background-color:transparent;color:#fff">
           <i class="fa fa-lg fa-search"></i>
         </span>
       </button>
@@ -107,12 +103,12 @@ export default {
       age: [ '0', '100' ],
       diagnosis: 'Select Diagnosis',
       diagnoses: [ 'Scaleitis', 'Mongoitis', 'Diabetes' ],
-      city: 'All',
-      cityList: [ 'All', 'Boston', 'Worchester', 'Springfield', 'Cambridge', 'Taunton' ],
-      gender: 'All',
-      genderList: [ 'All', 'Male', 'Female', 'Other' ],
-      grouping: 'Age',
-      groupList: [ 'Age', 'Social Media' ],
+      city: 'All Cities',
+      cityList: [ 'All Cities', 'Boston', 'Worchester', 'Springfield', 'Cambridge', 'Taunton' ],
+      gender: 'All Genders',
+      genderList: [ 'All Genders', 'Male', 'Female', 'Other' ],
+      grouping: 'Group by Age',
+      groupList: [ 'Group by Age', 'By Social Media' ],
       searching: '',
       hits: [],
       response: '',
@@ -279,5 +275,12 @@ canvas#analytics {
 
   height: 460px!important;
   max-width: 980px!important;
+}
+
+.dropdown {
+  margin-right: 4px;
+}
+.btn.dropdown-toggle {
+  width: 120px;
 }
 </style>
