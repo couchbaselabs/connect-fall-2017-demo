@@ -12,12 +12,12 @@
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
-        android:text="Schedule With:"
+        android:text="Doctor"
         android:gravity="center_vertical"
         android:textSize="18sp"
         android:textStyle="bold"/>
@@ -27,10 +27,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textView1"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="30dp"
         android:layout_toEndOf="@+id/textView1"
-        android:layout_weight="1"
         android:gravity="center_vertical"
         android:maxLines="3"
         android:text="Jerry Miller, MD-PCP (Internal Medicine)"
@@ -39,13 +38,13 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="50dp"
         android:layout_alignStart="@+id/textView1"
         android:layout_alignEnd="@+id/textView1"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="30dp"
-        android:text="Date:"
+        android:text="Date"
         android:gravity="center_vertical"
         android:textSize="18sp"
         android:textStyle="bold"/>
@@ -63,13 +62,13 @@
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="50dp"
         android:layout_alignStart="@+id/textView3"
         android:layout_alignEnd="@+id/textView3"
         android:layout_below="@+id/textView3"
         android:layout_marginTop="30dp"
-        android:text="Time:"
+        android:text="Time"
         android:gravity="center_vertical"
         android:textSize="18sp"
         android:textStyle="bold"/>
@@ -85,19 +84,19 @@
         android:gravity="center_vertical"
         android:textSize="18sp"/>
 
-
     <Button
         android:id="@+id/btnSchedule"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView5"
-        android:layout_marginTop="30dp"
-        android:layout_weight="1"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:background="?attr/colorPrimary"
-        android:text="Schedule >"
+        android:text="Set Appointment"
         android:textColor="#FFF"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        />
 
 </RelativeLayout>

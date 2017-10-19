@@ -31,6 +31,8 @@ public class CareMessage extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setTitle("Schedule a Visit");
+
         dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         timeFormat = new SimpleDateFormat("hh:mm aaa");
 
