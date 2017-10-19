@@ -70,15 +70,17 @@
                   <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
                     <thead>
                       <tr role="row">
-                        <th aria-label="Patient ID" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">Patient ID</th>
                         <th aria-label="Patient Name" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Patient Name</th>
-                        <th aria-label="Patient Age" style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Patient Age</th>
+                        <th aria-label="Patient Gender" style="width: 167px;" colspan="1" rowspan="1" tabindex="0">Patient Gender</th>
+                        <th aria-label="Age at Onset" style="width: 167px;" colspan="1" rowspan="1" tabindex="0">Age at Onset</th>
+                        <th aria-label="Current Age" style="width: 182px;" colspan="1" rowspan="1" tabindex="0">Current Age</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="entry in search_details" :key="entry.id" class="even" role="row">
-                        <td><a href="#">{{ entry.p_id }}</a></td>
-                        <td>{{ entry.p_name[0].given[0] }} {{ entry.p_name[0].family }}</td>
+                      <tr v-for="entry in search_details" :key="entry.p_id" class="even" role="row">
+                        <td><a v-bind:href="'/patient/' + entry.p_id">{{ entry.p_name[0].given[0] }} {{ entry.p_name[0].family }}</a></td>
+                        <td>{{ toCapitalized(entry.p_gender) }}</td>
+                        <td>{{ entry.c_age }}</td>
                         <td>{{ entry.p_age }}</td>
                       </tr>
                     </tbody>
@@ -97,6 +99,7 @@
 <script>
 import api from '../../api'
 import Chart from 'chart.js'
+import stringUtils from '../../bin/string_utils'
 
 export default {
   name: 'Analytics',
@@ -123,6 +126,8 @@ export default {
   methods: {
     searchRouter () {
       // These must match terms expected in server/controllers/searchController.js
+      this.search_details = []
+
       if (this.grouping === this.groupList[0]) {
         this.searchByAge()
       } else if (this.grouping === this.groupList[1]) {
@@ -215,6 +220,9 @@ export default {
     },
     resetResponse () {
       this.response = ''
+    },
+    toCapitalized (string) {
+      return stringUtils.toCapitalized(string)
     }
   },
   mounted () {
