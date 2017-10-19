@@ -246,7 +246,7 @@ exports.analyticsByAge = async function(req, res, next) {
 
   query += `GROUP BY
             substring(c.assertedDate, 1, 7) as year_month, 
-            to_bigint((get_year(date(c.assertedDate)) - get_year(date(p.birthDate))) / 30) as age_group`
+            to_bigint((get_year(current_date()) - get_year(date(p.birthDate))) / 30) as age_group`
 
   query = CbasQuery.fromString(query);
 
@@ -304,7 +304,8 @@ exports.analyticsByAgeDetails = async function(req, res, next) {
   let couchbase = req.app.locals.couchbase;
   let cluster = req.app.locals.cluster;
   let CbasQuery = couchbase.CbasQuery;
-  let query = `SELECT p.id AS p_id, p.name AS p_name, p.address AS p_address, c.assertedDate AS c_date, 2017 - GET_YEAR(DATE(p.birthDate)) AS p_age
+  let query = `SELECT p.id AS p_id, p.name AS p_name, p.address AS p_address, GET_YEAR(DATE(c.assertedDate)) - GET_YEAR(DATE(p.birthDate)) AS c_age,
+               p.gender AS p_gender, GET_YEAR(current_date()) - GET_YEAR(DATE(p.birthDate)) AS p_age
                FROM condition c, patient p
                WHERE substring_after(c.subject.reference, "uuid:") /*+ indexnl */ = meta(p).id
                AND c.code.text = '${req.query.diagnosis}' `;
@@ -318,7 +319,7 @@ exports.analyticsByAgeDetails = async function(req, res, next) {
   }
 
   query +=       `and substring(c.assertedDate, 1, 7) = '${req.query.year_month}'
-                  and to_bigint((get_year(date(c.assertedDate)) - get_year(date(p.birthDate))) / 30) = ${req.query.age_group}
+                  and to_bigint((GET_YEAR(CURRENT_DATE()) - GET_YEAR(DATE(p.birthDate))) / 30) = ${req.query.age_group}
                   LIMIT 20;`;
 
   query = CbasQuery.fromString(query);
@@ -420,7 +421,8 @@ exports.analyticsSocialDetails = async function(req, res, next) {
   let couchbase = req.app.locals.couchbase;
   let cluster = req.app.locals.cluster;
   let CbasQuery = couchbase.CbasQuery;
-  let query = `SELECT p.id AS p_id, p.name AS p_name, p.address AS p_address, c.assertedDate AS c_date, 2017 - GET_YEAR(DATE(p.birthDate)) AS p_age
+  let query = `SELECT p.id AS p_id, p.name AS p_name, p.address AS p_address, GET_YEAR(DATE(c.assertedDate)) - GET_YEAR(DATE(p.birthDate)) AS c_age,
+               p.gender AS p_gender, GET_YEAR(CURRENT_DATE()) - GET_YEAR(DATE(p.birthDate)) AS p_age
                FROM condition c, patient p
                WHERE substring_after(c.subject.reference, "uuid:") /*+ indexnl */ = meta(p).id
                AND c.code.text = '${req.query.diagnosis}' `;
