@@ -3,7 +3,7 @@ var randomHexColor = require('random-hex-color');
 var router = express.Router();
 
 // Based on Couchbase colors (TM)
-let palette = [ '#0074e0', '#f0ce0f', '#b26cda', '#00b6bd', '#00a1db', '#eb242a', '#fd9d0d' ];
+let palette = [ '#E72731', '#0074e0', '#f0ce0f', '#b26cda', '#00b6bd', '#00a1db', '#eb242a', '#fd9d0d' ];
 
 exports.encounters = async function(req, res, next) {
   let couchbase = req.app.locals.couchbase;
@@ -272,7 +272,7 @@ exports.analyticsByAge = async function(req, res, next) {
 
         datasets.push({
             data: entries,
-            label: key,
+            label: `${30*key} - ${30*key + 29}`,
             fill: false,
             backgroundColor: 'rgba(0, 0, 0, 0)',
             borderColor: palette[knife],
