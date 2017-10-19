@@ -5,24 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
-import com.couchbase.lite.Array;
-import com.couchbase.lite.Dictionary;
 import com.couchbase.lite.Document;
-import com.couchbase.lite.DocumentChange;
-import com.couchbase.lite.DocumentChangeListener;
-import com.couchbase.lite.Log;
 import com.couchbase.mobile.R;
 import com.couchbase.mobile.app.launch.Runtime;
 import com.couchbase.mobile.database.CBLite;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class PatientActivity extends AppCompatActivity implements DocumentChangeListener {
+public class PatientActivity extends AppCompatActivity implements Document.ChangeListener {
     public static final String TAG = PatientActivity.class.getSimpleName();
 
     ItemsAdapter adapter = null;
-    String docID = null;
+    Document doc = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +37,18 @@ public class PatientActivity extends AppCompatActivity implements DocumentChange
     @Override
     protected void onStart() {
         super.onStart();
-        Document doc = CBLite.getInstance().getDatabase().getDocument(Runtime.getPatientID());
+        doc = CBLite.getInstance().getDatabase().getDocument(Runtime.getPatientID());
         if (doc != null) {
-            docID = doc.getId();
-            CBLite.getInstance().getDatabase().addChangeListener(docID, this);
-            Log.e(TAG, "doc -> %s", doc.toMap());
+            doc.addChangeListener(this);
             adapter.addAll(getPatientProfileList(doc));
         }
     }
 
     @Override
     protected void onStop() {
+        if (doc != null)
+            doc.removeChangeListener(this);
         super.onStop();
-        if (docID != null)
-            CBLite.getInstance().getDatabase().removeChangeListener(docID, this);
     }
 
     List<Item> getPatientProfileList(Document doc) {
@@ -68,35 +62,35 @@ public class PatientActivity extends AppCompatActivity implements DocumentChange
     }
 
     String getName(Document doc) {
-        Array names = doc.getArray("name");
-        Dictionary name = names.getDictionary(0);
-        Array family = name.getArray("family");
-        Array given = name.getArray("given");
-        return given.getString(0) + " " + family.getString(0);
+        List<Object> names = (List<Object>) doc.getProperty("name");
+        Map<String, Object> name = (Map<String, Object>) names.get(0);
+        List<Object> family = (List<Object>) name.get("family");
+        List<Object> given = (List<Object>) name.get("given");
+        return given.get(0) + " " + family.get(0);
     }
 
     String getGender(Document doc) {
-        Dictionary gender = doc.getDictionary("gender");
-        return gender.getString("text");
+        Map<String, Object> gender = (Map<String, Object>) doc.getProperty("gender");
+        return (String) gender.get("text");
     }
 
     String getBirthDate(Document doc) {
-        return doc.getString("birthDate");
+        return (String) doc.getProperty("birthDate");
     }
 
     String getAddress(Document doc) {
-        Dictionary gender = doc.getDictionary("address");
-        return gender.getString("text");
+        Map<String, Object> address = (Map<String, Object>) doc.getProperty("address");
+        return (String) address.get("text");
     }
 
     List<Item> getExtension(Document doc) {
         List<Item> list = new ArrayList<>();
-        Array telecom = doc.getArray("telecom");
-        if(telecom.count() > 0) {
-            Dictionary tele = telecom.getDictionary(0);
+        List<Object> telecom = (List<Object>) doc.getProperty("telecom");
+        if (telecom != null && telecom.size() > 0) {
+            Map<String, Object> tele = (Map<String, Object>) telecom.get(0);
             if (tele != null) {
-                for (String key : tele.getKeys()) {
-                    list.add(new Item(key, tele.getObject(key).toString()));
+                for (String key : tele.keySet()) {
+                    list.add(new Item(key, tele.get(key).toString()));
                 }
             }
         }
@@ -104,13 +98,16 @@ public class PatientActivity extends AppCompatActivity implements DocumentChange
     }
 
     @Override
-    public void changed(DocumentChange change) {
-        Log.e(TAG, "DocumentChange -> %s", change.getDocumentID());
-        Document doc = CBLite.getInstance().getDatabase().getDocument(Runtime.getPatientID());
+    public void changed(Document.ChangeEvent event) {
+        final Document doc = event.getSource();
         if (doc != null) {
-            Log.e(TAG, "doc -> %s", doc.toMap());
-            this.adapter.clear();
-            this.adapter.addAll(getPatientProfileList(doc));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    PatientActivity.this.adapter.clear();
+                    PatientActivity.this.adapter.addAll(getPatientProfileList(doc));
+                }
+            });
         }
     }
 }
