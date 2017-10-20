@@ -1,72 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:backgroundTint="@color/colorPrimary"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.couchbase.mobile.app.MainActivity"
-    tools:showIn="@layout/activity_main">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@drawable/bg"
+              app:layout_behavior="@string/appbar_scrolling_view_behavior"
+              tools:context="com.couchbase.mobile.app.MainActivity"
+              tools:showIn="@layout/activity_main">
 
-    <ImageView
-        android:id="@+id/ImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:cropToPadding="true"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/mother429157cropped" />
-
-    <ImageButton
+    <Button
         android:id="@+id/thermometer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/vitals_buttons_size"
-        android:layout_marginTop="@dimen/vitals_buttons_spacing"
+        android:layout_height="92dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#FFF"
+        android:drawableTint="@color/colorPrimary"
+        android:drawableRight="@drawable/ic_thermometer"
+        android:gravity="left|center"
         android:onClick="onTemperatureButtonClick"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ImageView"
-        app:srcCompat="@drawable/ic_thermometer"
-        android:tint="@android:color/white"
-        android:backgroundTint="@color/colorAccent" />
-
-    <ImageButton
-        android:id="@+id/cardiogram"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/vitals_buttons_size"
-        android:layout_marginTop="@dimen/vitals_buttons_spacing"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/thermometer"
-        app:srcCompat="@drawable/ic_cardiogram"
-        android:tint="@android:color/white"
-        android:backgroundTint="@color/colorAccent"
-        android:onClick="onAppointmentButtonClick"
+        android:text="Temperature"
+        android:textAllCaps="false"
+        android:textSize="22sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="normal"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
         />
 
-    <ImageButton
+    <Button
+        android:id="@+id/cardiogram"
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#FFF"
+        android:drawablePadding="20sp"
+        android:drawableTint="@color/colorPrimary"
+        android:drawableRight="@drawable/ic_cardiogram"
+        android:gravity="left|center"
+        android:text="Heart Rate"
+        android:textAllCaps="false"
+        android:textSize="22sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="normal"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/thermometer"/>
+
+    <Button
         android:id="@+id/scale"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/vitals_buttons_size"
-        android:layout_marginTop="@dimen/vitals_buttons_spacing"
-        android:onClick="onScaleButtonClick"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardiogram"
-        app:srcCompat="@drawable/ic_scale"
-        android:tint="@android:color/white"
-        android:backgroundTint="@color/colorAccent" />
+        android:layout_height="92dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#FFF"
+        android:drawableTint="@color/colorPrimary"
+        android:drawableRight="@drawable/ic_scale"
+        android:gravity="left|center"
+        android:onClick="onAppointmentButtonClick"
+        android:text="Appointments"
+        android:textAllCaps="false"
+        android:textSize="22sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="normal"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/cardiogram"/>
 
 
-    <ImageButton
+    <Button
         android:id="@+id/blood_pressure"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/vitals_buttons_size"
-        android:layout_marginTop="@dimen/vitals_buttons_spacing"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scale"
-        app:srcCompat="@drawable/ic_blood_pressure"
-        android:tint="@android:color/white"
-        android:backgroundTint="@color/colorAccent"
-        android:onClick="onPatientButtonClick"/>
+        android:layout_height="92dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#FFF"
+        android:drawableTint="@color/colorPrimary"
+        android:drawableRight="@drawable/ic_blood_pressure"
+        android:gravity="left|center"
+        android:onClick="onPatientButtonClick"
+        android:text="Patient Profile"
+        android:textAllCaps="false"
+        android:textSize="22sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="normal"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/scale"/>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
