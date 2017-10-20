@@ -107,7 +107,7 @@ export default {
     return {
       age: [ '0', '100' ],
       diagnosis: 'Select Diagnosis',
-      diagnoses: [ 'Scaleitis', 'Mongoitis', 'Diabetes' ],
+      diagnoses: [ 'Scaleitis', 'Appendicitis', 'Asthma', 'Sinusitis (disorder)', 'Diabetes', 'Pneumonia' ],
       city: 'All Cities',
       cityList: [ 'All Cities', 'Boston', 'Worchester', 'Springfield', 'Cambridge', 'Taunton' ],
       gender: 'All Genders',
