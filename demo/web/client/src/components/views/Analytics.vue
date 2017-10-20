@@ -206,8 +206,8 @@ export default {
         console.log(error)
       })
     },
-    searchSocialDetails (yearMonth) {
-      api.request('get', `/search/analytics/social/details?city=${this.city}&diagnosis=${this.diagnosis}&gender=${this.gender}&year_month=${yearMonth}`)
+    searchSocialDetails (yearMonth, media) {
+      api.request('get', `/search/analytics/social/details?city=${this.city}&diagnosis=${this.diagnosis}&gender=${this.gender}&media=${media}&year_month=${yearMonth}`)
       .then(response => {
         this.search_details = response.data
       })
@@ -258,7 +258,8 @@ export default {
           if (this.grouping === this.groupList[0]) {
             this.searchByAgeDetails(label, item._datasetIndex)
           } else if (this.grouping === this.groupList[1]) {
-            this.searchSocialDetails(label)
+            let media = item._chart.controller.legend.legendItems[item._datasetIndex].text
+            this.searchSocialDetails(label, media.toLowerCase())
           }
         }
       }
