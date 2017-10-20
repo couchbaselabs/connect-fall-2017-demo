@@ -64,8 +64,9 @@ export default {
         'notification': { 'alert': `${this.message}` },
         'device_types': 'all'
       })
-      .then(() => { this.message = null })
       .catch(error => console.log(error))
+
+      this.message = null
     },
     toggleLoading () {
       this.loading = (this.loading === '') ? 'loading' : ''
