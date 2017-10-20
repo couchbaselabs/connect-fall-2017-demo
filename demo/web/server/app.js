@@ -13,7 +13,7 @@ var sse = require('express-server-sent-events');
 var couchbase = require('couchbase');
 var cluster = new couchbase.Cluster(process.env.CLUSTER)
 cluster.authenticate(process.env.CLUSTER_USER, process.env.CLUSTER_PASSWORD);
-cluster.enableCbas([process.env.CLUSTER_CBAS]);
+cluster.enableCbas(process.env.CLUSTER_CBAS.split(','));
 
 Math.radians = function (degrees) {
   return degrees * Math.PI / 180
