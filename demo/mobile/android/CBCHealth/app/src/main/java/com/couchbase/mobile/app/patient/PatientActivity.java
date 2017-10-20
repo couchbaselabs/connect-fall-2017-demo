@@ -63,15 +63,22 @@ public class PatientActivity extends AppCompatActivity implements Document.Chang
 
     String getName(Document doc) {
         List<Object> names = (List<Object>) doc.getProperty("name");
-        Map<String, Object> name = (Map<String, Object>) names.get(0);
-        List<Object> family = (List<Object>) name.get("family");
-        List<Object> given = (List<Object>) name.get("given");
-        return given.get(0) + " " + family.get(0);
+        if (names != null && names.size() > 0) {
+            Map<String, Object> name = (Map<String, Object>) names.get(0);
+            List<Object> family = (List<Object>) name.get("family");
+            List<Object> given = (List<Object>) name.get("given");
+            return given.get(0) + " " + family.get(0);
+        } else {
+            return "";
+        }
     }
 
     String getGender(Document doc) {
         Map<String, Object> gender = (Map<String, Object>) doc.getProperty("gender");
-        return (String) gender.get("text");
+        if (gender != null)
+            return (String) gender.get("text");
+        else
+            return "";
     }
 
     String getBirthDate(Document doc) {
@@ -80,7 +87,10 @@ public class PatientActivity extends AppCompatActivity implements Document.Chang
 
     String getAddress(Document doc) {
         Map<String, Object> address = (Map<String, Object>) doc.getProperty("address");
-        return (String) address.get("text");
+        if (address != null)
+            return (String) address.get("text");
+        else
+            return "";
     }
 
     List<Item> getExtension(Document doc) {
