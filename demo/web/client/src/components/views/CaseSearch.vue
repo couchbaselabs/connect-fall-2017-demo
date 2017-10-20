@@ -205,7 +205,7 @@ export default {
     patientName (patient) {
       if (!patient) return '(missing)'
 
-      return `${patient.name[0].given[0]} ${patient.name[0].family[0]}`
+      return `${patient.name[0].given[0]} ${patient.name[0].family}`
     }
   }
 }

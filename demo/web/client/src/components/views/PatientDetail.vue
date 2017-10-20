@@ -3,7 +3,7 @@
   <section class="content">
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title pull-left">Krug, Perry</h3>
+        <h3 class="box-title pull-left">{{ patient.name[0].family }}, {{ patient.name[0].given[0] }}</h3>
         <div class="pull-right" style="margin-right: 16px;">
           <div class="input-group" style="width:250px;">
             <input class="form-control" placeholder="find patients..." type="text" style="width:250px;height:32px;">
@@ -22,7 +22,6 @@
         <div class="container">
           <div class="row">
             <div v-if="patient" class="col-md-6">
-            <!--  <p><strong>Name:</strong>  {{ patient.name[0].family[0] }}, {{ patient.name[0].given[0] }}</p>  -->
               <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
               <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
             </div>

@@ -65,9 +65,9 @@ public class PatientActivity extends AppCompatActivity implements Document.Chang
         List<Object> names = (List<Object>) doc.getProperty("name");
         if (names != null && names.size() > 0) {
             Map<String, Object> name = (Map<String, Object>) names.get(0);
-            List<Object> family = (List<Object>) name.get("family");
+            String family = (String) name.get("family");
             List<Object> given = (List<Object>) name.get("given");
-            return given.get(0) + " " + family.get(0);
+            return given.get(0) + " " + family;
         } else {
             return "";
         }
