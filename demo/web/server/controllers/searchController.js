@@ -88,7 +88,7 @@ exports.diagnosis = async function(req, res, next) {
 
   let query = SearchQuery.new('diagnosis', SearchQuery.conjuncts(conj))
                 .highlight(SearchQuery.HighlightStyle.HTML, "note.text")
-                .fields('*');
+                .fields('*').limit(20);
 
   query.addFacet('diagnosis', SearchFacet.term('code.text', 5));
   query.addFacet('onset', SearchFacet.date('onsetDateTime', 3)
