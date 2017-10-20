@@ -436,9 +436,14 @@ exports.analyticsSocialDetails = async function(req, res, next) {
     query += `AND p.address[0].city = '${req.query.city}' `;
   }
 
-  query +=        `AND p.telecom[0].facebook is not unknown
-                  AND SUBSTRING(c.assertedDate, 1, 7) = '${req.query.year_month}'
-                  LIMIT 20;`;
+  if ('none' === req.query.media) {
+    query += 'AND p.telecom[0].facebook is unknown AND p.telecom[0].whatsapp is unknown AND p.telecom[0].snapchat is unknown ';
+  } else {
+    query += `AND p.telecom[0].${req.query.media} is not unknown `;
+  }
+
+  query +=   `AND SUBSTRING(c.assertedDate, 1, 7) = '${req.query.year_month}'
+                LIMIT 20;`;
 
   query = CbasQuery.fromString(query);
 
