@@ -3,7 +3,7 @@
   <section class="content">
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title pull-left">Smotra, Sachin</h3>
+        <h3 v-if="patient" class="box-title pull-left">{{ patient.name[0].family }}, {{ patient.name[0].given[0] }}</h3>
         <div class="pull-right" style="margin-right: 16px;">
           <div class="input-group" style="width:250px;">
             <input class="form-control" placeholder="find patients..." type="text" style="width:250px;height:32px;">
@@ -156,6 +156,9 @@ export default {
     },
     toCapitalized (string) {
       return stringUtils.toCapitalized(string)
+    },
+    refresh () {
+      this.getModelAndDoc('patient', `/records/patient/${config.id}`)
     }
   },
   mounted () {
@@ -222,10 +225,11 @@ export default {
       }
 
       EventBus.$on('update', this.updateCB)
+      EventBus.$on('refresh', this.refresh)
     })
   },
   destroyed () {
-    EventBus.$off('update', this.updateCB)
+    EventBus.$off()
   }
 }
 </script>

@@ -30,6 +30,8 @@
   </ul>
 </template>
 <script>
+import EventBus from '../event-bus'
+
 export default {
   name: 'SidebarName',
   methods: {
@@ -43,6 +45,10 @@ export default {
       // window.$('li.pageLink.active').removeClass('active')
       // Add it to the item that was clicked
       event.currentTarget.className = 'pageLink active'
+
+      if (event.currentTarget.baseURI.split('/')[3] === event.target.baseURI.split('/')[3]) {
+        EventBus.$emit('refresh', event.target.baseURI.split('/')[3])
+      }
     }
   }
 }
