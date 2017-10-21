@@ -209,8 +209,8 @@ export default {
     }
   }
 }
-
 </script>
+
 <style>
 .info-box {
   cursor: pointer;
