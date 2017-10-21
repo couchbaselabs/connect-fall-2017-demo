@@ -86,9 +86,10 @@ public class PatientActivity extends AppCompatActivity implements Document.Chang
     }
 
     String getAddress(Document doc) {
-        Map<String, Object> address = (Map<String, Object>) doc.getProperty("address");
-        if (address != null)
-            return (String) address.get("text");
+        List<Object> address = (List<Object>) doc.getProperty("address");
+
+        if (address != null  && address.get(0) != null)
+            return (String) ((Map<String, Object>)address.get(0)).get("text");
         else
             return "";
     }
