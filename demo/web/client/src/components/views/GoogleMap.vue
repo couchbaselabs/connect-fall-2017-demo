@@ -9,7 +9,7 @@
       <GmapMarker v-for="(marker, index) in hospitals"
         :key="index"
         :position="marker.position"
-        :icon='{ url: "/static/img/redcross_round_36.png" }'>
+        :icon='{ url: "/static/img/redcross_34.png" }'>
           <GmapInfoWindow :options="{ content: marker.text }"/>
       </GmapMarker>
     </GmapMap>
@@ -134,14 +134,17 @@ export default {
 </script>
 
 <style>
-.iw-frame {
-  font-family: 'Open Sans Condensed', sans-serif;
-	font-size: 14px;
+.gm-style-iw {
+  background-color:#48b5e9;
+  text-align: center;
+  border-radius: 3px;
 	font-weight: 400;
 	padding: 10px;
-	background-color: #48b5e9;
 	color: white;
 	margin: 0;
-	border-radius: 2px 2px 0 0;
+}
+
+.iw-frame {
+	font-weight: 400;
 }
 </style>
