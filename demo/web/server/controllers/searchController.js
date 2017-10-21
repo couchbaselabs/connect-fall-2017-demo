@@ -256,20 +256,24 @@ exports.analyticsByAge = async function(req, res, next) {
       return res.status(500).send({ code: error.code, message: error.message });
     }
 
+    let groups = [0, 1, 2, 3];    
     let stats = {};
     let datasets = [];
     let labels = [];
 
-    for (const record of result) {
-      labels.push(record.year_month);
+    groups.forEach(group => stats[group] = {});
 
+    for (const record of result) {
       if (!stats[record.age_group]) stats[record.age_group] = {};
 
-      stats[record.age_group][record.year_month] = record.patient_count;      
+      if (!labels.includes(record.year_month)) {
+        labels.push(record.year_month);
+        groups.forEach(group => stats[group][record.year_month] = 0);
+      }
+
+      stats[record.age_group][record.year_month] += record.patient_count;      
     }
     
-    labels = [...new Set(labels)];
-
     let knife = 0;
 
     for (const key in stats) {
@@ -366,28 +370,32 @@ exports.analyticsSocial = async function(req, res, next) {
       return res.status(500).send({ code: error.code, message: error.message });
     }
 
-    let stats = { 'None': {}, 'Facebook': {}, 'Snapchat': {}, 'WhatsApp': {}};
+    let stats = { 'None': {}, 'Facebook': {}, 'WhatsApp': {}, 'Snapchat': {}};
     let datasets = [];
     let labels = [];
 
     for (const record of result) {
       let found = false;
 
-      labels.push(record.year_month);
+      if (!labels.includes(record.year_month)) {
+        labels.push(record.year_month);
+        
+        for (const key in stats) {
+          stats[key][record.year_month] = 0;
+        }
+      }
 
       for (const key in stats) {
         if (record[key]) {
-          stats[key][record.year_month] = record.patient_count;
+          stats[key][record.year_month] += record.patient_count;
 
           found = true;
         }
       }
 
-      if (!found) stats['None'][record.year_month] = record.patient_count;
+      if (!found) stats['None'][record.year_month] += record.patient_count;
     }
     
-    labels = [...new Set(labels)];
-
     let knife = 0;
 
     for (const key in stats) {
