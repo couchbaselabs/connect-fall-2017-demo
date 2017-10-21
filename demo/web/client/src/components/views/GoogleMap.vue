@@ -9,7 +9,7 @@
       <GmapMarker v-for="(marker, index) in hospitals"
         :key="index"
         :position="marker.position"
-        :icon='{ url: "/static/img/redcross.png" }'>
+        :icon='{ url: "/static/img/redcross_round_36.png" }'>
           <GmapInfoWindow :options="{ content: marker.text }"/>
       </GmapMarker>
     </GmapMap>
@@ -96,17 +96,28 @@ export default {
         return
       }
 
+      let facilities = {}
+
       for (let arr of data) {
         let matched = arr[0]
-        let details = matched.details
-        let text = `<div id="content"><p><b>${details.name}</b></p>`
-
-        if (details.url) text += `<p><a href="${details.url}">${details.url}</a></p>`
-        if (details.rating) text += `<p>Rating : ${details.rating}</p></div>`
 
         this.patients.push({ position: { lat: Math.degrees(matched.pat.lat), lng: Math.degrees(matched.pat.lng) } })
+
+        let details = matched.details
+
+        if (facilities[details.name]) continue
+
+        facilities[details.name] = true
+
+        let html = `<div class='iw-frame'><div class='iw-name'>${details.name}</div>`
+
+        if (details.url) html += `<p><a href="${details.url}">${details.url}</a></p>`
+        if (details.rating) html += `<p>Rating : ${details.rating}</p></div>`
+
+        html += '</div>'
+
         this.hospitals.push({ position: { lat: Math.degrees(matched.fac.lat), lng: Math.degrees(matched.fac.lng) },
-          text: text })
+          text: html })
       }
 
       this.bounds = true
@@ -121,3 +132,16 @@ export default {
   }
 }
 </script>
+
+<style>
+.iw-frame {
+  font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	padding: 10px;
+	background-color: #48b5e9;
+	color: white;
+	margin: 0;
+	border-radius: 2px 2px 0 0;
+}
+</style>
