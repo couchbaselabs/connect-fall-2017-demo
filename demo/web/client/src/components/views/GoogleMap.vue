@@ -5,6 +5,7 @@
       <GmapMarker v-for="(marker, index) in patients"
         :key="index"
         :position="marker.position"
+        :icon='{ url: "/static/img/Map-Marker-Blue.png"}'
         />
       <GmapMarker v-for="(marker, index) in hospitals"
         :key="index"
