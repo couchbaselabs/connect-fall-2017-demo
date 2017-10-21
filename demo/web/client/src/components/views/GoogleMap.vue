@@ -9,7 +9,7 @@
       <GmapMarker v-for="(marker, index) in hospitals"
         :key="index"
         :position="marker.position"
-        :icon='{ url: "/static/img/icons8_hospital.png" }'>
+        :icon='{ url: "/static/img/redcross.png" }'>
           <GmapInfoWindow :options="{ content: marker.text }"/>
       </GmapMarker>
     </GmapMap>
