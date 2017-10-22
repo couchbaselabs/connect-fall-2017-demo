@@ -229,7 +229,8 @@ export default {
     })
   },
   destroyed () {
-    EventBus.$off()
+    EventBus.$off('update', this.updateCB)
+    EventBus.$off('refresh', this.refresh)
   }
 }
 </script>
