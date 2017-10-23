@@ -371,6 +371,7 @@ exports.analyticsSocial = async function(req, res, next) {
     }
 
     let stats = { 'None': {}, 'Facebook': {}, 'WhatsApp': {}, 'Snapchat': {}};
+    let display = { 'None': true }
     let datasets = [];
     let labels = [];
 
@@ -385,9 +386,13 @@ exports.analyticsSocial = async function(req, res, next) {
         }
       }
 
+      if (1 > record.patient_count) continue;
+
       for (const key in stats) {
         if (record[key]) {
           stats[key][record.year_month] += record.patient_count;
+
+          display[key] = true;
 
           found = true;
         }
@@ -398,7 +403,7 @@ exports.analyticsSocial = async function(req, res, next) {
     
     let knife = 0;
 
-    for (const key in stats) {
+    for (const key in display) {
       if (stats.hasOwnProperty(key)) {
         var entries = [];
 
