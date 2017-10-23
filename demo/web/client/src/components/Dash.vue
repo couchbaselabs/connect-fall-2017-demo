@@ -130,7 +130,7 @@ export default {
 
         this.lastSampleTime = recordedAt.valueOf()
 
-        if (sample.value > 82) this.$store.commit('SET_ALERT', [ sample ])
+        if (sample.value > 87) this.$store.commit('SET_ALERT', [ sample ])
       }, this)
     })
   }
