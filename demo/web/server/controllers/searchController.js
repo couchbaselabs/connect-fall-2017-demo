@@ -59,7 +59,8 @@ exports.diagnosis = async function(req, res, next) {
   var last60 = new Date(last30.getTime() - (30 * 24 * 60 * 60 * 1000));
   var last90 = new Date(last60.getTime() - (30 * 24 * 60 * 60 * 1000));
 
-  let baseQuery = SearchQuery.queryString(req.body.criteria)
+  let criteria = req.body.criteria.trim() + "~2";
+  let baseQuery = SearchQuery.queryString(criteria);
   let conj = [baseQuery];
   if (req.body.filterDiagnosis) {
     conj.push(SearchQuery.term(req.body.filterDiagnosis).field('code.text'))
