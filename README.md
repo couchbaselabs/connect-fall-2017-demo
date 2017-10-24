@@ -172,7 +172,7 @@ CREATE INDEX `location-idx` ON `health`(type.coding[0].code) WHERE resourceType 
 Monitoring incoming observations from our select patient:
 
 ```
-CREATE INDEX `observation-idx` ON `health`(subject.reference, issued,  valueQuantity.`value`);
+CREATE INDEX `observation-idx` ON `health`((`subject`.`reference`),`issued` DESC,(`valueQuantity`.`value`))
 ```
 
 Full text search:
