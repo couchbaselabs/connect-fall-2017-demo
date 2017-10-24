@@ -18,14 +18,15 @@
         </div>
       </div>
       <!-- /.box-header -->
-      <div class="box-body" style="padding-left:24px;">
+      <div class="box-body">
         <div class="container">
           <div class="row">
-            <div v-if="patient" class="col-md-6">
+            <div v-if="patient" class="col-md-5">
               <p><strong>Gender:</strong>  {{ patient.gender.text }}</p>
               <p><strong>Birth Date:</strong>  {{ new Date(patient.birthDate).toDateString() }}</p>
             </div>
-            <div v-if="patient && patient.telecom" class="col-md-6">
+            <div v-if="patient && patient.telecom" class="col-md-7">
+              <p><strong>Address:</strong> {{ patient.address[0].text }}</p>
               <template v-for="(item, index) in getExtensions(patient.telecom[0])">
                 <p :key="item[0]"><strong>{{ toCapitalized(item[0]) }}:</strong> {{ item[1] }}</p>
               </template>
