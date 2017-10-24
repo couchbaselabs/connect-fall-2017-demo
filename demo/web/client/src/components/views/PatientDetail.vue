@@ -160,6 +160,7 @@ export default {
     },
     refresh () {
       this.getModelAndDoc('patient', `/records/patient/${config.id}`)
+      this.getConditions()
     }
   },
   mounted () {
