@@ -23,7 +23,7 @@ UA_APPLICATION_MASTER_SECRET='<Your app master secret>'
 CLUSTER='couchbase://localhost'
 CLUSTER_USER='<username>'
 CLUSTER_PASSWORD='<password>'
-CLUSTER_CBAS='localhosst:8095'
+CLUSTER_CBAS='localhost:8095'
 Ctrl-d
 node ./bin/www
 ```
