@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+for ((index = 188000; index < 375293; index += 1000))
+do
+    curl http://fhirtest.uhn.ca/baseDstu3"?_getpages=fe684ab7-5219-4b45-86d6-0115838054dc&_count=1000&_pretty=true&_bundletype=history&_getpagesoffset=$index" > bundle.$index
+    echo $index
+    sleep 5
+done

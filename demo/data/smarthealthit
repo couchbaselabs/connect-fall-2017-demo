@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+url="https://sb-fhir-stu3.smarthealthit.org/smartstu3/open"
+
+patient=("smart-1098667" "smart-1134281" "smart-1186747" "smart-1291938" "smart-1614502"
+         "smart-1627321" "smart-1869612" "smart-2080416" "smart-2081539" "smart-2113340"
+	 "smart-4444001" "smart-5555001" "smart-5555002" "smart-5555003" "smart-640264"
+	 "smart-644201"  "smart-6666001" "smart-724111"  "smart-767980"  "smart-7777704"
+	 "smart-8888801" "smart-8888804" "smart-897185"  "smart-935270"  "smart-967332")
+
+type=("Observation" "Condition" "Encounter")
+
+set -x
+
+for id in "${patient[@]}"
+do
+     http ${url}/Patient/${id} > docs/Patient.${id}.json
+
+     for record in "${type[@]}"
+     do
+	  http "${url}/${record}?subject:reference=Patient/${id}" > docs/${record}.${id}.json
+     done
+done
