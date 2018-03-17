@@ -6,7 +6,8 @@
         "request": "launch",
         "name": "Launch Program",
         "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v8.1.2/bin/node",
-        "program": "${workspaceRoot}/bin/www"
+        "program": "${workspaceRoot}/bin/www",
+        "envFile": "${workspaceRoot}/.env"
       }
     ]
   }
