@@ -5,7 +5,18 @@ def parametersPackage = packageRoot + ".app.launch.Parameters"
 
 def BUILD_TOOLS_VERSION = "26.0.2"
 
+def props = new Properties()
+props.load(new FileInputStream(project.file("release.properties")))
+
 android {
+    signingConfigs {
+        release {
+            storeFile file(props.keyStore)
+            storePassword props.keyStorePassword
+            keyAlias props.keyAlias
+            keyPassword props.keyAliasPassword
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion "${BUILD_TOOLS_VERSION}"
     defaultConfig {
@@ -24,7 +35,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.release
         }
     }
     packagingOptions {
@@ -37,13 +48,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 }
-
-def props = new Properties()
-props.load(new FileInputStream(rootProject.file("release.properties")))
-android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
-android.signingConfigs.release.storePassword props.keyStorePassword
-android.signingConfigs.release.keyAlias props.keyAlias
-android.signingConfigs.release.keyPassword props.keyAliasPassword
 
 def SUPPORT_LIBRARY_VERSION = "26.0.2"
 def COUCHBASE_LITE_VERSION = "1.4.1-78" // 1.4.1
