@@ -2,7 +2,9 @@
   <div :class="['wrapper', classes]">
     <header class="main-header">
       <span class="logo">
-        <a href="/"><img src="/static/img/demo_logo.png" alt="Logo" height="90%" width="auto"></a>
+        <a href="/">
+          <h1 class="header-title">My<img src="/static/img/Star_of_life.svg" alt="Logo" height="90%" width="auto">Health</h1>
+        </a>
       </span>
       <!-- Header Navbar -->
       <nav class="navbar navbar-static-top" role="navigation">
@@ -40,7 +42,6 @@
                         <p>Temperature Spike <em>{{ alerts[0].value.toFixed(1) }}</em></p>
                         <button v-on:click="showPatient()" type="button" class="btn btn-block btn-danger btn-xs">Patient Detail</button>
                       </a>
-                      </a>
                     </li>
                     <!-- end alert -->
                   </ul>
@@ -55,7 +56,7 @@
       </nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
-    <sidebar :display-name="demo.displayName" />
+    <sidebar/>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -67,7 +68,7 @@
     <!-- Main Footer -->
     <footer class="main-footer">
       <strong>Copyright &copy; {{year}}
-        <a href="#">CouchHealth</a></strong> All rights reserved.
+        <a href="#">My Health</a></strong> All rights reserved.
     </footer>
   </div>
   <!-- ./wrapper -->
@@ -75,7 +76,6 @@
 
 <script>
 import EventBus from '../event-bus'
-import faker from 'faker'
 import { mapState } from 'vuex'
 import config from '../config'
 import Sidebar from './Sidebar'
@@ -100,15 +100,7 @@ export default {
   computed: {
     ...mapState([
       'alerts'
-    ]),
-    demo () {
-      return {
-        displayName: faker.name.findName(),
-        avatar: faker.image.avatar(),
-        email: faker.internet.email(),
-        randomCard: faker.helpers.createCard()
-      }
-    }
+    ])
   },
   methods: {
     showPatient () {
@@ -155,7 +147,6 @@ padding: 32px!important;
 .skin-blue .main-header .logo {
 background-color: #3575C6!important;
 height: 68px!important;
-padding: 8px!important;
 margin: 0!important;
 width: 230px;
 text-align: left;
