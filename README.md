@@ -1,6 +1,24 @@
 # Couchbase Connect Fall 2017 Demo
 
-Background, stage script, and application code for Couchbase Connect SF Fall 2017 demo talk.
+Application code for Couchbase Connect SF Fall 2017 demo talk.
+
+## Credits
+
+This project includes significant contributions from others.
+
+The web client is based on [CoPilot](https://github.com/misterGF/CoPilot) and
+is used here under terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+The Android source includes a port of [Jasonette](https://jasonette.com/) and is
+included here under terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+Images used in the web client are copyright their respective owners.  Attributions are listed
+under web/client/static/img/README.md.
+
+Other copyrights may apply.  Inclusion in this work does not imply additional rights beyond
+those granted by the copyright holders.
+
+This overall project, as applicable, is released under terms of the Apache 2.0 License.  See `LICENSE` for details.
 
 ## Instructions
 
