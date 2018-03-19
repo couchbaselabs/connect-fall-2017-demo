@@ -1,6 +1,9 @@
 release.properties
-demo/mobile/android/CBCHealth/app/src/main/assets/airshipconfig.properties
-demo/web/server/public
+mobile/android/CBCHealth/app/src/main/assets/airshipconfig.properties
+web/server/public
+web/server/env.dev
+web/server/env.prod
+docker/app.env
 
 .vscode/*
 !.vscode/settings.json
