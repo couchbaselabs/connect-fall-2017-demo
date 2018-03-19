@@ -1,0 +1,4 @@
+https://github.com/synthetichealth/synthea[]
+https://github.com/smart-on-fhir/sample-patients[]
+https://sb-fhir-stu3.smarthealthit.org/smartstu3/open[]
+http://fhirtest.uhn.ca[]

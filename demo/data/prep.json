@@ -1,0 +1,439 @@
+[
+  {
+    "abatementDateTime": "2012-10-16T21:50:51+00:00",
+    "assertedDate": "2012-09-16",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "75498004",
+          "display": "Scalitis",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Scalitis"
+    },
+    "context": {
+      "reference": "urn:uuid:a151deb7-e793-4517-8663-fcbdc0e29948"
+    },
+    "id": "000002de-0a65-4000-8038-a877256f4128",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "note": [
+      {
+        "text": "Scaling congestion caused network to behave badly leading to the administrators health deteriorating. He came down with a fever."
+      }
+    ],
+    "onsetDateTime": "2012-09-16T13:11:28+00:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:ff2ca2f4-41aa-4fa1-9e5e-74600576d45d"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "abatementDateTime": "1983-04-05T17:04:26+00:00",
+    "assertedDate": "1983-03-08",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "75498004",
+          "display": "LowAvailability",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "LowAvailability"
+    },
+    "context": {
+      "reference": "urn:uuid:087b7113-b635-4b68-bec9-71298b4993bd"
+    },
+    "id": "000003ca-54a8-43cf-afbe-2dc63220615a",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "note": [
+      {
+        "text": "The cluster failed and caused headache for the administrator. The administrator was responsible due to health deteriorating. He came down with a fever and cold the next day."
+      }
+    ],
+    "onsetDateTime": "1983-03-08T04:33:59+00:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:870a6517-507f-4e5d-a5cd-522699773df7"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "abatementDateTime": "2014-08-23T16:17:10+00:00",
+    "assertedDate": "2014-07-25",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "75498004",
+          "display": "LowAvailability",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "LowAvailability"
+    },
+    "context": {
+      "reference": "urn:uuid:88a8f5dc-114e-490b-baf6-64dfa58eea16"
+    },
+    "id": "0000084c-58c0-4f9f-82d0-01e51cc05c92",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "note": [
+      {
+        "text": "Disk failure caused network to behave badly leading to the administrators health deteriorating. He came down with a fever and developed flu like symptoms."
+      }
+    ],
+    "onsetDateTime": "2014-07-25T01:16:18+00:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:d0b8a380-a45f-47b8-bcc2-cc50ab59ed0b"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "abatementDateTime": "2007-12-03T02:41:53+00:00",
+    "assertedDate": "2007-11-01",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "75498004",
+          "display": "Mongoitis",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Mongoitis"
+    },
+    "context": {
+      "reference": "urn:uuid:b6bd779c-c776-445c-978d-b77add37ad75"
+    },
+    "id": "0000088e-6ce9-4292-89ea-beaa9caa989f",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "note": [
+      {
+        "text": "Monog DB caused network to fail. The administrators health deteriorated and she came down with a fever and cold."
+      }
+    ],
+    "onsetDateTime": "2007-11-01T09:23:37+00:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:2dfa2655-7250-4f78-b690-24020b0aa129"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "abatementDateTime": "2007-10-31T00:55:31+00:00",
+    "assertedDate": "2007-10-01",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "75498004",
+          "display": "Mongoitis",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Mongoitis"
+    },
+    "context": {
+      "reference": "urn:uuid:91a48862-0ac4-454a-a316-f171286adef6"
+    },
+    "id": "00000a18-8f3b-499c-bb9d-81409274102e",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "note": [
+      {
+        "text": "MDB caused network to behave badly leading to the administrators health deteriorating. He came down with a fever."
+      }
+    ],
+    "onsetDateTime": "2007-10-01T08:07:23+00:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:94a6e670-258c-4485-8e50-4cd748bec0f0"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "abatementDateTime": "2014-07-15T02:24:47+00:00",
+    "assertedDate": "2014-06-16",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "75498004",
+          "display": "Unsharded",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Unsharded"
+    },
+    "context": {
+      "reference": "urn:uuid:c56d7fcc-42cc-474a-b0f2-112a570699fb"
+    },
+    "id": "00002141-ff20-4128-ae9f-1a3aadb03826",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "note": [
+      {
+        "text": "Sharding did not work well with the database cluster. The administrator came down with a fever. The project manager had issues too and was down with cold and flu."
+      }
+    ],
+    "onsetDateTime": "2014-06-16T04:58:37+00:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:083a3b76-47cf-414a-ac5f-f3294e472476"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "assertedDate": "2010-03-10",
+    "clinicalStatus": "active",
+    "code": {
+      "text": "Mongoitis"
+    },
+    "id": "00a73037-e73c-4b48-8358-4c528c1c5912",
+    "note": [
+      {
+        "text": "Diagnosis confirmed by lack of shards."
+      }
+    ],
+    "onsetDateTime": "2010-03-10T12:06:43-08:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:f8d95af7-cc3a-44d0-8597-959dc65303a9"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "assertedDate": "2010-09-07",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "230690007",
+          "display": "Stroke",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Stroke"
+    },
+    "context": {
+      "reference": "urn:uuid:6fb102b7-94d8-47c6-af06-88590015803a"
+    },
+    "id": "00ec7f4b-edb9-4595-8143-2911e6874ad8",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "onsetDateTime": "2010-09-07T07:16:03-07:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:11a019de-280a-468b-b6d8-789b5e5880c9"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "abatementDateTime": "2015-09-02T18:47:00-07:00",
+    "assertedDate": "2015-08-05",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "444814009",
+          "display": "Viral sinusitis (disorder)",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Viral sinusitis (disorder)"
+    },
+    "context": {
+      "reference": "urn:uuid:369f9fb0-3a83-4bf7-b8d9-a11dc379adbb"
+    },
+    "id": "01ff456e-98e9-4b32-b94c-5babd8af7750",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "onsetDateTime": "2015-08-05T16:00:08-07:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:b93f9176-3b55-47a4-842c-634688a91033"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "abatementDateTime": "2017-01-07T10:57:30-08:00",
+    "assertedDate": "2016-03-26",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "72892002",
+          "display": "Normal pregnancy",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Normal pregnancy"
+    },
+    "context": {
+      "reference": "urn:uuid:74f8f497-5816-489b-990b-a97bcaee4de4"
+    },
+    "id": "02146cc4-8154-4668-a14f-0705fa7ffefb",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "onsetDateTime": "2016-03-26T10:57:30-07:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:5ae9c890-c376-454d-aaac-1f56104ed000"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "abatementDateTime": "2017-08-15T05:43:23-07:00",
+    "assertedDate": "2016-10-25",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "72892002",
+          "display": "Normal pregnancy",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Normal pregnancy"
+    },
+    "context": {
+      "reference": "urn:uuid:42804cc2-2a84-4b19-ae87-c3dd8bb0f176"
+    },
+    "id": "024c52d0-c8f7-4396-a422-90e8188c7959",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "onsetDateTime": "2016-10-25T05:43:23-07:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:793b0c43-cd3d-40e7-ae68-09dd8e88ec5c"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "assertedDate": "1958-08-31",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "87433001",
+          "display": "Pulmonary emphysema (disorder)",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Pulmonary emphysema (disorder)"
+    },
+    "context": {
+      "reference": "urn:uuid:90acfe99-a5e3-428e-82d4-5c8153df99f1"
+    },
+    "id": "0263e64b-f7c2-4d50-9041-eb5fd6a311a3",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "onsetDateTime": "1958-08-31T06:09:37-07:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:5f6cfa61-a778-4147-8dd7-7b3bba211278"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "abatementDateTime": "2008-08-26T05:55:12-07:00",
+    "assertedDate": "2008-06-18",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "443165006",
+          "display": "Pathological fracture due to osteoporosis (disorder)",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Pathological fracture due to osteoporosis (disorder)"
+    },
+    "context": {
+      "reference": "urn:uuid:46d4b29a-6b28-4b1a-a2ae-840558202e90"
+    },
+    "id": "026900dd-7c8d-449a-9322-0a647fe28c5e",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "onsetDateTime": "2008-06-18T11:23:36-07:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:cd82f31e-c35c-4106-8b7c-2647ff77a823"
+    },
+    "verificationStatus": "confirmed"
+  },
+  {
+    "abatementDateTime": "2010-06-02T09:21:19-07:00",
+    "assertedDate": "2010-05-20",
+    "clinicalStatus": "active",
+    "code": {
+      "coding": [
+        {
+          "code": "10509002",
+          "display": "Acute bronchitis (disorder)",
+          "system": "http://snomed.info/sct"
+        }
+      ],
+      "text": "Acute bronchitis (disorder)"
+    },
+    "context": {
+      "reference": "urn:uuid:b6413732-10d1-49d3-824e-78b2538a834f"
+    },
+    "id": "0288145a-c9fb-43f1-a5cf-49ac81ecd8e2",
+    "meta": {
+      "profile": [
+        "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem"
+      ]
+    },
+    "onsetDateTime": "2010-05-20T06:32:36-07:00",
+    "resourceType": "Condition",
+    "subject": {
+      "reference": "urn:uuid:88a7c52a-ada4-4acb-a932-76dc1672c8e8"
+    },
+    "verificationStatus": "confirmed"
+  }
+]
