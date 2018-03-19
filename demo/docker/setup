@@ -1,0 +1,41 @@
+#!/bin/bash
+
+script_home="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+
+export DOCKER=docker
+
+source ${script_home}/server.env
+source ${script_home}/app.env
+source ${script_home}/sf-cluster
+
+${script_home}/network start
+${script_home}/server
+
+sleep 5
+
+# Create query indexes
+"$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" cbq --script="CREATE INDEX \`resource-idx\` ON \`health\`(\`resourceType\`,\`id\`);" \
+  -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -q
+
+"$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" cbq --script="CREATE INDEX \`observation-idx\` ON \`health\`((\`subject\`.\`reference\`),\`issued\` DESC,(\`valueQuantity\`.\`value\`))" \
+  -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -q
+
+"$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" cbq --script="CREATE INDEX \`location-idx\` ON \`health\`(type.coding[0].code) WHERE resourceType = 'Location';" \
+  -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -q
+
+"$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" mkdir /opt/couchbase/var/lib/couchbase/n1qlcerts
+"$DOCKER" cp ${script_home}/curl_whitelist.json "${COUCHBASE_NODE_NAME}_0":/opt/couchbase/var/lib/couchbase/n1qlcerts/
+"$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" chown couchbase:couchbase /opt/couchbase/var/lib/couchbase/n1qlcerts/curl_whitelist.json
+
+"$DOCKER" cp ${script_home}/fts-index.json "${COUCHBASE_NODE_NAME}_0":/tmp/
+"$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" curl -T /tmp/fts-index.json http://"$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD"@localhost:8094/api/index/diagnosis
+
+"$DOCKER" cp ${script_home}/augment-data.json "${COUCHBASE_NODE_NAME}_0":/tmp/
+"$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" cbimport json -c couchbase://127.0.0.1:8091 -d file:///tmp/augment-data.json -g '%id%' -f lines \
+  -b ${COUCHBASE_BUCKET} -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD"
+
+${script_home}/sync-gateway create
+${script_home}/sync-gateway start
+${script_home}/app
+
+adb reverse tcp:4984 tcp:4984

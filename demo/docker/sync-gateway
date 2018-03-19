@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Configuration happens via environment variables taken from the runtime environment,
+# redirected input, or provided on the command line.
+
+Usage() {
+  echo "Usage: $0 {create|start|stop|remove} [VAR=value] ... [< file]"
+}
+
+CMD="$1"
+shift
+
+# Read configuration from stdin when redirected (e.g. $0 < config)
+[[ ! -t 0 ]] && source /dev/stdin
+
+# Override configuration based on supplied arguments
+until [ -z "$1" ]
+do
+  [[ "$1" =~ ^[^=]+=[^=]+$ ]] || { echo Malformed argument "$1"; Usage; exit 1; }
+  eval "$1" || { echo Failed processing argument "$1"; Usage; exit 1; }
+  shift
+done
+
+# Use supplied parameters or try for sensible defaults
+: ${DOCKER:=docker}
+: ${COUCHBASE_NETWORK:=cbnetwork}
+: ${SYNC_GATEWAY:=sync_gateway}
+: ${SYNC_GATEWAY_CONFIG:=$(pwd)/sync-gateway-config.json}
+: ${SYNC_GATEWAY_PORTS:="4984-4985:4984-4985"}
+: ${SYNC_GATEWAY_ADMIN_PORT:=":4985"}
+: ${COUCHBASE_NODE_NAME:=cbserver}
+
+docker_ip() {
+  "$DOCKER" inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$@"
+}
+
+case "$CMD" in
+  create)
+    echo "Creating Sync Gateway container"
+
+    server_url=$(docker_ip "${COUCHBASE_NODE_NAME}_0"):8091
+    export sg_config=$(<${SYNC_GATEWAY_CONFIG})
+    sg_config=${sg_config//\$\{COUCHBASE_SERVER_URL\}/${server_url}}
+
+    SYNC_GATEWAY_PORTS=${SYNC_GATEWAY_PORTS//::/ -p }
+
+    "$DOCKER" create --name "$SYNC_GATEWAY" --network "$COUCHBASE_NETWORK" -p "$SYNC_GATEWAY_PORTS" \
+      --entrypoint /bin/bash -e sg_config \
+      couchbase/sync-gateway -c "sync_gateway -adminInterface ${SYNC_GATEWAY_ADMIN_PORT} <(echo \$sg_config)"
+    ;;
+
+  start)
+    "$DOCKER" start "$SYNC_GATEWAY" 
+    ;;
+
+  stop)
+    echo "Stopping Sync Gateway container $SYNC_GATEWAY"
+    "$DOCKER" stop "$SYNC_GATEWAY"
+    ;;
+  
+  remove)
+    echo "Removing Sync Gateway container $SYNC_GATEWAY"
+    "$DOCKER" stop "$SYNC_GATEWAY"
+    "$DOCKER" rm "$SYNC_GATEWAY"
+    ;;
+
+  *)
+    Usage
+    exit 1
+    ;;
+esac

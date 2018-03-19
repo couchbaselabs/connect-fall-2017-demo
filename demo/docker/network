@@ -1,0 +1,31 @@
+#!/bin/bash
+
+: ${DOCKER:=docker}
+: ${COUCHBASE_NETWORK:=cbnetwork}
+
+case "$1" in
+  start)
+    echo "Docker network $COUCHBASE_NETWORK"
+    $DOCKER network inspect $COUCHBASE_NETWORK >& /dev/null || \
+      $DOCKER network create -d bridge $COUCHBASE_NETWORK
+    ;;
+
+  stop)
+    $DOCKER network rm $COUCHBASE_NETWORK
+    ;;
+
+  status)
+    $DOCKER network ls -f name=$COUCHBASE_NETWORK
+    ;;
+
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+
+  *)
+    echo $"Usage: $0 {start|stop|restart|status}"
+    exit 1
+    ;;
+esac

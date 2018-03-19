@@ -1,0 +1,166 @@
+{
+  "type": "fulltext-index",
+  "name": "diagnosis",
+  "sourceType": "couchbase",
+  "sourceName": "health",
+  "planParams": {
+    "maxPartitionsPerPIndex": 171
+  },
+  "params": {
+    "doc_config": {
+      "mode": "type_field",
+      "type_field": "resourceType"
+    },
+    "mapping": {
+      "default_analyzer": "en",
+      "default_datetime_parser": "dateTimeOptional",
+      "default_field": "_all",
+      "default_mapping": {
+        "dynamic": true,
+        "enabled": false
+      },
+      "default_type": "_default",
+      "index_dynamic": false,
+      "store_dynamic": false,
+      "type_field": "resourceType",
+      "types": {
+        "Condition": {
+          "dynamic": false,
+          "enabled": true,
+          "properties": {
+            "code": {
+              "dynamic": false,
+              "enabled": true,
+              "properties": {
+                "text": {
+                  "dynamic": false,
+                  "enabled": true,
+                  "fields": [
+                    {
+                      "analyzer": "keyword",
+                      "include_in_all": true,
+                      "include_term_vectors": true,
+                      "index": true,
+                      "name": "text",
+                      "store": true,
+                      "type": "text"
+                    }
+                  ]
+                }
+              }
+            },
+            "note": {
+              "dynamic": false,
+              "enabled": true,
+              "properties": {
+                "text": {
+                  "dynamic": false,
+                  "enabled": true,
+                  "fields": [
+                    {
+                      "analyzer": "",
+                      "include_in_all": true,
+                      "include_term_vectors": true,
+                      "index": true,
+                      "name": "text",
+                      "store": true,
+                      "type": "text"
+                    }
+                  ]
+                }
+              }
+            },
+            "onsetDateTime": {
+              "dynamic": false,
+              "enabled": true,
+              "fields": [
+                {
+                  "analyzer": "",
+                  "include_in_all": false,
+                  "include_term_vectors": true,
+                  "index": true,
+                  "name": "onsetDateTime",
+                  "store": true,
+                  "type": "datetime"
+                }
+              ]
+            },
+            "subject": {
+              "dynamic": false,
+              "enabled": true,
+              "properties": {
+                "reference": {
+                  "dynamic": false,
+                  "enabled": true,
+                  "fields": [
+                    {
+                      "analyzer": "keyword",
+                      "include_in_all": false,
+                      "include_term_vectors": false,
+                      "index": false,
+                      "name": "reference",
+                      "store": true,
+                      "type": "text"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "Encounter": {
+          "dynamic": false,
+          "enabled": true,
+          "properties": {
+            "reason": {
+              "dynamic": false,
+              "enabled": true,
+              "properties": {
+                "text": {
+                  "dynamic": false,
+                  "enabled": true,
+                  "fields": [
+                    {
+                      "analyzer": "",
+                      "include_in_all": true,
+                      "include_term_vectors": true,
+                      "index": true,
+                      "name": "text",
+                      "store": true,
+                      "type": "text"
+                    }
+                  ]
+                }
+              }
+            },
+            "subject": {
+              "dynamic": false,
+              "enabled": true,
+              "properties": {
+                "reference": {
+                  "dynamic": false,
+                  "enabled": true,
+                  "fields": [
+                    {
+                      "analyzer": "keyword",
+                      "include_in_all": false,
+                      "include_term_vectors": false,
+                      "index": false,
+                      "name": "reference",
+                      "store": true,
+                      "type": "text"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "store": {
+      "kvStoreName": "mossStore"
+    }
+  },
+  "sourceParams": {}
+}
