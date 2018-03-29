@@ -3,6 +3,7 @@
 script_home="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
 export DOCKER=docker
+export DATA_SOURCES=${script_home}/../data
 
 source ${script_home}/server.env
 source ${script_home}/app.env
@@ -10,8 +11,6 @@ source ${script_home}/sf-cluster
 
 ${script_home}/network start
 ${script_home}/server
-
-sleep 5
 
 # Create query indexes
 "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" cbq --script="CREATE INDEX \`resource-idx\` ON \`health\`(\`resourceType\`,\`id\`);" \
@@ -30,9 +29,13 @@ sleep 5
 "$DOCKER" cp ${script_home}/fts-index.json "${COUCHBASE_NODE_NAME}_0":/tmp/
 "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" curl -T /tmp/fts-index.json http://"$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD"@localhost:8094/api/index/diagnosis
 
-"$DOCKER" cp ${script_home}/augment-data.json "${COUCHBASE_NODE_NAME}_0":/tmp/
-"$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" cbimport json -c couchbase://127.0.0.1:8091 -d file:///tmp/augment-data.json -g '%id%' -f lines \
+for file in ${DATA_SOURCES}/*.json
+do
+  echo import $file
+  "$DOCKER" cp ${file} "${COUCHBASE_NODE_NAME}_0":/tmp/data.json
+  "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" cbimport json -c couchbase://127.0.0.1:8091 -d file:///tmp/data.json -g '%id%' -f lines \
   -b ${COUCHBASE_BUCKET} -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD"
+done
 
 ${script_home}/sync-gateway create
 ${script_home}/sync-gateway start
