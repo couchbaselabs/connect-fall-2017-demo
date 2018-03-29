@@ -69,7 +69,8 @@ exports.cohortLocations = async function(req, res, next) {
   let bucket = req.app.locals.bucket;
   let queryPromise = Promise.promisify(bucket.query, { context: bucket });
       
-  let query = `SELECT address[0].text FROM ${bucket._name} WHERE resourceType = 'Patient' AND id IN ${JSON.stringify(req.body)};`;
+  //let query = `SELECT address[0].text FROM ${bucket._name} WHERE resourceType = 'Patient' AND id IN ${JSON.stringify(req.body)};`;
+  let query = `SELECT CASE WHEN address[0].text IS NOT NULL THEN address[0].text ELSE address[0].line[0] || ", " || address[0].city || ", " || address[0].state || " " || address[0].postalCode END AS text FROM ${bucket._name} WHERE resourceType = 'Patient' AND id IN ${JSON.stringify(req.body)};`;
   
   query = couchbase.N1qlQuery.fromString(query);
   
@@ -82,14 +83,14 @@ exports.cohortLocations = async function(req, res, next) {
       
       // WARNING: This will fail unless the endpoint is white listed for cURL.
       let query = `SELECT RADIANS(results.results[0].geometry.location.lat) as lat, RADIANS(results.results[0].geometry.location.lng) as lng from CURL("https://maps.googleapis.com/maps/api/geocode/json", {"data":["address=${address}", "key=AIzaSyCkXlW0RHOLmA9VX9v80C_zRN486MTrzgE"], "request":"GET"}) results;`
-      
+
       query = couchbase.N1qlQuery.fromString(query);
       
       matched.push(
         queryPromise(query)
         .then(rows => {
           if (rows.length < 1) return;
-         
+
           let patient = { "lat": rows[0].lat, "lng": rows[0].lng };
           let query = `SELECT ${JSON.stringify(patient)} as pat, facility as fac,
                        { "address": address.text, "name": name, "rating": rating, "url": url } as details,
