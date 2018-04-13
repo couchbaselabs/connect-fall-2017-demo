@@ -3,7 +3,7 @@ apply plugin: "com.android.application"
 def packageRoot = "com.couchbase.mobile"
 def parametersPackage = packageRoot + ".app.launch.Parameters"
 
-def BUILD_TOOLS_VERSION = "26.0.2"
+def BUILD_TOOLS_VERSION = "27.0.3"
 
 def props = new Properties()
 props.load(new FileInputStream(project.file("release.properties")))
@@ -49,41 +49,42 @@ android {
     }
 }
 
-def SUPPORT_LIBRARY_VERSION = "26.0.2"
-def COUCHBASE_LITE_VERSION = "1.4.1-78" // 1.4.1
+def SUPPORT_LIBRARY_VERSION = "26.1.0"
+def COUCHBASE_LITE_VERSION = "1.4.1"
 def URBAN_AIRSHIP_VERSION = "8.8.+"
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2", {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:2.2.2", {
         exclude group: "com.android.support", module: "support-annotations"
     })
-    compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
-    compile "com.android.support:support-v4:${SUPPORT_LIBRARY_VERSION}"
-    compile "com.android.support:design:${SUPPORT_LIBRARY_VERSION}"
+    implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
+    implementation "com.android.support:support-v4:${SUPPORT_LIBRARY_VERSION}"
+    implementation "com.android.support:design:${SUPPORT_LIBRARY_VERSION}"
     // Couchbase Mobile SDK
-    compile "com.couchbase.lite:couchbase-lite-android:${COUCHBASE_LITE_VERSION}"
+    implementation "com.couchbase.lite:couchbase-lite-android:${COUCHBASE_LITE_VERSION}"
     // Urban Airship SDK
-    compile "com.urbanairship.android:urbanairship-sdk:${URBAN_AIRSHIP_VERSION}"
+    implementation "com.urbanairship.android:urbanairship-sdk:${URBAN_AIRSHIP_VERSION}"
     // From Jasonette
-    compile "com.android.support:recyclerview-v7:${SUPPORT_LIBRARY_VERSION}"
-    compile "com.android.support:design:${SUPPORT_LIBRARY_VERSION}"
-    compile "com.android.support:support-core-ui:${SUPPORT_LIBRARY_VERSION}"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
-    compile 'com.google.firebase:firebase-messaging:11.0.1'
-    compile 'com.google.android.gms:play-services-maps:11.0.1'
-    compile 'com.squareup.okhttp3:okhttp:3.4.2'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'jp.wasabeef:glide-transformations:2.0.1'
-    compile 'com.eclipsesource.j2v8:j2v8:4.5.0@aar'
-    compile 'com.aurelhubert:ahbottomnavigation:2.0.2'
-    compile 'commons-lang:commons-lang:2.6'
-    compile 'com.github.scribejava:scribejava-apis:4.0.0'
-    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
-    compile 'com.github.maks:AndroidAudioRecorder:0.3.0-jasonette'
-    compile 'com.github.florent37:singledateandtimepicker:1.0.8'
-    compile 'com.jakewharton.timber:timber:4.5.1'
-    testCompile 'junit:junit:4.12'
+    implementation "com.android.support:recyclerview-v7:${SUPPORT_LIBRARY_VERSION}"
+    implementation "com.android.support:design:${SUPPORT_LIBRARY_VERSION}"
+    implementation "com.android.support:support-core-ui:${SUPPORT_LIBRARY_VERSION}"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation 'com.google.firebase:firebase-messaging:12.0.1'
+    implementation 'com.google.android.gms:play-services-gcm:12.0.1'
+    implementation 'com.google.android.gms:play-services-maps:12.0.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+    implementation 'com.eclipsesource.j2v8:j2v8:4.5.0@aar'
+    implementation 'com.aurelhubert:ahbottomnavigation:2.0.2'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation 'com.github.scribejava:scribejava-apis:4.0.0'
+    implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    implementation 'com.github.maks:AndroidAudioRecorder:0.3.0-jasonette'
+    implementation 'com.github.florent37:singledateandtimepicker:1.0.8'
+    implementation 'com.jakewharton.timber:timber:4.5.1'
+    testImplementation 'junit:junit:4.12'
 }
