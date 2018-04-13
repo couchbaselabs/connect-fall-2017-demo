@@ -59,8 +59,8 @@ router.beforeEach((to, from, next) => {
 sync(store, router)
 
 // Set up the event bus to distribute the server sent update events feed
-// Todo: Connect to login ID.  Hardwire the user UUID for now.
-let es = new EventSource(`${config.serverURI}/feed/${config.id}`)
+// Todo: Pick up id via login.
+let es = new EventSource(`${config.serverURI}/events/listen/${config.id}`)
 
 es.addEventListener('update', event => {
   EventBus.$emit('update', JSON.parse(event.data))

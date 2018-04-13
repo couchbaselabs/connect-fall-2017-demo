@@ -16,6 +16,7 @@ import com.couchbase.mobile.custom.ArcGaugeView;
 import com.couchbase.mobile.database.CBLite;
 import com.couchbase.mobile.utils.DateUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,8 +81,19 @@ public class TemperatureActivity extends AppCompatActivity {
                 Map<String, Object> properties = new HashMap<>();
 
                 // Format reading as FHIR Observation
+                // Todo consider POJO implementation
                 properties.put("resourceType", "Observation");
-                properties.put("issued",DateUtils.toJson((Date)sample.get("issued")));
+                properties.put("code", new HashMap<String, Object>() {{
+                    put("coding", new ArrayList<Map<String, Object>>(1) {{
+                        add(new HashMap<String, Object>() {{
+                            put("code", "39106-0");
+                            put("display", "Temperature");
+                            put("system", "http://loinc.org");
+                        }});
+                    }});
+                    put("text", "Temperature");
+                }});
+                properties.put("issued", DateUtils.toJson((Date)sample.get("issued")));
                 properties.put("valueQuantity", new HashMap<String, Object>() {{
                     put("value", sample.get("value"));
                     put("unit", sample.get("unit"));

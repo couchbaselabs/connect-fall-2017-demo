@@ -50,8 +50,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-const feed = require('./routes/feed');
-app.use('/feed', sse, feed);
+const events = require('./routes/events');
+app.use('/events/listen', sse, events);
+app.use('/events', events);
 const messaging = require('./routes/messaging');
 app.use('/messaging', messaging);
 const search = require('./routes/search');
