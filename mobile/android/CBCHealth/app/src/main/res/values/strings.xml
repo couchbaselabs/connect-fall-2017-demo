@@ -6,4 +6,16 @@
     <string name="degrees_celsius">°C</string>
     <string name="title_activity_patient">PatientActivity</string>
     <string name="title_activity_care_message">Care Message</string>
+    <string name="title_activity_vitals">Vitals</string>
+    <string name="title_dialog_temperature">Temperature</string>
+    <string-array name="vital_signs">
+        <item>Temperature</item>
+        <item>Weight</item>
+        <item>Blood Pressure</item>
+    </string-array>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_temperature_prompt">Temperature</string>
+    <string name="dialog_temperature_title">Enter Temperature</string>
+    <string name="thermometer">Thermometer</string>
 </resources>
