@@ -95,6 +95,11 @@ public class RF430_TMPSNS_EVM implements Collector, Runnable {
     };
 
     @Override
+    public int getType() {
+        return COLLECTOR_TYPE_TEMPERATURE;
+    }
+
+    @Override
     public void initialize(Context ctx, Intent parameters) throws IllegalArgumentException {
         if (!(ctx instanceof Activity)) {
             throw new IllegalArgumentException(TAG + " requires an Activity Context");
@@ -102,11 +107,6 @@ public class RF430_TMPSNS_EVM implements Collector, Runnable {
 
         hardwareManager = (NfcVHardwareManager) HardwareManagerFactory.getHardwareManager(ctx,
                 HardwareManager.HARDWARE_TYPE_NFCV);
-    }
-
-    @Override
-    public int getType() {
-        return COLLECTOR_TYPE_TEMPERATURE;
     }
 
     @Override
@@ -206,13 +206,7 @@ public class RF430_TMPSNS_EVM implements Collector, Runnable {
 
     private void stopBackgroundThread() {
         backgroundThread.quit();
-
-        try {
-            backgroundThread.join();
-            backgroundThread = null;
-            backgroundHandler = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        backgroundThread = null;
+        backgroundHandler = null;
     }
 }
