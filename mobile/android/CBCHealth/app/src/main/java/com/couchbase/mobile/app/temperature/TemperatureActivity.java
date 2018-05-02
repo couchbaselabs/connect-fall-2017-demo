@@ -9,26 +9,24 @@ import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Document;
 import com.couchbase.lite.util.Log;
 import com.couchbase.mobile.R;
-import com.couchbase.mobile.app.launch.Runtime;
 import com.couchbase.mobile.collectors.Collector;
 import com.couchbase.mobile.collectors.CollectorService;
 import com.couchbase.mobile.custom.ArcGaugeView;
 import com.couchbase.mobile.database.CBLite;
-import com.couchbase.mobile.utils.DateUtils;
+import com.couchbase.mobile.fhir.Temperature;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class TemperatureActivity extends AppCompatActivity {
+public class TemperatureActivity extends AppCompatActivity implements Collector.OnSampleReadyListener {
     private static final String TAG = TemperatureActivity.class.getCanonicalName();
 
     private ArcGaugeView agv;
     private TemperatureChart chart;
 
     private Collector collector;
-    private boolean sampling = false;
+    private AtomicBoolean sampling = new AtomicBoolean(false);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,66 +67,42 @@ public class TemperatureActivity extends AppCompatActivity {
     }
 
     private void startSampling() {
-        sampling = true;
+        sampling = new AtomicBoolean(true);
 
-        final Collector.OnSampleReadyListener listener = new Collector.OnSampleReadyListener() {
-            @Override
-            public void sample(final Map<?, ?> sample) {
-                if (null == sample) return;
-
-                setTemperature((Double)sample.get("value"));
-
-                Map<String, Object> properties = new HashMap<>();
-
-                // Format reading as FHIR Observation
-                // Todo consider POJO implementation
-                properties.put("resourceType", "Observation");
-                properties.put("code", new HashMap<String, Object>() {{
-                    put("coding", new ArrayList<Map<String, Object>>(1) {{
-                        add(new HashMap<String, Object>() {{
-                            put("code", "39106-0");
-                            put("display", "Temperature");
-                            put("system", "http://loinc.org");
-                        }});
-                    }});
-                    put("text", "Temperature");
-                }});
-                properties.put("issued", DateUtils.toJson((Date)sample.get("issued")));
-                properties.put("valueQuantity", new HashMap<String, Object>() {{
-                    put("value", sample.get("value"));
-                    put("unit", sample.get("unit"));
-                }});
-                // Todo pull reference id from login info?
-                properties.put("subject", new HashMap<String, Object>() {{
-                    put("reference", "urn:uuid:" + Runtime.getPatientID());
-                }});
-
-                Document record = CBLite.getInstance().getDatabase().createDocument();
-                try {
-                    record.putProperties(properties);
-                } catch (CouchbaseLiteException e) {
-                    Log.e(TAG, "Failed to call putProperties(): " + properties);
-                }
-
-                SystemClock.sleep(1000);
-
-                if (!sampling) return;
-
-                collector.requestSample(this);
-            }
-        };
-
-        collector.requestSample(listener);
+        collector.requestSample(this);
     }
 
     private void stopSampling() {
-        sampling = false;
+        sampling = new AtomicBoolean(false);
     }
 
-    private void setTemperature(double temperature) {
-        agv.setText(String.format ("%.1f", temperature));
-        agv.setSweep((float)temperature*355.0F/108.0F);
+    @Override
+    public void sample(final Map<String, ? extends Object> sample) {
+        if (null == sample) return;
 
-        chart.addEntry((float)temperature);
+        setTemperature((Double) sample.get("value"));
+
+        Temperature fhir = new Temperature(sample.get("value"), sample.get("unit"), (Date) sample.get("issued"));
+
+        Document record = CBLite.getInstance().getDatabase().createDocument();
+
+        try {
+            record.putProperties(fhir);
+        } catch (CouchbaseLiteException ex) {
+            Log.e(TAG, "Failed to call putProperties(): " + fhir);
+        }
+
+        if (!sampling.get()) return;
+
+        SystemClock.sleep(1000);
+
+        collector.requestSample(this);
+    }
+
+    private void setTemperature(final double temperature) {
+        agv.setText(String.format("%.1f", temperature));
+        agv.setSweep((float) temperature * 355.0F / 108.0F);
+
+        chart.addEntry((float) temperature);
     }
 }
