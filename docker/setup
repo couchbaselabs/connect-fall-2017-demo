@@ -3,7 +3,7 @@
 script_home="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
 export DOCKER=docker
-export DATA_SOURCES=${script_home}/../data
+: ${DATA_SOURCES:=${script_home}/../data}
 
 source ${script_home}/server.env
 source ${script_home}/app.env
@@ -22,13 +22,16 @@ ${script_home}/server
 "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" cbq --script="CREATE INDEX \`location-idx\` ON \`health\`(type.coding[0].code) WHERE resourceType = 'Location';" \
   -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -q
 
+# Whitelist sites for cURL
 "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" mkdir /opt/couchbase/var/lib/couchbase/n1qlcerts
 "$DOCKER" cp ${script_home}/curl_whitelist.json "${COUCHBASE_NODE_NAME}_0":/opt/couchbase/var/lib/couchbase/n1qlcerts/
 "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" chown couchbase:couchbase /opt/couchbase/var/lib/couchbase/n1qlcerts/curl_whitelist.json
 
+# Create Full Text Search index
 "$DOCKER" cp ${script_home}/fts-index.json "${COUCHBASE_NODE_NAME}_0":/tmp/
 "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" curl -T /tmp/fts-index.json http://"$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD"@localhost:8094/api/index/diagnosis
 
+# Import sample data
 for file in ${DATA_SOURCES}/*.json
 do
   echo import $file
