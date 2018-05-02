@@ -18,10 +18,12 @@ public class ToastFactory {
 
     public static void makeToast(Context context, String text, int style, int duration) {
         Toast toast = Toast.makeText(context, text, duration);
-        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.utility_toast, null);
-        TextView textView = (TextView) layout.findViewById(R.id.utility_toast_text);
+        TextView textView = layout.findViewById(R.id.utility_toast_text);
+
+        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL | Gravity.FILL_HORIZONTAL, 0, 0);
+        textView.setTextColor(ContextCompat.getColor(context, R.color.bright_white));
         textView.setText(text);
 
         switch (style) {
