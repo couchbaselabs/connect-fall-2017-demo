@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.couchbase.mobile.R;
+import com.couchbase.mobile.app.manual.VitalsActivity;
 import com.couchbase.mobile.app.patient.PatientActivity;
 import com.couchbase.mobile.app.temperature.TemperatureActivity;
 import com.jasonette.seed.Core.JasonViewActivity;
@@ -23,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onTemperatureButtonClick(View v) {
         Intent intent = new Intent(this, TemperatureActivity.class);
+        startActivity(intent);
+    }
+
+    public void onVitalsButtonClick(View v) {
+        Intent intent = new Intent(this, VitalsActivity.class);
         startActivity(intent);
     }
 
