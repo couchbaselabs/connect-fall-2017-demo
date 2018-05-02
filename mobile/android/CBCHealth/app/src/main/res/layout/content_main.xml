@@ -44,6 +44,7 @@
         android:drawableRight="@drawable/ic_cardiogram"
         android:gravity="left|center"
         android:text="Heart Rate"
+        android:onClick="onVitalsButtonClick"
         android:textAllCaps="false"
         android:textSize="22sp"
         android:textColor="@color/colorPrimary"
