@@ -1,4 +1,4 @@
-package com.couchbase.mobile.app.patient;
+package com.couchbase.mobile.app.common;
 
 public class Item {
     private String label;

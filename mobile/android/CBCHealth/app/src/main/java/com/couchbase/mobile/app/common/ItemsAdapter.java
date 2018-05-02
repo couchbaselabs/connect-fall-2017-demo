@@ -1,4 +1,4 @@
-package com.couchbase.mobile.app.patient;
+package com.couchbase.mobile.app.common;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.couchbase.mobile.app.common.Item;
 import com.couchbase.mobile.R;
 
 import java.util.List;

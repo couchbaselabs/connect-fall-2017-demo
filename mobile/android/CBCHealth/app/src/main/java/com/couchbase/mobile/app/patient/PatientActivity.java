@@ -7,6 +7,8 @@ import android.widget.ListView;
 
 import com.couchbase.lite.Document;
 import com.couchbase.mobile.R;
+import com.couchbase.mobile.app.common.Item;
+import com.couchbase.mobile.app.common.ItemsAdapter;
 import com.couchbase.mobile.app.launch.Runtime;
 import com.couchbase.mobile.database.CBLite;
 
