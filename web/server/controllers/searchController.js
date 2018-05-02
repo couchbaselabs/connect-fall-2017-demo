@@ -155,7 +155,7 @@ group by substring(e.period.`start`, 1, 7) as year_month, p.maritalStatus.text a
 
     statement +=    "AND c.code.text = '" + req.query.code + "' " +
                     "AND GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) BETWEEN " + req.query.min_age + " AND " + req.query.max_age + " " +
-                    "GROUP BY SUBSTRING(e.period.`start`, 1, 7) AS year_month, p.maritalStatus.text as maritalStatus";
+                    "GROUP BY SUBSTRING(e.period.`start`, 0, 7) AS year_month, p.maritalStatus.text as maritalStatus";
     var query = CbasQuery.fromString(statement);
     cluster.query(query, (error, result) => {
         if(error) {
@@ -214,7 +214,7 @@ exports.analyticsDetails = async function(req, res, next) {
 
     statement +=    "AND c.code.text = '" + req.query.diagnosis + "' " +
                     "AND GET_YEAR(DATETIME(e.period.`start`)) - GET_YEAR(DATE(p.birthDate)) BETWEEN " + req.query.min_age + " AND " + req.query.max_age + " " +
-                    "AND SUBSTRING(e.period.`start`, 1, 7) = '" + req.query.year_month + "' " +
+                    "AND SUBSTRING(e.period.`start`, 0, 7) = '" + req.query.year_month + "' " +
                     "LIMIT 20";
 
     var query = CbasQuery.fromString(statement);
@@ -246,7 +246,7 @@ exports.analyticsByAge = async function(req, res, next) {
   }
 
   query += `GROUP BY
-              substring(c.assertedDate, 1, 7) as year_month, 
+              substring(c.assertedDate, 0, 7) as year_month, 
               to_bigint((get_year(current_date()) - get_year(date(p.birthDate))) / 30) as age_group
             ORDER BY year_month`
 
@@ -323,7 +323,7 @@ exports.analyticsByAgeDetails = async function(req, res, next) {
     query += `AND p.address[0].city = '${req.query.city}' `;
   }
 
-  query +=       `and substring(c.assertedDate, 1, 7) = '${req.query.year_month}'
+  query +=       `and substring(c.assertedDate, 0, 7) = '${req.query.year_month}'
                   and to_bigint((GET_YEAR(CURRENT_DATE()) - GET_YEAR(DATE(p.birthDate))) / 30) = ${req.query.age_group}
                   LIMIT 20;`;
 
@@ -358,7 +358,7 @@ exports.analyticsSocial = async function(req, res, next) {
   }
 
   query += `GROUP BY
-              substring(c.assertedDate, 1, 7) as year_month,
+              substring(c.assertedDate, 0, 7) as year_month,
               p.telecom[0].facebook is not unknown as Facebook,
               p.telecom[0].whatsapp is not unknown as WhatsApp,
               p.telecom[0].snapchat is not unknown as Snapchat
@@ -456,7 +456,7 @@ exports.analyticsSocialDetails = async function(req, res, next) {
     query += `AND p.telecom[0].${req.query.media} is not unknown `;
   }
 
-  query +=   `AND SUBSTRING(c.assertedDate, 1, 7) = '${req.query.year_month}'
+  query +=   `AND SUBSTRING(c.assertedDate, 0, 7) = '${req.query.year_month}'
                 LIMIT 20;`;
 
   query = CbasQuery.fromString(query);
