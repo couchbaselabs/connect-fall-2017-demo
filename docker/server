@@ -34,7 +34,7 @@ done
 : ${COUCHBASE_RBAC_PASSWORD:?Please supply an RBAC password}
 : ${COUCHBASE_RBAC_NAME:=}
 : ${COUCHBASE_RBAC_ROLES:="bucket_admin[*]"}
-: ${COUCHBASE_SERVICES:="data,index,query,fts"}
+: ${COUCHBASE_SERVICES:="data,index,query,fts,analytics"}
 : ${COUCHBASE_SERVER_PORTS:="8091-8094:8091-8094::11210:11210"}
 : ${COUCHBASE_DOCKER_TAG:=latest}
 
@@ -74,13 +74,13 @@ sleep 15
 # Setup initial cluster/initialize node
 "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" couchbase-cli cluster-init --cluster ${cluster_url} --cluster-name "$COUCHBASE_CLUSTER_NAME" \
   --cluster-username "$COUCHBASE_ADMINISTRATOR_USERNAME" --cluster-password "$COUCHBASE_ADMINISTRATOR_PASSWORD" \
-  --services ${COUCHBASE_SERVICES} --cluster-ramsize 256 \
+  --services ${COUCHBASE_SERVICES} --cluster-ramsize 256 --cluster-analytics-ramsize 1024 \
   --cluster-index-ramsize 256 --cluster-fts-ramsize 256 --index-storage-setting default
 
 # Setup Bucket
 "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" couchbase-cli bucket-create --cluster ${cluster_url} \
   --username "$COUCHBASE_ADMINISTRATOR_USERNAME" --password "$COUCHBASE_ADMINISTRATOR_PASSWORD" \
-  --bucket "$COUCHBASE_BUCKET" --bucket-type couchbase --bucket-ramsize 256
+  --bucket "$COUCHBASE_BUCKET" --bucket-type couchbase --bucket-ramsize 100
 
 # Setup RBAC user using CLI
 "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" couchbase-cli user-manage --cluster ${cluster_url} \
