@@ -1,0 +1,5 @@
+CREATE BUCKET ha WITH {"name":"health"}
+CREATE SHADOW DATASET patient ON ha WHERE resourceType = "Patient"
+CREATE SHADOW DATASET condition ON ha WHERE resourceType = "Condition"
+CREATE SHADOW DATASET encounter ON ha WHERE resourceType = "Encounter"
+CONNECT BUCKET ha
