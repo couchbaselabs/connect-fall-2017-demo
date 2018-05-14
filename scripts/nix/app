@@ -1,0 +1,33 @@
+#! /bin/bash
+
+# Configuration happens via environment variables taken from the runtime environment,
+# piped input, or provided on the command line.
+
+Usage() {
+  echo "Usage: $0 [VAR=value] ... [< file]"
+}
+
+# Read configuration piped to stdin (e.g. $0 < config)
+[[ ! -t 0 ]] && source /dev/stdin
+
+# Override configuration based on supplied arguments
+until [ -z "$1" ]
+do
+  [[ "$1" =~ ^[^=]+=[^=]+$ ]] || { echo Malformed argument "$1"; Usage; exit 1; }
+  eval "$1" || { echo Failed processing argument "$1"; Usage; exit 1; }
+  shift
+done
+
+# Use supplied parameters or try for sensible defaults
+: ${COUCHBASE_RBAC_USERNAME:?Please supply a Couchbase RBAC username}
+: ${COUCHBASE_RBAC_PASSWORD:?Please supply a Couchbase RBAC password}
+: ${UA_APPLICATION_KEY:?Please supply an Urban Airship application key}
+: ${UA_APPLICATION_MASTER_SECRET:?Please supply an Urban Airship master secret}
+
+# Map to environment variables used in app
+export CLUSTER="127.0.0.1:8091"
+export CLUSTER_USER="${COUCHBASE_RBAC_USERNAME}"
+export CLUSTER_PASSWORD="${COUCHBASE_RBAC_PASSWORD}"
+export CLUSTER_CBAS=localhost:8095
+
+npm start >& app.log &

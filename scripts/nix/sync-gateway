@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Configuration happens via environment variables taken from the runtime environment,
+# redirected input, or provided on the command line.
+
+Usage() {
+  echo "Usage: $0 {create|start|stop|remove} [VAR=value] ... [< file]"
+}
+
+CMD="$1"
+shift
+
+# Read configuration from stdin when redirected (e.g. $0 < config)
+[[ ! -t 0 ]] && source /dev/stdin
+
+# Override configuration based on supplied arguments
+until [ -z "$1" ]
+do
+  [[ "$1" =~ ^[^=]+=[^=]+$ ]] || { echo Malformed argument "$1"; Usage; exit 1; }
+  eval "$1" || { echo Failed processing argument "$1"; Usage; exit 1; }
+  shift
+done
+
+# Use supplied parameters or try for sensible defaults
+: ${SYNC_GATEWAY:=sync_gateway}
+: ${SYNC_GATEWAY_CONFIG:=$(pwd)/sync-gateway-config.json}
+: ${SYNC_GATEWAY_ADMIN_PORT:=":4985"}
+
+export sg_config=$(<${SYNC_GATEWAY_CONFIG})
+sg_config=${sg_config//\$\{COUCHBASE_SERVER_URL\}/${server_url}}
+sync_gateway <(echo "${sg_config}")

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# This script intends to simplify configuring Couchbase Server 
+# Configuration happens via environment variables taken from the runtime environment,
+# redirected input, or provided on the command line.
+
+Usage() {
+  echo "Usage: $0 [VAR=value] ... [< file]"
+}
+
+# Read configuration from stdin when redirected (e.g. $0 < config)
+[[ ! -t 0 ]] && source /dev/stdin
+
+# Override configuration based on supplied arguments
+until [ -z "$1" ]
+do
+  [[ "$1" =~ ^[^=]+=[^=]+$ ]] || { echo Malformed argument "$1"; Usage; exit 1; }
+  eval "$1" || { echo Failed processing argument "$1"; Usage; exit 1; }
+  shift
+done
+
+# Use supplied parameters or try for sensible defaults
+: ${COUCHBASE_CLUSTER_NAME:=cluster}
+: ${COUCHBASE_BUCKET:=default}
+: ${COUCHBASE_ADMINISTRATOR_USERNAME:?Please supply an administrator username}
+: ${COUCHBASE_ADMINISTRATOR_PASSWORD:?Please supply an administrator password}
+: ${COUCHBASE_RBAC_USERNAME:?Please supply an RBAC username}
+: ${COUCHBASE_RBAC_PASSWORD:?Please supply an RBAC password}
+: ${COUCHBASE_RBAC_NAME:=}
+: ${COUCHBASE_RBAC_ROLES:="bucket_admin[*]"}
+: ${COUCHBASE_SERVICES:="data,index,query,fts,analytics,eventing"}
+
+: ${cluster_url:="couchbase://127.0.0.1"}
+
+# Setup initial cluster/initialize node
+couchbase-cli cluster-init --cluster ${cluster_url} --cluster-name "$COUCHBASE_CLUSTER_NAME" \
+  --cluster-username "$COUCHBASE_ADMINISTRATOR_USERNAME" --cluster-password "$COUCHBASE_ADMINISTRATOR_PASSWORD" \
+  --services ${COUCHBASE_SERVICES} --cluster-ramsize 256 --cluster-analytics-ramsize 1024 \
+  --cluster-index-ramsize 256 --cluster-fts-ramsize 256 --index-storage-setting default
+
+# Setup Bucket
+couchbase-cli bucket-create --cluster ${cluster_url} \
+  -u "$COUCHBASE_ADMINISTRATOR_USERNAME" -p "$COUCHBASE_ADMINISTRATOR_PASSWORD" \
+  --bucket "$COUCHBASE_BUCKET" --bucket-type couchbase --bucket-ramsize 100
+
+# Setup RBAC user using CLI
+couchbase-cli user-manage --cluster ${cluster_url} \
+  -u "$COUCHBASE_ADMINISTRATOR_USERNAME" -p "$COUCHBASE_ADMINISTRATOR_PASSWORD" \
+  --set --rbac-username "$COUCHBASE_RBAC_USERNAME" --rbac-password "$COUCHBASE_RBAC_PASSWORD" \
+  --rbac-name "$COUCHBASE_RBAC_NAME" --roles "$COUCHBASE_RBAC_ROLES" --auth-domain local
