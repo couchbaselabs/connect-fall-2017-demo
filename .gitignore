@@ -3,7 +3,7 @@ mobile/android/CBCHealth/app/src/main/assets/airshipconfig.properties
 web/server/public
 web/server/env.dev
 web/server/env.prod
-docker/app.env
+scripts/config/app.env
 
 .vscode/*
 !.vscode/settings.json
