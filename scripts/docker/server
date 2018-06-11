@@ -69,13 +69,12 @@ do
   "$DOCKER" run -d --name "${COUCHBASE_NODE_NAME}_${node}" --network "$COUCHBASE_NETWORK" $ports couchbase/server:${COUCHBASE_DOCKER_TAG}
 done
 
-sleep 15
-
-# Setup initial cluster/initialize node
-"$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" couchbase-cli cluster-init --cluster ${cluster_url} --cluster-name "$COUCHBASE_CLUSTER_NAME" \
+# Setup initial cluster/initialize node (loop on fail to allow warmup)
+until "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" couchbase-cli cluster-init --cluster ${cluster_url} --cluster-name "$COUCHBASE_CLUSTER_NAME" \
   --cluster-username "$COUCHBASE_ADMINISTRATOR_USERNAME" --cluster-password "$COUCHBASE_ADMINISTRATOR_PASSWORD" \
   --services ${COUCHBASE_SERVICES} --cluster-ramsize 256 --cluster-analytics-ramsize 1024 \
   --cluster-index-ramsize 256 --cluster-fts-ramsize 256 --index-storage-setting default
+  do echo "waiting (node warmup)..."; sleep 2; done
 
 # Setup Bucket
 "$DOCKER" exec "${COUCHBASE_NODE_NAME}_0" couchbase-cli bucket-create --cluster ${cluster_url} \
