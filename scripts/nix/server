@@ -27,7 +27,7 @@ done
 : ${COUCHBASE_RBAC_USERNAME:?Please supply an RBAC username}
 : ${COUCHBASE_RBAC_PASSWORD:?Please supply an RBAC password}
 : ${COUCHBASE_RBAC_NAME:=}
-: ${COUCHBASE_RBAC_ROLES:="bucket_admin[*]"}
+: ${COUCHBASE_RBAC_ROLES:="Admin"}
 : ${COUCHBASE_SERVICES:="data,index,query,fts,analytics,eventing"}
 
 : ${cluster_url:="couchbase://127.0.0.1"}

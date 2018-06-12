@@ -50,7 +50,7 @@ curl -X POST -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" -d "@${con
 
 cat ${config}/analytics | while read query
 do
-  curl -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" --data-urlencode 'statement=${query}' http://${cluster_ip}:8095/analytics/service
+  curl -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" --data-urlencode "statement=${query}" http://${cluster_ip}:8095/analytics/service
 done
 
 # Import sample data
