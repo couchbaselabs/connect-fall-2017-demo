@@ -1,1 +1,1 @@
-{ "all_access": false, "allowed_urls" : [ "https://maps.googleapis.com/maps/api/geocode/json" ] }
+{ "all_access": false, "allowed_urls" : [ "https://maps.googleapis.com/maps/api/geocode/json", "http://localhost:8080" ] }
