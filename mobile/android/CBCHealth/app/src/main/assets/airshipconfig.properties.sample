@@ -1,0 +1,21 @@
+developmentAppKey = Your Development App Key
+developmentAppSecret = Your Development Secret
+
+productionAppKey = Your Production App Key
+productionAppSecret = Your Production Secret
+
+
+# Toggles between the development and production app credentials
+# Before submitting your application to an app store set to true
+inProduction = false
+
+# LogLevel is "VERBOSE", "DEBUG", "INFO", "WARN", "ERROR" or "ASSERT"
+developmentLogLevel = DEBUG
+productionLogLevel = ERROR
+
+# FCM sender ID
+gcmSender = Your Firebase Cloud Messaging Sender ID
+
+# Notification customization
+notificationIcon = logo_icon
+notificationAccentColor = #1269d3
