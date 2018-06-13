@@ -18,29 +18,30 @@
       "bucket": "health",
       "username": "Administrator",
       "password": "password1",
-      "import_docs": "continuous",
       "users": {
         "0f62b5cb-3735-45f6-8ee9-deaeee7f308a" : {
-	  "password": "password",
-	  "admin_channels": [ "ui", "0f62b5cb-3735-45f6-8ee9-deaeee7f308a" ]
+      	  "password": "password",
+	        "admin_channels": [ "ui", "0f62b5cb-3735-45f6-8ee9-deaeee7f308a" ]
         }
       },
+      "import_docs": "continuous",
       "unsupported": {
+        "enable_extended_attributes": true,
         "replicator_2": true
       },
       "enable_shared_bucket_access": true,
       "import_filter": `
-	function(doc) {
-	  if (doc.resourceType != "Patient") {
-	    return false
-	  }
+	      function(doc) {
+	        if (doc.resourceType != "Patient") {
+	          return false
+	        }
 
-	  return true
+	        return true
         }
       `,
       "sync": `
-	function (doc) {
-	  channel (doc.id);
+	      function (doc) {
+	        channel (doc.id);
         }
       `
     }
