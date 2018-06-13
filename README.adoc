@@ -150,15 +150,20 @@ Start in the top level directory of the project (`connect-fall-2017-demo`).
 
 ==== Android Mobile Application
 
-N.B. The app relies on Urban Airship for push notifications.
-Currently you must fill out the Urban Airship configuration with your own keys.  See `mobile/android/CBCHealth/app/src/main/assets/airshipconfig.properties.sample`
-
-[source,shell]
-----
-cp mobile/android/CBCHealth/app/src/main/assets/airshipconfig.properties.sample mobile/android/CBCHealth/app/src/main/assets/airshipconfig.properties
-----
-
 Open mobile/android/CBCHealth in Android Studio to build the application.
+
+The Android mobile app uses Urban Airship for push notifications.
+If you want to include this feature, you must fill out the Urban Airship configuration with your own keys.
+See `mobile/android/CBCHealth/app/src/main/assets/airshipconfig.properties.sample`.
+
+If you don't want to include push notifications, remove the following line from the application's `AndroidManifest.xml` file.
+
+[source,xml]
+----
+<meta-data
+  android:name="com.urbanairship.autopilot"
+  android:value="com.couchbase.mobile.notifications.Autopilot" />
+----
 
 === Detailed Version
 
