@@ -1,14 +1,45 @@
 #! /bin/bash
 
 # Configuration happens via environment variables taken from the runtime environment,
-# piped input, or provided on the command line.
+# redirected input, or provided on the command line.  Short-form options override
+# all but command line environment variables, and must preceed them.
 
 Usage() {
-  echo "Usage: $0 [VAR=value] ... [< file]"
+  echo "Usage: $0 [options] [VAR=value] ... [< file]"
 }
 
 # Read configuration piped to stdin (e.g. $0 < config)
 [[ ! -t 0 ]] && source /dev/stdin
+
+# Process short-from options
+while getopts ":k:m:p:u:" opt; do
+  case $opt in
+    k)
+      UA_APPLICATION_KEY="$OPTARG"
+      ;;
+    m)
+      UA_APPLICATION_MASTER_SECRET="$OPTARG"
+      ;;
+    p)
+      COUCHBASE_RBAC_PASSWORD="$OPTARG"
+      ;;
+    u)
+      COUCHBASE_RBAC_USERNAME="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      Usage
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      Usage
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
 
 # Override configuration based on supplied arguments
 until [ -z "$1" ]

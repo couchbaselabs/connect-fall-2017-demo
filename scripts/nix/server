@@ -2,14 +2,60 @@
 
 # This script intends to simplify configuring Couchbase Server 
 # Configuration happens via environment variables taken from the runtime environment,
-# redirected input, or provided on the command line.
+# redirected input, or provided on the command line.  Short-form options override
+# all but command line environment variables, and must preceed them.
 
 Usage() {
-  echo "Usage: $0 [VAR=value] ... [< file]"
+  echo "Usage: $0 [options] [VAR=value] ... [< file]"
 }
 
 # Read configuration from stdin when redirected (e.g. $0 < config)
 [[ ! -t 0 ]] && source /dev/stdin
+
+# Process short-from options
+while getopts ":P:U:b:c:n:p:r:s:u:" opt; do
+  case $opt in
+    P)
+      COUCHBASE_ADMINISTRATOR_PASSWORD="$OPTARG"
+      ;;
+    U)
+      COUCHBASE_ADMINISTRATOR_USERNAME="$OPTARG"
+      ;;
+    b)
+      COUCHBASE_BUCKET="$OPTARG"
+      ;;
+    c)
+      COUCHBASE_CLUSTER_NAME="$OPTARG"
+      ;;
+    n)
+      COUCHBASE_RBAC_NAME="$OPTARG"
+      ;;
+    p)
+      COUCHBASE_RBAC_PASSWORD="$OPTARG"
+      ;;
+    r)
+      COUCHBASE_RBAC_ROLES="$OPTARG"
+      ;;
+    s)
+      COUCHBASE_SERVICES="$OPTARG"
+      ;;
+    u)
+      COUCHBASE_RBAC_USERNAME="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      Usage
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      Usage
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
 
 # Override configuration based on supplied arguments
 until [ -z "$1" ]

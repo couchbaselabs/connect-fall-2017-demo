@@ -1,17 +1,42 @@
 #!/bin/bash
 
 # Configuration happens via environment variables taken from the runtime environment,
-# redirected input, or provided on the command line.
+# redirected input, or provided on the command line.  Short-form options override
+# all but command line environment variables, and must preceed them.
 
 Usage() {
-  echo "Usage: $0 {create|start|stop|remove} [VAR=value] ... [< file]"
+  echo "Usage: $0 [options] [VAR=value] ... [< file]"
 }
-
-CMD="$1"
-shift
 
 # Read configuration from stdin when redirected (e.g. $0 < config)
 [[ ! -t 0 ]] && source /dev/stdin
+
+# Process short-from options
+while getopts ":c:p:s:" opt; do
+  case $opt in
+    c)
+      SYNC_GATEWAY_CONFIG="$OPTARG"
+      ;;
+    p)
+      SYNC_GATEWAY_ADMIN_PORT="$OPTARG"
+      ;;
+    s)
+      SYNC_GATEWAY="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      Usage
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      Usage
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
 
 # Override configuration based on supplied arguments
 until [ -z "$1" ]
