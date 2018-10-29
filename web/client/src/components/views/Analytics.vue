@@ -116,7 +116,6 @@ export default {
       groupList: [ 'Group by Age', 'By Social Media' ],
       searching: '',
       hits: [],
-      response: '',
       search_details: [],
       chart_data: {
         labels: []
@@ -133,31 +132,6 @@ export default {
       } else if (this.grouping === this.groupList[1]) {
         this.searchSocial(null, null)
       }
-    },
-    search (name, route) {
-      this.analyticsChart.data.labels = []
-      this.analyticsChart.data.datasets = []
-      api.request('get', `/search/analytics/?code=${this.diagnosis}&gender=${this.gender}&min_age=${this.age[0]}&max_age=${this.age[1]}`)
-      .then(response => {
-        this.chart_data = response.data
-        this.analyticsChart.data.labels = response.data.labels
-        for (let i = 0; i < response.data.datasets.length; i++) {
-          this.analyticsChart.data.datasets.push(response.data.datasets[i])
-        }
-        this.analyticsChart.update()
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    },
-    searchDetails (yearMonth) {
-      api.request('get', `/search/analytics-details/?diagnosis=${this.diagnosis}&gender=${this.gender}&min_age=${this.age[0]}&max_age=${this.age[1]}&year_month=${yearMonth}`)
-      .then(response => {
-        this.search_details = response.data
-      })
-      .catch(error => {
-        console.log(error)
-      })
     },
     searchByAge () {
       this.analyticsChart.data.labels = []
@@ -217,9 +191,6 @@ export default {
     },
     toggleLoading () {
       this.loading = (this.loading === '') ? 'loading' : ''
-    },
-    resetResponse () {
-      this.response = ''
     },
     toCapitalized (string) {
       return stringUtils.toCapitalized(string)
