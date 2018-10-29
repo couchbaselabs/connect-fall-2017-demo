@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# avoid double inclusion
+if test "${__Initialized__+defined}" == "defined"
+then
+    return 0
+fi
+
+__Initialized__=1
+
+export PATH="$PATH:/Applications/Couchbase Server.app/Contents/Resources/couchbase-core/bin"
+
+export script_home="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+export top_level=${script_home}/../..
+export config=${script_home}/../config

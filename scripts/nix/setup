@@ -1,71 +1,43 @@
 #!/bin/bash
 
 export script_home="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-export config=${script_home}/../config
-export top_level=${script_home}/../..
 
-export cluster_ip="127.0.0.1"
-export admin_port="8091"
-export cluster_url="couchbase://${cluster_ip}"
+source ${script_home}/initialize
 
-export COUCHBASE_BUCKET=health
+source ${script_home}/options
 
 until curl "http://${cluster_ip}:${admin_port}"
-  do echo "waiting (curl)..."; sleep 2; done
+  do echo "waiting on admin console..."; sleep 2; done
 
-: ${DATA_SOURCES:=${top_level}/data}
-
-source ${config}/server.env
 ${script_home}/server
 
 until cbq -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -s="\CONNECT ${cluster_url}" -q -exit-on-error
   do echo "waiting (cbq)..."; sleep 2; done
 
-# Create query indexes
-cbq -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -q \
-  --script="CREATE INDEX \`resource-idx\` ON health(resourceType, id);"
+# Import data
+${script_home}/import
 
-cbq -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -q \
-  --script="CREATE INDEX \`observation-idx\` ON health(subject.reference, issued DESC, valueQuantity.\`value\`)"
+# Configure N1QL query indexes
+${script_home}/indexes
 
-cbq -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -q \
-  --script="CREATE INDEX \`location-idx\` ON health(type.coding[0].code) WHERE resourceType = 'Location';"
+# Enable cURL in N1QL
+${script_home}/curl -c ${config}/curl
 
-# Whitelist sites for cURL
-curl -X POST -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" -d "@${config}/curl" http://${cluster_ip}:8091/settings/querySettings/curlWhitelist
+# Configure full text search
+${script_home}/fts -c ${config}/fts-index.json
 
-# Create Full Text Search index
-curl -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" -T "${config}/fts-index.json" http://${cluster_ip}:8094/api/index/diagnosis
+# Configure analytics
+${script_home}/analytics -c ${config}/analytics
 
-# Configure Eventing function
-## Setup Bucket
-couchbase-cli bucket-create --cluster ${cluster_url} \
-  --username "$COUCHBASE_ADMINISTRATOR_USERNAME" --password "$COUCHBASE_ADMINISTRATOR_PASSWORD" \
-  --bucket eventing --bucket-type couchbase --bucket-ramsize 100
-
-## Set monitoring function
-curl -X POST -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" -d "@${config}/eventing" http://${cluster_ip}:8096/api/v1/functions/monitor
-
-## Configure Analytics
-
-cat ${config}/analytics | while read query
-do
-  curl -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" --data-urlencode "statement=${query}" http://${cluster_ip}:8095/analytics/service
-done
-
-# Import sample data
-for file in ${DATA_SOURCES}/*.json
-do
-  echo import $file
-  cbimport json -c couchbase://127.0.0.1:8091 -d file://${file} -g '%id%' -f lines \
-    -b ${COUCHBASE_BUCKET} -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD"
-done
+# Configure eventing
+${script_home}/eventing -c ${config}/eventing
 
 # Start Sync Gateway
-sync-gateway "SYNC_GATEWAY_CONFIG=${config}/sync-gateway-config.json" >& sg.log &
+${script_home}/sync-gateway "SYNC_GATEWAY_CONFIG=${config}/sync-gateway-config.json" >& sg.log &
 
-source ${config}/app.env
+# Start web server
 cd ${top_level}/web/server
 ${script_home}/app
 
-adb reverse tcp:4984 tcp:4984
+# Configure Android
+${script_home}/android

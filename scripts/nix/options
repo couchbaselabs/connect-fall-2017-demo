@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# avoid double inclusion
+if test "${__Options__+defined}" == "defined"
+then
+    return 0
+fi
+
+__Options__=1
+
+export script_home="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+
+source ${script_home}/initialize
+
+export cluster_ip="127.0.0.1"
+export admin_port="8091"
+export cluster_url="couchbase://${cluster_ip}"
+
+export COUCHBASE_BUCKET=health
+
+source ${config}/server.env
+source ${config}/app.env

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+## Configure Function under Couchbase Eventing service
+
+# Process short-form options
+while getopts ":c:" opt; do
+  case $opt in
+    c)
+      EVENTING_CONFIG="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+# Setup Bucket
+couchbase-cli bucket-create --cluster ${cluster_url} \
+  --username "$COUCHBASE_ADMINISTRATOR_USERNAME" --password "$COUCHBASE_ADMINISTRATOR_PASSWORD" \
+  --bucket eventing --bucket-type couchbase --bucket-ramsize 100
+
+# Set monitoring function
+/usr/bin/curl -X POST -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" -d "@${EVENTING_CONFIG}" http://${cluster_ip}:8096/api/v1/functions/monitor

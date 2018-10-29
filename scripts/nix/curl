@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Process short-form options
+while getopts ":c:" opt; do
+  case $opt in
+    c)
+      CURL_CONFIG="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      Usage
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      Usage
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+# Whitelist sites for cURL
+/usr/bin/curl -X POST -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" -d "@${CURL_CONFIG}" http://${cluster_ip}:8091/settings/querySettings/curlWhitelist

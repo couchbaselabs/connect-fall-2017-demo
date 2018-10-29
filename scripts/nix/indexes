@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Create query indexes
+cbq -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -q \
+  --script="CREATE INDEX \`resource-idx\` ON health(resourceType, id);"
+
+cbq -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -q \
+  --script="CREATE INDEX \`observation-idx\` ON health(subject.reference, issued DESC, valueQuantity.\`value\`)"
+
+cbq -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD" -q \
+  --script="CREATE INDEX \`location-idx\` ON health(type.coding[0].code) WHERE resourceType = 'Location';"

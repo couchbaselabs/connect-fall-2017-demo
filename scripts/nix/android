@@ -1,0 +1,3 @@
+#!/bin/bash
+
+adb reverse tcp:4984 tcp:4984

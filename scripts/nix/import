@@ -1,0 +1,11 @@
+#!/bin/bash
+
+: ${DATA_SOURCES:=${top_level}/data}
+
+# Import sample data
+for file in ${DATA_SOURCES}/*.json
+do
+  echo import $file
+  cbimport json -c couchbase://127.0.0.1:8091 -d file://${file} -g '%id%' -f lines \
+    -b ${COUCHBASE_BUCKET} -u "$COUCHBASE_RBAC_USERNAME" -p "$COUCHBASE_RBAC_PASSWORD"
+done

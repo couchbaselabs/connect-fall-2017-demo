@@ -1,4 +1,6 @@
-#! /bin/bash
+#!/bin/bash
+
+## Run the application server
 
 # Configuration happens via environment variables taken from the runtime environment,
 # redirected input, or provided on the command line.  Short-form options override
@@ -11,7 +13,7 @@ Usage() {
 # Read configuration piped to stdin (e.g. $0 < config)
 [[ ! -t 0 ]] && source /dev/stdin
 
-# Process short-from options
+# Process short-form options
 while getopts ":k:m:p:u:" opt; do
   case $opt in
     k)

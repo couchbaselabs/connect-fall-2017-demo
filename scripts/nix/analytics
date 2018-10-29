@@ -1,0 +1,30 @@
+#!/bin/bash
+
+## Configure Couchbase Analytics Service
+
+# Process short-form options
+while getopts ":c:" opt; do
+  case $opt in
+    c)
+      ANALYTICS_CONFIG="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      Usage
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      Usage
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+# Execute queries from config file
+cat ${ANALYTICS_CONFIG} | while read query
+do
+  /usr/bin/curl -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" --data-urlencode "statement=${query}" http://${cluster_ip}:8095/analytics/service
+done

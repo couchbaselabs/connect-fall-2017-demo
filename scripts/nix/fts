@@ -1,0 +1,27 @@
+#!/bin/bash
+
+## Configure Couchbase Full-Text Search
+
+# Process short-form options
+while getopts ":c:" opt; do
+  case $opt in
+    c)
+      FTS_CONFIG="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      Usage
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      Usage
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+# Create Full Text Search index
+/usr/bin/curl -u "$COUCHBASE_RBAC_USERNAME":"$COUCHBASE_RBAC_PASSWORD" -T "${FTS_CONFIG}" http://${cluster_ip}:8094/api/index/diagnosis
