@@ -1,13 +1,9 @@
-const N1qlQuery = require('../utils/n1ql');
+// I require sleep
+const sleep = require('../utils/sleep');
 const express = require('express');
 const router = express.Router();
 
-let sse = {};
-
 router.get('/:id', async function(req, res, next) {
-  sse[req.params.id] = res.sse;
-
-  // Send latest readings.  New readings will be pushed.
   let couchbase = req.app.locals.couchbase;
   let bucket = req.app.locals.bucket;
   let queryPromise = Promise.promisify(bucket.query, { context: bucket });
@@ -15,25 +11,20 @@ router.get('/:id', async function(req, res, next) {
 
   let query = couchbase.N1qlQuery.fromString(n1ql);
   
-  await queryPromise(query)
-  .then(rows => {
-    if (rows.length < 1) return;
+  while (true) {
+    await queryPromise(query)
+    .then(rows => {
+      if (rows.length < 1) return;
 
-    res.sse('event: update\ndata: { "values": ');
-    res.sse(JSON.stringify(rows.reverse()));      
-    res.sse(' }\n\n');
-  })
-  .catch(err => {
-    console.log(err);
-  })
-});
-
-router.post('/:id', function(req, res, next) {
-  res.send('');
-
-  if (sse[req.params.id] === undefined) return; // Not listening yet
-
-  sse[req.params.id](`event: update\ndata: { "values": [${JSON.stringify(req.body)}]}\n\n`);
+      res.sse('event: update\ndata: { "values": ');
+      res.sse(JSON.stringify(rows.reverse()));      
+      res.sse(' }\n\n');
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => sleep(2000));      
+  }
 });
 
 module.exports = router;
