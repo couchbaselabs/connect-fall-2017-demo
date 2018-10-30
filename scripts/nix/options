@@ -18,5 +18,7 @@ export cluster_url="couchbase://${cluster_ip}"
 
 export COUCHBASE_BUCKET=health
 
+echo "Be sure settings in server.env and app.env are correct!"
+
 source ${config}/server.env
 source ${config}/app.env

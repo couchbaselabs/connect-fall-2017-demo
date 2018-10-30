@@ -33,8 +33,8 @@ done
 : ${COUCHBASE_RBAC_USERNAME:?Please supply an RBAC username}
 : ${COUCHBASE_RBAC_PASSWORD:?Please supply an RBAC password}
 : ${COUCHBASE_RBAC_NAME:=}
-: ${COUCHBASE_RBAC_ROLES:="bucket_admin[*]"}
-: ${COUCHBASE_SERVICES:="data,index,query,fts,analytics"}
+: ${COUCHBASE_RBAC_ROLES:="Admin"}
+: ${COUCHBASE_SERVICES:="data,index,query,fts,eventing,analytics"}
 : ${COUCHBASE_SERVER_PORTS:="8091-8094:8091-8094::11210:11210"}
 : ${COUCHBASE_DOCKER_TAG:=latest}
 
